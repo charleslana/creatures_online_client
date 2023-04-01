@@ -22,3 +22,20 @@ flutter:
 
   assets:
     - assets/images/
+
+  fonts:
+    - family: Exo2Black
+      fonts:
+        - asset: assets/fonts/Exo2-Black.otf
+
+    - family: Exo2Bold
+      fonts:
+        - asset: assets/fonts/Exo2-Bold.otf
+
+    - family: Exo2ExtraBold
+      fonts:
+        - asset: assets/fonts/Exo2-ExtraBold.otf
+
+    - family: GarudaBold
+      fonts:
+        - asset: assets/fonts/Garuda-Bold.ttf

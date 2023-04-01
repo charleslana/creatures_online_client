@@ -1,3 +1,4 @@
+import 'package:creatures_online_client/components/green_button_component.dart';
 import 'package:creatures_online_client/providers/landing_provider.dart';
 import 'package:creatures_online_client/utils/data_image.dart';
 import 'package:creatures_online_client/utils/utils.dart';
@@ -12,6 +13,8 @@ class LandingPage extends ConsumerStatefulWidget {
 }
 
 class _LandingPageState extends ConsumerState<LandingPage> {
+  bool isLoaded = false;
+
   @override
   void initState() {
     showLoader();
@@ -36,7 +39,39 @@ class _LandingPageState extends ConsumerState<LandingPage> {
     });
     Future.delayed(const Duration(seconds: 6), () {
       pop(context);
+      setState(() {
+        isLoaded = true;
+      });
     });
+  }
+
+  void showStarterUser() {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 20,
+            vertical: 30,
+          ),
+          child: Wrap(
+            spacing: 10,
+            runSpacing: 10,
+            alignment: WrapAlignment.center,
+            children: [
+              OutlinedButton(
+                onPressed: () => {},
+                child: const Text('Não tenho conta'),
+              ),
+              ElevatedButton(
+                onPressed: () => {},
+                child: const Text('Desejo fazer login'),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   @override
@@ -71,14 +106,31 @@ class _LandingPageState extends ConsumerState<LandingPage> {
               ),
               Align(
                 alignment: Alignment.bottomCenter,
-                child: SizedBox(
-                  width: double.infinity,
-                  height: creaturesHeight,
-                  child: Image.asset(
-                    creatures,
-                    fit: BoxFit.cover,
-                    alignment: Alignment.topCenter,
-                  ),
+                child: Stack(
+                  children: [
+                    SizedBox(
+                      width: double.infinity,
+                      height: creaturesHeight,
+                      child: Image.asset(
+                        creatures,
+                        fit: BoxFit.cover,
+                        alignment: Alignment.topCenter,
+                      ),
+                    ),
+                    if (isLoaded)
+                      Positioned.fill(
+                        child: Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Padding(
+                            padding: const EdgeInsets.all(20),
+                            child: GreenButtonComponent(
+                              text: 'Começar!',
+                              callback: showStarterUser,
+                            ),
+                          ),
+                        ),
+                      ),
+                  ],
                 ),
               ),
             ],

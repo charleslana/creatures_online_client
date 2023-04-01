@@ -22,6 +22,7 @@ class MyApp extends StatelessWidget {
       title: 'Creatures Online',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        fontFamily: 'Exo2Bold',
       ),
       home: const LandingPage(),
     );
