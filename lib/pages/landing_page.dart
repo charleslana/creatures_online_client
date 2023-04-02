@@ -1,5 +1,6 @@
 import 'package:creatures_online_client/components/green_button_component.dart';
 import 'package:creatures_online_client/providers/landing_provider.dart';
+import 'package:creatures_online_client/routes/app_routes.dart';
 import 'package:creatures_online_client/utils/data_image.dart';
 import 'package:creatures_online_client/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,9 @@ class LandingPage extends ConsumerStatefulWidget {
 
 class _LandingPageState extends ConsumerState<LandingPage> {
   bool isLoaded = false;
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
 
   @override
   void initState() {
@@ -60,11 +64,11 @@ class _LandingPageState extends ConsumerState<LandingPage> {
             alignment: WrapAlignment.center,
             children: [
               OutlinedButton(
-                onPressed: () => {},
+                onPressed: showRegisterUser,
                 child: const Text('Não tenho conta'),
               ),
               ElevatedButton(
-                onPressed: () => {},
+                onPressed: showLoginUser,
                 child: const Text('Desejo fazer login'),
               ),
             ],
@@ -72,6 +76,124 @@ class _LandingPageState extends ConsumerState<LandingPage> {
         );
       },
     );
+  }
+
+  void showRegisterUser() {
+    pop(context);
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 20,
+            vertical: 30,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text('Cadastrar uma nova conta!'),
+              const SizedBox(height: 10),
+              TextField(
+                controller: emailController,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: 'Informe o e-mail',
+                ),
+              ),
+              const SizedBox(height: 10),
+              TextField(
+                controller: passwordController,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: 'Informe a senha',
+                ),
+                obscureText: true,
+              ),
+              const SizedBox(height: 10),
+              TextField(
+                controller: confirmPasswordController,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: 'Confirme a senha',
+                ),
+                obscureText: true,
+              ),
+              const SizedBox(height: 10),
+              ElevatedButton(
+                onPressed: createAccount,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green,
+                ),
+                child: const Text('Concluir'),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  void createAccount() {
+    pop(context);
+    print(emailController.text);
+    // ref.read(landingProvider.notifier).changeText(context, "");
+    // loading(context);
+    // setState(() {
+    //   isLoaded = false;
+    // });
+  }
+
+  void showLoginUser() {
+    pop(context);
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 20,
+            vertical: 30,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text('Faça login na sua conta!'),
+              const SizedBox(height: 10),
+              TextField(
+                controller: emailController,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: 'Informe o e-mail',
+                ),
+              ),
+              const SizedBox(height: 10),
+              TextField(
+                controller: passwordController,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: 'Informe a senha',
+                ),
+                obscureText: true,
+              ),
+              const SizedBox(height: 10),
+              ElevatedButton(
+                onPressed: login,
+                child: const Text('Entrar'),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  void login() {
+    pop(context);
+    pushNamed(context, homeRoute);
+    // ref.read(landingProvider.notifier).changeText(context, "");
+    // loading(context);
+    // setState(() {
+    //   isLoaded = false;
+    // });
   }
 
   @override

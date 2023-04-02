@@ -1,4 +1,5 @@
-import 'package:creatures_online_client/pages/landing_page.dart';
+import 'package:creatures_online_client/routes/app_route_generator.dart';
+import 'package:creatures_online_client/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -24,7 +25,8 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         fontFamily: 'Exo2Bold',
       ),
-      home: const LandingPage(),
+      initialRoute: landingRoute,
+      onGenerateRoute: AppRouteGenerator.generateRoute,
     );
   }
 }

@@ -47,3 +47,7 @@ void loading(BuildContext context) {
 void pop(BuildContext context) {
   Navigator.pop(context);
 }
+
+void pushNamed(BuildContext context, String route) {
+  Navigator.pushNamed(context, route);
+}
