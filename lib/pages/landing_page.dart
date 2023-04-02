@@ -81,12 +81,15 @@ class _LandingPageState extends ConsumerState<LandingPage> {
   void showRegisterUser() {
     pop(context);
     showModalBottomSheet(
+      isScrollControlled: true,
       context: context,
       builder: (context) {
         return Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 20,
-            vertical: 30,
+          padding: EdgeInsets.only(
+            top: 30,
+            left: 20,
+            right: 20,
+            bottom: MediaQuery.of(context).viewInsets.bottom + 30,
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -146,12 +149,15 @@ class _LandingPageState extends ConsumerState<LandingPage> {
   void showLoginUser() {
     pop(context);
     showModalBottomSheet(
+      isScrollControlled: true,
       context: context,
       builder: (context) {
         return Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 20,
-            vertical: 30,
+          padding: EdgeInsets.only(
+            top: 30,
+            left: 20,
+            right: 20,
+            bottom: MediaQuery.of(context).viewInsets.bottom + 30,
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
