@@ -22,6 +22,7 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/images/map/area_bootcamp/
 
   fonts:
     - family: Exo2Black
