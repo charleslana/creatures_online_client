@@ -60,6 +60,7 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             FloatingActionButton(
+              heroTag: 'left',
               child: const Icon(Icons.keyboard_arrow_left),
               onPressed: () => controller.previousPage(
                 duration: const Duration(seconds: 1),
@@ -68,6 +69,7 @@ class _HomePageState extends State<HomePage> {
             ),
             const SizedBox(height: 10),
             FloatingActionButton(
+              heroTag: 'right',
               child: const Icon(Icons.keyboard_arrow_right),
               onPressed: () => controller.nextPage(
                 duration: const Duration(seconds: 1),
