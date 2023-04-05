@@ -22,6 +22,7 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/images/icons/
     - assets/images/map/area_bootcamp/
 
   fonts:

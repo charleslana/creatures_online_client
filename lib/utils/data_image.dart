@@ -1,5 +1,12 @@
 const String bg = "assets/images/bg.jpg";
 const String creatures = "assets/images/creatures.png";
 const String logo = "assets/images/logo.png";
+const String btnGreen = "assets/images/icons/btn_green.png";
+const String btnItems = "assets/images/icons/btn_items.png";
+const String btnMission = "assets/images/icons/btn_missions.png";
+const String btnShop = "assets/images/icons/btn_shop.png";
+const String btnTeam = "assets/images/icons/btn_team.png";
+const String btnWorld = "assets/images/icons/btn_world.png";
+const String btnArrowRight = "assets/images/icons/btn_arrow_right.png";
 const String areaBootcamp1 = "assets/images/map/area_bootcamp/bg1.jpg";
 const String areaBootcamp2 = "assets/images/map/area_bootcamp/bg2.jpg";
