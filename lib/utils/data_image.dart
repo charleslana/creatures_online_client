@@ -10,3 +10,7 @@ const String btnWorld = "assets/images/icons/btn_world.png";
 const String btnArrowRight = "assets/images/icons/btn_arrow_right.png";
 const String areaBootcamp1 = "assets/images/map/area_bootcamp/bg1.jpg";
 const String areaBootcamp2 = "assets/images/map/area_bootcamp/bg2.jpg";
+const String kolinAvatar = "assets/images/avatars/kolin_icon.png";
+const String recruit1 = "assets/images/icons/recruit-1.png";
+const String progressbarBg = "assets/images/icons/progressbar_bg.png";
+const String progressbarFill = "assets/images/icons/progressbar_fill.png";
