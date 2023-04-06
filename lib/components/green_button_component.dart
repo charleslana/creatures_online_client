@@ -1,3 +1,4 @@
+import 'package:creatures_online_client/utils/const.dart';
 import 'package:creatures_online_client/utils/data_image.dart';
 import 'package:flutter/material.dart';
 
@@ -31,29 +32,12 @@ class GreenButtonComponent extends StatelessWidget {
             fit: BoxFit.scaleDown,
             child: Text(
               'Jogar!'.toUpperCase(),
-              style: const TextStyle(
+              style: TextStyle(
                 inherit: true,
                 fontSize: 35,
                 fontWeight: FontWeight.w500,
                 color: Colors.white,
-                shadows: [
-                  Shadow(
-                    // bottomLeft
-                    offset: Offset(-2, -2), color: Colors.black,
-                  ),
-                  Shadow(
-                    // bottomRight
-                    offset: Offset(2, -2), color: Colors.black,
-                  ),
-                  Shadow(
-                    // topRight
-                    offset: Offset(2, 2), color: Colors.black,
-                  ),
-                  Shadow(
-                    // topLeft
-                    offset: Offset(-2, 2), color: Colors.black,
-                  ),
-                ],
+                shadows: shadows,
               ),
               textAlign: TextAlign.center,
             ),

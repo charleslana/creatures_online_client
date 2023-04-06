@@ -1,3 +1,4 @@
+import 'package:creatures_online_client/utils/const.dart';
 import 'package:flutter/material.dart';
 
 import '../utils/data_image.dart';
@@ -17,27 +18,40 @@ class MenuBottomComponent extends StatelessWidget {
           crossAxisCount: 5,
         ),
         children: [
-          InkWell(
-            onTap: () => {},
-            child: Image.asset(btnShop),
-          ),
-          InkWell(
-            onTap: () => {},
-            child: Image.asset(btnWorld),
-          ),
-          InkWell(
-            onTap: () => {},
-            child: Image.asset(btnMission),
-          ),
-          InkWell(
-            onTap: () => {},
-            child: Image.asset(btnItems),
-          ),
-          InkWell(
-            onTap: () => {},
-            child: Image.asset(btnTeam),
-          ),
+          _menu('Loja', btnShop, () => {}),
+          _menu('Mundo', btnWorld, () => {}),
+          _menu('Missão', btnMission, () => {}),
+          _menu('Itens', btnItems, () => {}),
+          _menu('Equipe', btnTeam, () => {}),
         ],
+      ),
+    );
+  }
+
+  Widget _menu(String text, String image, VoidCallback callback) {
+    return InkWell(
+      onTap: callback,
+      child: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(image),
+            fit: BoxFit.contain,
+          ),
+        ),
+        child: Align(
+          alignment: Alignment.bottomCenter,
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              text.toUpperCase(),
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 17,
+                shadows: shadows,
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }
