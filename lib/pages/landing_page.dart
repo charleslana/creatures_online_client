@@ -209,6 +209,8 @@ class _LandingPageState extends ConsumerState<LandingPage> {
 
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Colors.transparent,
+        resizeToAvoidBottomInset: false,
         body: Container(
           width: double.infinity,
           height: double.infinity,

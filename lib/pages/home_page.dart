@@ -85,6 +85,49 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
             Align(
+              alignment: Alignment.center,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  if (page > 0)
+                    InkWell(
+                      onTap: previousPage,
+                      child: Transform.scale(
+                        scaleX: -1,
+                        child: Align(
+                          alignment: Alignment.centerRight,
+                          child: Image.asset(
+                            btnArrowRight,
+                            width: 50,
+                          ),
+                        ),
+                      ),
+                    ),
+                  const SizedBox(height: 10),
+                  if (page < 1) ...[
+                    InkWell(
+                      onTap: nextPage,
+                      child: Align(
+                        alignment: Alignment.centerRight,
+                        child: Image.asset(
+                          btnArrowRight,
+                          width: 50,
+                        ),
+                      ),
+                    ),
+                  ] else ...[
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Image.asset(
+                        lock,
+                        width: 60,
+                      ),
+                    ),
+                  ]
+                ],
+              ),
+            ),
+            Align(
               alignment: Alignment.topCenter,
               child: Padding(
                 padding: const EdgeInsets.all(10),
@@ -174,31 +217,7 @@ class _HomePageState extends State<HomePage> {
                                   child: GameWidget<BarGame>(game: BarGame()),
                                 ),
                               ],
-                            ), // SizedBox(
-                            //   width: 150,
-                            //   height: 9,
-                            //   child: Stack(
-                            //     children: [
-                            //       Container(
-                            //         decoration: const BoxDecoration(
-                            //           image: DecorationImage(
-                            //             image: AssetImage(progressbarBg),
-                            //             fit: BoxFit.fitHeight,
-                            //           ),
-                            //         ),
-                            //       ),
-                            //       Container(
-                            //         width: 100,
-                            //         decoration: const BoxDecoration(
-                            //           image: DecorationImage(
-                            //             image: AssetImage(progressbarFill),
-                            //             fit: BoxFit.fitHeight,
-                            //           ),
-                            //         ),
-                            //       ),
-                            //     ],
-                            //   ),
-                            // ),
+                            ),
                           ],
                         ),
                       ],
@@ -208,55 +227,6 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             const MenuBottomComponent(),
-          ],
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        floatingActionButton: Stack(
-          children: [
-            Align(
-              alignment: Alignment.center,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    if (page > 0)
-                      FloatingActionButton.large(
-                        elevation: 0,
-                        backgroundColor: Colors.transparent,
-                        heroTag: 'left',
-                        onPressed: previousPage,
-                        child: Transform.scale(
-                          scaleX: -1,
-                          child: Align(
-                            alignment: Alignment.centerRight,
-                            child: Image.asset(btnArrowRight),
-                          ),
-                        ),
-                      ),
-                    const SizedBox(height: 10),
-                    if (page < 1) ...[
-                      FloatingActionButton.large(
-                        elevation: 0,
-                        backgroundColor: Colors.transparent,
-                        heroTag: 'right',
-                        onPressed: nextPage,
-                        child: Align(
-                          alignment: Alignment.centerRight,
-                          child: Image.asset(btnArrowRight),
-                        ),
-                      ),
-                    ] else ...[
-                      const FloatingActionButton(
-                        heroTag: 'right',
-                        onPressed: null,
-                        child: Icon(Icons.lock),
-                      ),
-                    ]
-                  ],
-                ),
-              ),
-            ),
           ],
         ),
       ),

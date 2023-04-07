@@ -14,3 +14,4 @@ const String kolinAvatar = "assets/images/avatars/kolin_icon.png";
 const String recruit1 = "assets/images/icons/recruit-1.png";
 const String progressbarBg = "assets/images/icons/progressbar_bg.png";
 const String progressbarFill = "assets/images/icons/progressbar_fill.png";
+const String lock = "assets/images/icons/lock.png";
