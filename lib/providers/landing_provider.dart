@@ -5,10 +5,10 @@ final landingProvider = ChangeNotifierProvider(
   (ref) => LandingProvider(),
 );
 
-class LandingProvider extends ValueNotifier<dynamic> {
+class LandingProvider extends ValueNotifier<String> {
   LandingProvider() : super("");
 
-  void changeText(BuildContext context, String text) {
+  void changeText(String text) {
     value = text;
   }
 }

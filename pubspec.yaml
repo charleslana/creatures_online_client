@@ -12,7 +12,9 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_riverpod: ^2.3.2
   simple_shadow: ^0.3.1
-  flame: ^1.7.1
+  flame: ^1.7.2
+  flame_audio: ^1.4.1
+  shared_preferences: ^2.1.0
 
 dev_dependencies:
   flutter_test:
@@ -27,6 +29,8 @@ flutter:
     - assets/images/icons/
     - assets/images/map/area_bootcamp/
     - assets/images/avatars/
+
+    - assets/audio/
 
   fonts:
     - family: Exo2Black

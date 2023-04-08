@@ -1,5 +1,6 @@
-import 'package:creatures_online_client/components/gradient_progress_component.dart';
+import 'package:creatures_online_client/flame/loading_game.dart';
 import 'package:creatures_online_client/providers/landing_provider.dart';
+import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -19,9 +20,13 @@ void loading(BuildContext context) {
               children: [
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
+                  children: [
                     Center(
-                      child: GradientProgressComponent(),
+                      child: SizedBox(
+                        width: 115,
+                        height: 115,
+                        child: GameWidget<LoadingGame>(game: LoadingGame()),
+                      ),
                     ),
                   ],
                 ),

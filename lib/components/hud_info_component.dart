@@ -1,13 +1,16 @@
+import 'package:creatures_online_client/flame/btn_sound_game.dart';
+import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../utils/const.dart';
 import '../utils/data_image.dart';
 
-class HudInfoComponent extends StatelessWidget {
+class HudInfoComponent extends ConsumerWidget {
   const HudInfoComponent({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Row(
       children: [
         Expanded(
@@ -92,9 +95,12 @@ class HudInfoComponent extends StatelessWidget {
           ),
         ),
         Expanded(
-          child: SizedBox(
-            height: 40,
-            child: Image.asset(btnSoundOff),
+          child: Center(
+            child: SizedBox(
+              width: 40,
+              height: 40,
+              child: GameWidget<BtnSoundGame>(game: BtnSoundGame(ref)),
+            ),
           ),
         ),
       ],

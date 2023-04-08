@@ -28,19 +28,13 @@ class _LandingPageState extends ConsumerState<LandingPage> {
   Future<void> showLoader() async {
     Future.delayed(const Duration(seconds: 1), () {
       loading(context);
-      ref
-          .read(landingProvider.notifier)
-          .changeText(context, "Conectando no servidor");
+      ref.read(landingProvider.notifier).changeText("Conectando no servidor");
     });
     Future.delayed(const Duration(seconds: 3), () {
-      ref
-          .read(landingProvider.notifier)
-          .changeText(context, "Tentando realizar login");
+      ref.read(landingProvider.notifier).changeText("Tentando realizar login");
     });
     Future.delayed(const Duration(seconds: 5), () {
-      ref
-          .read(landingProvider.notifier)
-          .changeText(context, "Obtendo dados da conta");
+      ref.read(landingProvider.notifier).changeText("Obtendo dados da conta");
     });
     Future.delayed(const Duration(seconds: 6), () {
       pop(context);

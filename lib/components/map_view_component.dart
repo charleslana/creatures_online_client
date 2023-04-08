@@ -54,7 +54,7 @@ class MapViewComponent extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               if (page > 0)
-                InkWell(
+                GestureDetector(
                   onTap: ref.read(mapViewProvider.notifier).previousPage,
                   child: Transform.scale(
                     scaleX: -1,
@@ -69,7 +69,7 @@ class MapViewComponent extends ConsumerWidget {
                 ),
               const SizedBox(height: 10),
               if (page < 1) ...[
-                InkWell(
+                GestureDetector(
                   onTap: ref.read(mapViewProvider.notifier).nextPage,
                   child: Align(
                     alignment: Alignment.centerRight,

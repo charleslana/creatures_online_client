@@ -2,11 +2,7 @@ import 'package:creatures_online_client/utils/data_image.dart';
 import 'package:flame/cache.dart';
 import 'package:flame/components.dart';
 
-class FillBarComponent extends PositionComponent with HasPaint {
-  FillBarComponent() : super() {
-    debugMode = false;
-  }
-
+class FillBarComponent extends PositionComponent {
   SpriteComponent _spriteComponent = SpriteComponent();
 
   @override
