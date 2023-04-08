@@ -27,6 +27,7 @@ class _LandingPageState extends ConsumerState<LandingPage> {
 
   Future<void> showLoader() async {
     Future.delayed(const Duration(seconds: 1), () {
+      loading(context);
       ref
           .read(landingProvider.notifier)
           .changeText(context, "Conectando no servidor");
@@ -139,6 +140,7 @@ class _LandingPageState extends ConsumerState<LandingPage> {
   void createAccount() {
     pop(context);
     print(emailController.text);
+    pushReplacementNamed(context, homeRoute);
     // ref.read(landingProvider.notifier).changeText(context, "");
     // loading(context);
     // setState(() {

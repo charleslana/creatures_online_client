@@ -9,7 +9,7 @@ void loading(BuildContext context) {
     context: context,
     builder: (_) {
       return Consumer(builder: (_, ref, __) {
-        final String text = ref.watch(landingProvider).text;
+        final text = ref.watch(landingProvider).value;
         return WillPopScope(
           onWillPop: () async => false,
           child: Dialog(
@@ -50,4 +50,8 @@ void pop(BuildContext context) {
 
 void pushNamed(BuildContext context, String route) {
   Navigator.pushNamed(context, route);
+}
+
+void pushReplacementNamed(BuildContext context, String route) {
+  Navigator.pushReplacementNamed(context, route);
 }
