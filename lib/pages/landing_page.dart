@@ -5,6 +5,7 @@ import 'package:creatures_online_client/routes/app_routes.dart';
 import 'package:creatures_online_client/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 class LandingPage extends ConsumerStatefulWidget {
   const LandingPage({Key? key}) : super(key: key);
@@ -18,11 +19,20 @@ class _LandingPageState extends ConsumerState<LandingPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
+  String version = "";
 
   @override
   void initState() {
+    getVersion();
     showLoader();
     super.initState();
+  }
+
+  Future<void> getVersion() async {
+    final PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    setState(() {
+      version = packageInfo.version;
+    });
   }
 
   Future<void> showLoader() async {
@@ -228,6 +238,13 @@ class _LandingPageState extends ConsumerState<LandingPage> {
                     fit: BoxFit.fitHeight,
                     alignment: Alignment.topCenter,
                   ),
+                ),
+              ),
+              Align(
+                alignment: Alignment.topRight,
+                child: Text(
+                  version,
+                  style: const TextStyle(color: Colors.white),
                 ),
               ),
               Align(
