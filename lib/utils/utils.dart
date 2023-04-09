@@ -1,8 +1,12 @@
+import 'package:creatures_online_client/data/audio_data.dart';
 import 'package:creatures_online_client/flame/loading_game.dart';
 import 'package:creatures_online_client/providers/landing_provider.dart';
 import 'package:flame/game.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../providers/sound_provider.dart';
 
 void loading(BuildContext context) {
   showDialog<dynamic>(
@@ -79,3 +83,10 @@ final List<Shadow> shadows = [
     offset: Offset(-2, 2), color: Colors.black,
   ),
 ];
+
+Future<void> clickButton(WidgetRef ref) async {
+  final sound = await ref.watch(soundProvider).getSound();
+  if (sound) {
+    FlameAudio.play(buttonClickAudio);
+  }
+}

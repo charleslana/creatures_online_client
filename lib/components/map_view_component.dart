@@ -1,5 +1,6 @@
 import 'package:creatures_online_client/data/map_data.dart';
 import 'package:creatures_online_client/providers/map_view_prodiver.dart';
+import 'package:creatures_online_client/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -7,6 +8,16 @@ import '../data/image_data.dart';
 
 class MapViewComponent extends ConsumerWidget {
   const MapViewComponent({Key? key}) : super(key: key);
+
+  Future<void> _tapNextPage(WidgetRef ref) async {
+    await clickButton(ref);
+    ref.read(mapViewProvider.notifier).nextPage();
+  }
+
+  Future<void> _tapPreviousPage(WidgetRef ref) async {
+    await clickButton(ref);
+    ref.read(mapViewProvider.notifier).previousPage();
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -30,7 +41,7 @@ class MapViewComponent extends ConsumerWidget {
             children: [
               if (page > 0)
                 InkWell(
-                  onTap: ref.read(mapViewProvider.notifier).previousPage,
+                  onTap: () => _tapPreviousPage(ref),
                   child: SizedBox(
                     height: 135,
                     child: Transform.scale(
@@ -45,7 +56,7 @@ class MapViewComponent extends ConsumerWidget {
               const SizedBox(height: 10),
               if (page < 1) ...[
                 InkWell(
-                  onTap: ref.read(mapViewProvider.notifier).nextPage,
+                  onTap: () => _tapNextPage(ref),
                   child: SizedBox(
                     height: 135,
                     child: Align(
