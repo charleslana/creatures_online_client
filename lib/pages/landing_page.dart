@@ -1,7 +1,7 @@
 import 'package:creatures_online_client/components/green_button_component.dart';
+import 'package:creatures_online_client/data/image_data.dart';
 import 'package:creatures_online_client/providers/landing_provider.dart';
 import 'package:creatures_online_client/routes/app_routes.dart';
-import 'package:creatures_online_client/utils/data_image.dart';
 import 'package:creatures_online_client/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

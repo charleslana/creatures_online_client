@@ -1,4 +1,4 @@
-import 'package:creatures_online_client/utils/data_image.dart';
+import 'package:creatures_online_client/data/image_data.dart';
 import 'package:flame/cache.dart';
 import 'package:flame/components.dart';
 

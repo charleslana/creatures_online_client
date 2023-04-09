@@ -1,6 +1,6 @@
+import 'package:creatures_online_client/data/audio_data.dart';
 import 'package:creatures_online_client/routes/app_route_generator.dart';
 import 'package:creatures_online_client/routes/app_routes.dart';
-import 'package:creatures_online_client/utils/data_audio.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

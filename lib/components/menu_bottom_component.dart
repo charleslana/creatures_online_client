@@ -1,7 +1,7 @@
-import 'package:creatures_online_client/utils/const.dart';
 import 'package:flutter/material.dart';
 
-import '../utils/data_image.dart';
+import '../data/image_data.dart';
+import '../utils/utils.dart';
 
 class MenuBottomComponent extends StatelessWidget {
   const MenuBottomComponent({Key? key}) : super(key: key);

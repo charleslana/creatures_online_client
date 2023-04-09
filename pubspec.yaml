@@ -27,6 +27,7 @@ flutter:
   assets:
     - assets/images/
     - assets/images/icons/
+    - assets/images/map/
     - assets/images/map/area_bootcamp/
     - assets/images/avatars/
 

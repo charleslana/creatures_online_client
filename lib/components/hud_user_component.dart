@@ -2,9 +2,9 @@ import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_shadow/simple_shadow.dart';
 
+import '../data/image_data.dart';
 import '../flame/bar_game.dart';
-import '../utils/const.dart';
-import '../utils/data_image.dart';
+import '../utils/utils.dart';
 
 class HudUserComponent extends StatelessWidget {
   const HudUserComponent({Key? key}) : super(key: key);

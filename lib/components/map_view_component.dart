@@ -1,8 +1,9 @@
+import 'package:creatures_online_client/data/map_data.dart';
 import 'package:creatures_online_client/providers/map_view_prodiver.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../utils/data_image.dart';
+import '../data/image_data.dart';
 
 class MapViewComponent extends ConsumerWidget {
   const MapViewComponent({Key? key}) : super(key: key);
@@ -19,34 +20,7 @@ class MapViewComponent extends ConsumerWidget {
           onPageChanged: (int index) {
             print('Page ${index + 1}');
           },
-          children: [
-            Container(
-              width: double.infinity,
-              height: double.infinity,
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage(areaBootcamp1),
-                  fit: BoxFit.cover,
-                ),
-              ),
-              child: const Center(
-                child: Text('Page 1'),
-              ),
-            ),
-            Container(
-              width: double.infinity,
-              height: double.infinity,
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage(areaBootcamp2),
-                  fit: BoxFit.cover,
-                ),
-              ),
-              child: const Center(
-                child: Text('Page 2'),
-              ),
-            ),
-          ],
+          children: getMap1(),
         ),
         Align(
           alignment: Alignment.center,

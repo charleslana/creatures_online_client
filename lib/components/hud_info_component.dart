@@ -3,8 +3,8 @@ import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../utils/const.dart';
-import '../utils/data_image.dart';
+import '../data/image_data.dart';
+import '../utils/utils.dart';
 
 class HudInfoComponent extends ConsumerWidget {
   const HudInfoComponent({Key? key}) : super(key: key);

@@ -1,6 +1,7 @@
-import 'package:creatures_online_client/utils/const.dart';
-import 'package:creatures_online_client/utils/data_image.dart';
+import 'package:creatures_online_client/data/image_data.dart';
 import 'package:flutter/material.dart';
+
+import '../utils/utils.dart';
 
 class GreenButtonComponent extends StatelessWidget {
   const GreenButtonComponent({

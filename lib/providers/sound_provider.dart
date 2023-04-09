@@ -1,4 +1,4 @@
-import 'package:creatures_online_client/utils/data_audio.dart';
+import 'package:creatures_online_client/data/audio_data.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

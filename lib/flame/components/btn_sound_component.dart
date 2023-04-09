@@ -1,6 +1,6 @@
+import 'package:creatures_online_client/data/image_data.dart';
 import 'package:creatures_online_client/flame/btn_sound_game.dart';
 import 'package:creatures_online_client/providers/sound_provider.dart';
-import 'package:creatures_online_client/utils/data_image.dart';
 import 'package:flame/cache.dart';
 import 'package:flame/components.dart';
 import 'package:flame/experimental.dart';
