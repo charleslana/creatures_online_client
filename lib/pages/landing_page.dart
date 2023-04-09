@@ -6,6 +6,7 @@ import 'package:creatures_online_client/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:simple_shadow/simple_shadow.dart';
 
 class LandingPage extends ConsumerStatefulWidget {
   const LandingPage({Key? key}) : super(key: key);
@@ -228,15 +229,24 @@ class _LandingPageState extends ConsumerState<LandingPage> {
           ),
           child: Stack(
             children: [
-              Align(
-                alignment: Alignment.topCenter,
-                child: SizedBox(
-                  width: double.infinity,
-                  height: logoHeight,
-                  child: Image.asset(
-                    logo,
-                    fit: BoxFit.fitHeight,
-                    alignment: Alignment.topCenter,
+              Padding(
+                padding: const EdgeInsets.all(20),
+                child: Align(
+                  alignment: Alignment.topCenter,
+                  child: SimpleShadow(
+                    opacity: 0.6,
+                    color: Colors.blueAccent.shade700,
+                    offset: const Offset(5, 5),
+                    sigma: 7,
+                    child: SizedBox(
+                      width: double.infinity,
+                      height: logoHeight,
+                      child: Image.asset(
+                        logo,
+                        fit: BoxFit.contain,
+                        alignment: Alignment.topCenter,
+                      ),
+                    ),
                   ),
                 ),
               ),

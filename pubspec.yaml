@@ -16,11 +16,13 @@ dependencies:
   flame_audio: ^1.4.1
   shared_preferences: ^2.1.0
   package_info_plus: ^3.0.3
+  simple_animations: ^5.0.0+3
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
+  flutter_launcher_icons: ^0.13.0
 
 flutter:
   uses-material-design: true
@@ -50,3 +52,9 @@ flutter:
     - family: GarudaBold
       fonts:
         - asset: assets/fonts/Garuda-Bold.ttf
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/favicon.png"
+  min_sdk_android: 21

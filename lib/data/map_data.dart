@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:simple_animations/animation_builder/mirror_animation_builder.dart';
 
 import 'image_data.dart';
 
@@ -78,15 +79,27 @@ List<Widget> getMap1(Size size) {
                       ),
                     ),
                   ),
-                  Transform.translate(
-                    offset: const Offset(0, 20),
-                    child: Container(
-                      width: 60,
-                      height: 50,
-                      decoration: const BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage(markerQuest),
-                          fit: BoxFit.contain,
+                  MirrorAnimationBuilder<double>(
+                    tween: Tween(begin: -7, end: 7),
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.easeIn,
+                    builder: (context, value, child) {
+                      return Transform.translate(
+                        offset: Offset(0, value),
+                        // use animated value for x-coordinate
+                        child: child,
+                      );
+                    },
+                    child: Transform.translate(
+                      offset: const Offset(0, 20),
+                      child: Container(
+                        width: 60,
+                        height: 50,
+                        decoration: const BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage(markerQuest),
+                            fit: BoxFit.contain,
+                          ),
                         ),
                       ),
                     ),
@@ -108,8 +121,11 @@ List<Widget> getMap1(Size size) {
           Positioned(
             top: size.height / 2.05,
             right: size.width * 0.55,
-            child: InkWell(
-              onTap: () => print('tap 3'),
+            child: ColorFiltered(
+              colorFilter: const ColorFilter.mode(
+                Colors.black54,
+                BlendMode.srcATop,
+              ),
               child: Column(
                 verticalDirection: VerticalDirection.up,
                 children: [
@@ -130,7 +146,7 @@ List<Widget> getMap1(Size size) {
                       height: 50,
                       decoration: const BoxDecoration(
                         image: DecorationImage(
-                          image: AssetImage(markerBattle),
+                          image: AssetImage(lock),
                           fit: BoxFit.contain,
                         ),
                       ),
