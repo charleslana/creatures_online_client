@@ -11,6 +11,7 @@ class MapViewComponent extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final page = ref.watch(mapViewProvider).value;
+    final size = MediaQuery.of(context).size;
 
     return Stack(
       children: [
@@ -20,7 +21,7 @@ class MapViewComponent extends ConsumerWidget {
           onPageChanged: (int index) {
             print('Page ${index + 1}');
           },
-          children: getMap1(),
+          children: getMap1(size),
         ),
         Align(
           alignment: Alignment.center,
@@ -28,28 +29,28 @@ class MapViewComponent extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               if (page > 0)
-                GestureDetector(
+                InkWell(
                   onTap: ref.read(mapViewProvider.notifier).previousPage,
-                  child: Transform.scale(
-                    scaleX: -1,
-                    child: Align(
-                      alignment: Alignment.centerRight,
-                      child: Image.asset(
-                        btnArrowRight,
-                        width: 50,
+                  child: SizedBox(
+                    height: 135,
+                    child: Transform.scale(
+                      scaleX: -1,
+                      child: Align(
+                        alignment: Alignment.centerRight,
+                        child: Image.asset(btnArrowRight),
                       ),
                     ),
                   ),
                 ),
               const SizedBox(height: 10),
               if (page < 1) ...[
-                GestureDetector(
+                InkWell(
                   onTap: ref.read(mapViewProvider.notifier).nextPage,
-                  child: Align(
-                    alignment: Alignment.centerRight,
-                    child: Image.asset(
-                      btnArrowRight,
-                      width: 50,
+                  child: SizedBox(
+                    height: 135,
+                    child: Align(
+                      alignment: Alignment.centerRight,
+                      child: Image.asset(btnArrowRight),
                     ),
                   ),
                 ),
