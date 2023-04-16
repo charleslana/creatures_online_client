@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 
 import '../utils/utils.dart';
 
-class GreenButtonComponent extends StatelessWidget {
-  const GreenButtonComponent({
+class GreenBackButtonComponent extends StatelessWidget {
+  const GreenBackButtonComponent({
     Key? key,
     required this.text,
     required this.callback,
@@ -18,13 +18,13 @@ class GreenButtonComponent extends StatelessWidget {
     return InkWell(
       onTap: callback,
       child: Container(
-        width: 210,
-        height: 90,
+        width: 120,
+        height: 53,
         padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(11.0),
           image: const DecorationImage(
-            image: AssetImage(btnGreen),
+            image: AssetImage(btnGreenBack),
             fit: BoxFit.cover,
           ),
         ),
@@ -35,7 +35,7 @@ class GreenButtonComponent extends StatelessWidget {
               text.toUpperCase(),
               style: TextStyle(
                 inherit: true,
-                fontSize: 35,
+                fontSize: 20,
                 fontWeight: FontWeight.w500,
                 color: Colors.white,
                 shadows: shadows,

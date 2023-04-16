@@ -267,7 +267,7 @@ class _LandingPageState extends ConsumerState<LandingPage> {
                           child: Padding(
                             padding: const EdgeInsets.all(20),
                             child: GreenButtonComponent(
-                              text: 'Começar!',
+                              text: 'Jogar!',
                               callback: showStarterUser,
                             ),
                           ),
