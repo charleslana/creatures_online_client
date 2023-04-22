@@ -2,6 +2,7 @@ import 'package:creatures_online_client/components/green_button_component.dart';
 import 'package:creatures_online_client/data/image_data.dart';
 import 'package:creatures_online_client/providers/landing_provider.dart';
 import 'package:creatures_online_client/routes/app_routes.dart';
+import 'package:creatures_online_client/services/config_service.dart';
 import 'package:creatures_online_client/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -20,6 +21,7 @@ class _LandingPageState extends ConsumerState<LandingPage> {
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
   String version = "";
+  final configService = ConfigService();
 
   @override
   void initState() {
@@ -36,10 +38,14 @@ class _LandingPageState extends ConsumerState<LandingPage> {
   }
 
   Future<void> showLoader() async {
-    Future.delayed(const Duration(seconds: 1), () {
+    await Future.delayed(const Duration(seconds: 1), () {
       loading(context);
       ref.read(landingProvider.notifier).changeText("Conectando no servidor");
     });
+    if (await getConfigVersion() != version) {
+      ref.read(landingProvider.notifier).changeText("Atualize o aplicativo");
+      return;
+    }
     Future.delayed(const Duration(seconds: 3), () {
       ref.read(landingProvider.notifier).changeText("Tentando realizar login");
     });
@@ -52,6 +58,10 @@ class _LandingPageState extends ConsumerState<LandingPage> {
         isLoaded = true;
       });
     });
+  }
+
+  Future<String> getConfigVersion() async {
+    return await configService.getVersion();
   }
 
   void showStarterUser() {

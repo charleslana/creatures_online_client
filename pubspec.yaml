@@ -17,6 +17,7 @@ dependencies:
   shared_preferences: ^2.1.0
   package_info_plus: ^3.0.3
   simple_animations: ^5.0.0+3
+  dio: ^5.1.1
 
 dev_dependencies:
   flutter_test:

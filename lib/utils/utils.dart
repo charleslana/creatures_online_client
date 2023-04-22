@@ -42,6 +42,7 @@ void loading(BuildContext context) {
                       color: Colors.white,
                       fontSize: 20,
                     ),
+                    textAlign: TextAlign.center,
                   ),
                 ),
               ],
