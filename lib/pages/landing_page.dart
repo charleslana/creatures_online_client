@@ -240,7 +240,6 @@ class _LandingPageState extends ConsumerState<LandingPage> {
       showToast(context, "Email ou senha em branco", ToastEnum.error);
       return;
     }
-    ref.read(landingProvider.notifier).changeText("");
     loading(context);
     final response = await publicService.auth(UserModel(
         email: emailController.text, password: passwordController.text));
