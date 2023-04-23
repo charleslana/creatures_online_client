@@ -4,6 +4,7 @@ import 'package:simple_shadow/simple_shadow.dart';
 
 import '../data/image_data.dart';
 import '../flame/bar_game.dart';
+import '../routes/app_routes.dart';
 import '../utils/utils.dart';
 
 class HudUserComponent extends StatelessWidget {
@@ -14,13 +15,16 @@ class HudUserComponent extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        Container(
-          width: 110,
-          height: 110,
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage(kolinAvatar),
-              fit: BoxFit.contain,
+        InkWell(
+          onTap: () => pushReplacementNamed(context, landingRoute),
+          child: Container(
+            width: 110,
+            height: 110,
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(kolinAvatar),
+                fit: BoxFit.contain,
+              ),
             ),
           ),
         ),

@@ -1,8 +1,10 @@
 import 'package:creatures_online_client/components/green_button_component.dart';
 import 'package:creatures_online_client/data/image_data.dart';
+import 'package:creatures_online_client/enums/toast_enum.dart';
+import 'package:creatures_online_client/models/user_mode.dart';
 import 'package:creatures_online_client/providers/landing_provider.dart';
 import 'package:creatures_online_client/routes/app_routes.dart';
-import 'package:creatures_online_client/services/config_service.dart';
+import 'package:creatures_online_client/services/public_service.dart';
 import 'package:creatures_online_client/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -21,7 +23,7 @@ class _LandingPageState extends ConsumerState<LandingPage> {
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
   String version = "";
-  final configService = ConfigService();
+  final publicService = PublicService();
 
   @override
   void initState() {
@@ -42,8 +44,19 @@ class _LandingPageState extends ConsumerState<LandingPage> {
       loading(context);
       ref.read(landingProvider.notifier).changeText("Conectando no servidor");
     });
-    if (await getConfigVersion() != version) {
-      ref.read(landingProvider.notifier).changeText("Atualize o aplicativo");
+    final response = await publicService.getVersion();
+    if (!mounted) return;
+    if (response.error) {
+      pop(context);
+      showToast(context, response.message, ToastEnum.error);
+      return;
+    }
+    if (response.message != version) {
+      pop(context);
+      showToast(
+          context,
+          "A versão atual é ${response.message}, atualize o aplicativo",
+          ToastEnum.error);
       return;
     }
     Future.delayed(const Duration(seconds: 3), () {
@@ -58,10 +71,6 @@ class _LandingPageState extends ConsumerState<LandingPage> {
         isLoaded = true;
       });
     });
-  }
-
-  Future<String> getConfigVersion() async {
-    return await configService.getVersion();
   }
 
   void showStarterUser() {
@@ -151,15 +160,29 @@ class _LandingPageState extends ConsumerState<LandingPage> {
     );
   }
 
-  void createAccount() {
+  Future<void> createAccount() async {
     pop(context);
-    print(emailController.text);
-    pushReplacementNamed(context, homeRoute);
-    // ref.read(landingProvider.notifier).changeText(context, "");
-    // loading(context);
-    // setState(() {
-    //   isLoaded = false;
-    // });
+    if (emailController.text == "" ||
+        passwordController.text == "" ||
+        confirmPasswordController.text == "") {
+      showToast(context, "Email ou senha em branco", ToastEnum.error);
+      return;
+    }
+    if (passwordController.text != confirmPasswordController.text) {
+      showToast(context, "Senhas digitadas diferentes", ToastEnum.error);
+      return;
+    }
+    ref.read(landingProvider.notifier).changeText("");
+    loading(context);
+    final response = await publicService.register(UserModel(
+        email: emailController.text, password: passwordController.text));
+    if (!mounted) return;
+    if (response.error) {
+      pop(context);
+      showToast(context, response.message, ToastEnum.error);
+    } else {
+      pushReplacementNamed(context, homeRoute);
+    }
   }
 
   void showLoginUser() {

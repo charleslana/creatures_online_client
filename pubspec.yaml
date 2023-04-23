@@ -18,6 +18,7 @@ dependencies:
   package_info_plus: ^3.0.3
   simple_animations: ^5.0.0+3
   dio: ^5.1.1
+  flutter_dotenv: ^5.0.2
 
 dev_dependencies:
   flutter_test:
@@ -29,6 +30,7 @@ flutter:
   uses-material-design: true
 
   assets:
+    - .env
     - assets/images/
     - assets/images/icons/
     - assets/images/map/

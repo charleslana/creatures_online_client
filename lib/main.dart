@@ -4,6 +4,7 @@ import 'package:creatures_online_client/routes/app_routes.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() async {
@@ -16,6 +17,7 @@ void main() async {
     bgMapAudio,
   ]);
   FlameAudio.bgm.initialize();
+  await dotenv.load(fileName: ".env");
   runApp(const ProviderScope(child: MyApp()));
 }
 
