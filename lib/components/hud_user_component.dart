@@ -1,3 +1,4 @@
+import 'package:creatures_online_client/services/user_service.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_shadow/simple_shadow.dart';
@@ -10,13 +11,20 @@ import '../utils/utils.dart';
 class HudUserComponent extends StatelessWidget {
   const HudUserComponent({Key? key}) : super(key: key);
 
+  void logout(BuildContext context) {
+    final userService = UserService();
+    userService.logout().then((_) => {
+          pushReplacementNamed(context, landingRoute),
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         InkWell(
-          onTap: () => pushReplacementNamed(context, landingRoute),
+          onTap: () => logout(context),
           child: Container(
             width: 110,
             height: 110,

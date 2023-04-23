@@ -1,10 +1,12 @@
 import 'package:creatures_online_client/components/green_button_component.dart';
 import 'package:creatures_online_client/data/image_data.dart';
 import 'package:creatures_online_client/enums/toast_enum.dart';
+import 'package:creatures_online_client/models/response_model.dart';
 import 'package:creatures_online_client/models/user_mode.dart';
 import 'package:creatures_online_client/providers/landing_provider.dart';
 import 'package:creatures_online_client/routes/app_routes.dart';
 import 'package:creatures_online_client/services/public_service.dart';
+import 'package:creatures_online_client/services/user_service.dart';
 import 'package:creatures_online_client/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -24,6 +26,7 @@ class _LandingPageState extends ConsumerState<LandingPage> {
   final confirmPasswordController = TextEditingController();
   String version = "";
   final publicService = PublicService();
+  final userService = UserService();
 
   @override
   void initState() {
@@ -59,18 +62,18 @@ class _LandingPageState extends ConsumerState<LandingPage> {
           ToastEnum.error);
       return;
     }
-    Future.delayed(const Duration(seconds: 3), () {
-      ref.read(landingProvider.notifier).changeText("Tentando realizar login");
-    });
-    Future.delayed(const Duration(seconds: 5), () {
-      ref.read(landingProvider.notifier).changeText("Obtendo dados da conta");
-    });
-    Future.delayed(const Duration(seconds: 6), () {
+    ref.read(landingProvider.notifier).changeText("Tentando realizar login");
+    try {
+      final auth = await userService.getAuthLogin();
+      emailController.text = auth.email;
+      passwordController.text = auth.password;
+      login();
+    } catch (e) {
       pop(context);
       setState(() {
         isLoaded = true;
       });
-    });
+    }
   }
 
   void showStarterUser() {
@@ -181,7 +184,7 @@ class _LandingPageState extends ConsumerState<LandingPage> {
       pop(context);
       showToast(context, response.message, ToastEnum.error);
     } else {
-      pushReplacementNamed(context, homeRoute);
+      login();
     }
   }
 
@@ -231,14 +234,36 @@ class _LandingPageState extends ConsumerState<LandingPage> {
     );
   }
 
-  void login() {
+  Future<void> login() async {
     pop(context);
-    pushNamed(context, homeRoute);
-    // ref.read(landingProvider.notifier).changeText(context, "");
-    // loading(context);
-    // setState(() {
-    //   isLoaded = false;
-    // });
+    if (emailController.text == "" || passwordController.text == "") {
+      showToast(context, "Email ou senha em branco", ToastEnum.error);
+      return;
+    }
+    ref.read(landingProvider.notifier).changeText("");
+    loading(context);
+    final response = await publicService.auth(UserModel(
+        email: emailController.text, password: passwordController.text));
+    if (!mounted) return;
+    if (response.error) {
+      pop(context);
+      showToast(context, response.message, ToastEnum.error);
+    } else {
+      getUserDetails();
+    }
+  }
+
+  Future<void> getUserDetails() async {
+    try {
+      final user = await userService.getDetails();
+      print(user.email);
+      if (!mounted) return;
+      pushReplacementNamed(context, homeRoute);
+    } catch (e) {
+      pop(context);
+      final err = e as Map<String, dynamic>;
+      showToast(context, ResponseModel.fromJson(err).message, ToastEnum.error);
+    }
   }
 
   @override

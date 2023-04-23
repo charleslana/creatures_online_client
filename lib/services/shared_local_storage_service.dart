@@ -4,6 +4,10 @@ import '../interfaces/local_storage_interface.dart';
 
 class SharedLocalStorageService implements ILocalStorage {
   String soundKey = 'soundKey';
+  String email = 'email';
+  String password = 'password';
+  String cookie = 'cookie';
+  String token = 'token';
 
   @override
   Future<void> delete(String key) async {
