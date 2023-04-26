@@ -28,12 +28,6 @@ class _HomePageState extends ConsumerState<HomePage> {
   String errorMessage = "";
 
   @override
-  void didChangeDependencies() {
-    playAudio();
-    super.didChangeDependencies();
-  }
-
-  @override
   void initState() {
     dialog();
     super.initState();
@@ -54,6 +48,7 @@ class _HomePageState extends ConsumerState<HomePage> {
 
   Future<void> dialog() async {
     await Future.delayed(const Duration(milliseconds: 1), () {
+      playAudio();
       final user = ref.watch(userProvider).value;
       if (user.name != null) {
         return;
