@@ -1,6 +1,8 @@
 import 'package:creatures_online_client/data/audio_data.dart';
+import 'package:creatures_online_client/data/image_data.dart';
 import 'package:creatures_online_client/flame/loading_game.dart';
-import 'package:creatures_online_client/providers/landing_provider.dart';
+import 'package:creatures_online_client/providers/dialog_provider.dart';
+import 'package:creatures_online_client/providers/loading_provider.dart';
 import 'package:flame/game.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +18,7 @@ void loading(BuildContext context) {
     context: context,
     builder: (_) {
       return Consumer(builder: (_, ref, __) {
-        final text = ref.watch(landingProvider).value;
+        final text = ref.watch(loadingProvider).value;
         return WillPopScope(
           onWillPop: () async => false,
           child: Dialog(
@@ -136,4 +138,80 @@ void showToast(BuildContext context, String message, ToastEnum toast) {
 
 String getAPI() {
   return dotenv.env['API'].toString();
+}
+
+void openDialog(BuildContext context) {
+  showDialog<dynamic>(
+    barrierDismissible: false,
+    context: context,
+    builder: (_) {
+      return Consumer(builder: (_, ref, __) {
+        final text = ref.watch(dialogProvider).value;
+        return WillPopScope(
+          onWillPop: () async => false,
+          child: Dialog(
+            elevation: 0,
+            backgroundColor: Colors.transparent,
+            child: GestureDetector(
+              onTap: ref.watch(dialogProvider).callback,
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Stack(
+                    children: [
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        height: 150,
+                        child: Image.asset(
+                          speechBubble,
+                          fit: BoxFit.contain,
+                          alignment: Alignment.bottomLeft,
+                        ),
+                      ),
+                      Positioned.fill(
+                        top: 70,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: RichText(
+                            textAlign: TextAlign.center,
+                            text: TextSpan(
+                              text: '$text ',
+                              style: Theme.of(context).textTheme.bodyMedium,
+                              children: const [
+                                WidgetSpan(
+                                  child: Text(
+                                    'Clique para continuar',
+                                    style: TextStyle(color: Colors.black),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: 150,
+                    child: Image.asset(
+                      ref.watch(dialogProvider).image,
+                      fit: BoxFit.contain,
+                      alignment: Alignment.topLeft,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      });
+    },
+  );
+}
+
+void closeKeyboard() {
+  FocusManager.instance.primaryFocus?.unfocus();
 }

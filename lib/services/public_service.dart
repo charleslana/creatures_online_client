@@ -5,11 +5,11 @@ import 'package:creatures_online_client/utils/utils.dart';
 import 'package:dio/dio.dart';
 
 class PublicService {
-  final dio = Dio();
+  final _dio = Dio();
 
   Future<ResponseModel> getVersion() async {
     try {
-      final response = await dio.get("${getAPI()}/public/version");
+      final response = await _dio.get("${getAPI()}/public/version");
       return ResponseModel.fromJson(response.data);
     } on DioError catch (e) {
       if (e.response == null) {
@@ -23,7 +23,7 @@ class PublicService {
   Future<ResponseModel> register(UserModel user) async {
     try {
       final response =
-          await dio.post("${getAPI()}/public/user", data: user.toJson());
+          await _dio.post("${getAPI()}/public/user", data: user.toJson());
       return ResponseModel.fromJson(response.data);
     } on DioError catch (e) {
       if (e.response == null) {
@@ -37,7 +37,7 @@ class PublicService {
   Future<ResponseModel> auth(UserModel user) async {
     try {
       final response =
-          await dio.post("${getAPI()}/public/auth", data: user.toJson());
+          await _dio.post("${getAPI()}/public/auth", data: user.toJson());
       final cookie = _getCookieFromHeader(response);
       _saveAuth(user, response.data["token"], cookie);
       return ResponseModel.fromJson(response.data);

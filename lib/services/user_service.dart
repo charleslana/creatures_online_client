@@ -1,18 +1,21 @@
+import 'package:creatures_online_client/services/auth_service.dart';
 import 'package:creatures_online_client/services/shared_local_storage_service.dart';
 import 'package:dio/dio.dart';
 
+import '../models/response_model.dart';
 import '../models/user_mode.dart';
 import '../utils/utils.dart';
 
 class UserService {
-  final dio = Dio();
-  final sharedLocalStorageService = SharedLocalStorageService();
+  final _dio = Dio();
+  final _sharedLocalStorageService = SharedLocalStorageService();
+  final _authService = AuthService();
 
   Future<UserModel> getAuthLogin() async {
-    final email = await sharedLocalStorageService
-        .get<String>(sharedLocalStorageService.email);
-    final password = await sharedLocalStorageService
-        .get<String>(sharedLocalStorageService.password);
+    final email = await _sharedLocalStorageService
+        .get<String>(_sharedLocalStorageService.email);
+    final password = await _sharedLocalStorageService
+        .get<String>(_sharedLocalStorageService.password);
     if (email != null && password != null) {
       return UserModel(email: email, password: password);
     }
@@ -21,16 +24,9 @@ class UserService {
 
   Future<UserModel> getDetails() async {
     try {
-      final cookie = await _getCookie();
-      final token = await _getToken();
-      final response = await dio.get(
+      final response = await _dio.get(
         "${getAPI()}/user/details",
-        options: Options(
-          headers: {
-            'Authorization': 'Bearer $token',
-            'cookie': cookie,
-          },
-        ),
+        options: await _authService.getToken(),
       );
       return UserModel.fromJson(response.data);
     } on DioError catch (e) {
@@ -38,22 +34,30 @@ class UserService {
     }
   }
 
+  Future<ResponseModel> updateUserName(String name) async {
+    try {
+      final response = await _dio.put(
+        "${getAPI()}/user",
+        data: {
+          "name": name,
+        },
+        options: await _authService.getToken(),
+      );
+      return ResponseModel.fromJson(response.data);
+    } on DioError catch (e) {
+      if (e.response == null) {
+        return ResponseModel(
+            error: true, message: "Conexão com o servidor falhou");
+      }
+      return ResponseModel.fromJson(e.response?.data);
+    }
+  }
+
   Future<void> logout() async {
-    await sharedLocalStorageService.delete(sharedLocalStorageService.email);
-    await sharedLocalStorageService.delete(sharedLocalStorageService.password);
-    await sharedLocalStorageService.delete(sharedLocalStorageService.cookie);
-    await sharedLocalStorageService.delete(sharedLocalStorageService.token);
-  }
-
-  Future<String> _getCookie() async {
-    final cookie = await sharedLocalStorageService
-        .get<String>(sharedLocalStorageService.cookie);
-    return cookie ?? "";
-  }
-
-  Future<String> _getToken() async {
-    final token = await sharedLocalStorageService
-        .get<String>(sharedLocalStorageService.token);
-    return token ?? "";
+    await _sharedLocalStorageService.delete(_sharedLocalStorageService.email);
+    await _sharedLocalStorageService
+        .delete(_sharedLocalStorageService.password);
+    await _sharedLocalStorageService.delete(_sharedLocalStorageService.cookie);
+    await _sharedLocalStorageService.delete(_sharedLocalStorageService.token);
   }
 }

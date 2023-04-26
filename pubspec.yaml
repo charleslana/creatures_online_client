@@ -37,6 +37,7 @@ flutter:
     - assets/images/map/area_bootcamp/
     - assets/images/avatars/
     - assets/images/team/
+    - assets/images/dialog/
 
     - assets/audio/
 

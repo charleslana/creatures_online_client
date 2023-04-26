@@ -1,6 +1,10 @@
+import 'dart:math';
+
+import 'package:creatures_online_client/providers/user_provider.dart';
 import 'package:creatures_online_client/services/user_service.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:simple_shadow/simple_shadow.dart';
 
 import '../data/image_data.dart';
@@ -8,23 +12,29 @@ import '../flame/bar_game.dart';
 import '../routes/app_routes.dart';
 import '../utils/utils.dart';
 
-class HudUserComponent extends StatelessWidget {
+class HudUserComponent extends ConsumerWidget {
   const HudUserComponent({Key? key}) : super(key: key);
 
-  void logout(BuildContext context) {
+  void _logout(BuildContext context) {
     final userService = UserService();
     userService.logout().then((_) => {
           pushReplacementNamed(context, landingRoute),
         });
   }
 
+  int _getRandomNumber() {
+    Random random = Random();
+    int randomNumber = random.nextInt(9000) + 1000;
+    return randomNumber;
+  }
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         InkWell(
-          onTap: () => logout(context),
+          onTap: () => _logout(context),
           child: Container(
             width: 110,
             height: 110,
@@ -43,7 +53,8 @@ class HudUserComponent extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 10),
               child: Text(
-                'Charles',
+                ref.watch(userProvider).value.name ??
+                    "Jogador${_getRandomNumber()}",
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 20,

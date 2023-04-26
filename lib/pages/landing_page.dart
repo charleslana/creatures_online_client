@@ -3,7 +3,8 @@ import 'package:creatures_online_client/data/image_data.dart';
 import 'package:creatures_online_client/enums/toast_enum.dart';
 import 'package:creatures_online_client/models/response_model.dart';
 import 'package:creatures_online_client/models/user_mode.dart';
-import 'package:creatures_online_client/providers/landing_provider.dart';
+import 'package:creatures_online_client/providers/loading_provider.dart';
+import 'package:creatures_online_client/providers/user_provider.dart';
 import 'package:creatures_online_client/routes/app_routes.dart';
 import 'package:creatures_online_client/services/public_service.dart';
 import 'package:creatures_online_client/services/user_service.dart';
@@ -45,7 +46,7 @@ class _LandingPageState extends ConsumerState<LandingPage> {
   Future<void> showLoader() async {
     await Future.delayed(const Duration(seconds: 1), () {
       loading(context);
-      ref.read(landingProvider.notifier).changeText("Conectando no servidor");
+      ref.read(loadingProvider.notifier).changeText("Conectando no servidor");
     });
     final response = await publicService.getVersion();
     if (!mounted) return;
@@ -62,7 +63,7 @@ class _LandingPageState extends ConsumerState<LandingPage> {
           ToastEnum.error);
       return;
     }
-    ref.read(landingProvider.notifier).changeText("Tentando realizar login");
+    ref.read(loadingProvider.notifier).changeText("Tentando realizar login");
     try {
       final auth = await userService.getAuthLogin();
       emailController.text = auth.email;
@@ -175,7 +176,7 @@ class _LandingPageState extends ConsumerState<LandingPage> {
       showToast(context, "Senhas digitadas diferentes", ToastEnum.error);
       return;
     }
-    ref.read(landingProvider.notifier).changeText("");
+    ref.read(loadingProvider.notifier).changeText("");
     loading(context);
     final response = await publicService.register(UserModel(
         email: emailController.text, password: passwordController.text));
@@ -255,7 +256,7 @@ class _LandingPageState extends ConsumerState<LandingPage> {
   Future<void> getUserDetails() async {
     try {
       final user = await userService.getDetails();
-      print(user.email);
+      ref.read(userProvider.notifier).updateUser(user);
       if (!mounted) return;
       pushReplacementNamed(context, homeRoute);
     } catch (e) {

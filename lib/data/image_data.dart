@@ -28,3 +28,7 @@ const String markerQuest = 'assets/images/map/marker_quest.png';
 const String node = 'assets/images/map/node.png';
 const String pathDot = 'assets/images/map/path_dot.png';
 const String bgTeam = 'assets/images/team/bg_team.jpg';
+const String dialogJovani = 'assets/images/dialog/jovani.png';
+const String dialogJovaniHand = 'assets/images/dialog/jovani-hand.png';
+const String dialogJovaniTypes = 'assets/images/dialog/jovani-types.png';
+const String speechBubble = 'assets/images/dialog/speech_bubble.png';

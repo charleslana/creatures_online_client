@@ -103,7 +103,8 @@ class MenuBottomComponent extends ConsumerWidget {
                         SizedBox(
                           width: 40,
                           height: 40,
-                          child: GameWidget<BtnSoundGame>(game: BtnSoundGame(ref)),
+                          child:
+                              GameWidget<BtnSoundGame>(game: BtnSoundGame(ref)),
                         ),
                       ],
                     ),
