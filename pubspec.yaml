@@ -38,6 +38,11 @@ flutter:
     - assets/images/avatars/
     - assets/images/team/
     - assets/images/dialog/
+    - assets/images/mons/amuranther/
+    - assets/images/mons/kikflick/
+    - assets/images/mons/menza/
+    - assets/images/mons/snorky/
+    - assets/images/huds/
 
     - assets/audio/
 

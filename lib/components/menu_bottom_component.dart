@@ -1,4 +1,5 @@
 import 'package:creatures_online_client/components/green_back_button_component.dart';
+import 'package:creatures_online_client/components/progress_bar_component.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -109,6 +110,141 @@ class MenuBottomComponent extends ConsumerWidget {
                       ],
                     ),
                     const SizedBox(height: 10),
+                    Expanded(
+                      child: Column(
+                        children: [
+                          Expanded(
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Column(
+                                    children: [
+                                      Expanded(
+                                        child: Container(
+                                          decoration: const BoxDecoration(
+                                            image: DecorationImage(
+                                              image:
+                                                  AssetImage(paneTooltipFire),
+                                              fit: BoxFit.scaleDown,
+                                              alignment: Alignment.topCenter,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        flex: 2,
+                                        child: Image.asset(
+                                          monFrontKikflick,
+                                          fit: BoxFit.scaleDown,
+                                          alignment: Alignment.topCenter,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Column(
+                                    children: [
+                                      Expanded(
+                                        child: Container(
+                                          decoration: const BoxDecoration(
+                                            image: DecorationImage(
+                                              image:
+                                                  AssetImage(paneTooltipFire),
+                                              fit: BoxFit.scaleDown,
+                                              alignment: Alignment.topCenter,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        flex: 2,
+                                        child: Image.asset(
+                                          monFrontMenza,
+                                          fit: BoxFit.scaleDown,
+                                          alignment: Alignment.topCenter,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Column(
+                                    children: [
+                                      Expanded(
+                                        child: Container(
+                                          decoration: const BoxDecoration(
+                                            image: DecorationImage(
+                                              image:
+                                                  AssetImage(paneTooltipFire),
+                                              fit: BoxFit.scaleDown,
+                                              alignment: Alignment.topCenter,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        flex: 2,
+                                        child: Image.asset(
+                                          monFrontSnorky,
+                                          fit: BoxFit.scaleDown,
+                                          alignment: Alignment.topCenter,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 50),
+                          Expanded(
+                            child: SizedBox.expand(
+                              child: Card(
+                                elevation: 0,
+                                shape: RoundedRectangleBorder(
+                                  side: const BorderSide(
+                                    color: Colors.black,
+                                    width: 2,
+                                  ),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                color: const Color(0xfffcf4ac),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(20),
+                                  child: GridView.count(
+                                    childAspectRatio: (1 / .6),
+                                    mainAxisSpacing: 20,
+                                    crossAxisSpacing: 20,
+                                    crossAxisCount: 2,
+                                    children: List.generate(10, (index) {
+                                      return Card(
+                                        elevation: 0,
+                                        shape: const RoundedRectangleBorder(
+                                          // side: BorderSide(
+                                          //   color: Color(0xffdaca9c),
+                                          //   width: 4,
+                                          // ),
+                                          borderRadius: BorderRadius.only(
+                                            bottomLeft: Radius.circular(15),
+                                            topLeft: Radius.circular(15),
+                                            bottomRight: Radius.circular(10),
+                                            topRight: Radius.circular(10),
+                                          ),
+                                        ),
+                                        color: const Color(0xffe7daa2),
+                                        child: _buildTeamUnequipped(
+                                            index == 0, hudPaneThumbDark),
+                                      );
+                                    }),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -117,5 +253,78 @@ class MenuBottomComponent extends ConsumerWidget {
         );
       },
     );
+  }
+
+  Widget _buildTeamUnequipped(bool hasValue, [String? image]) {
+    if (hasValue) {
+      return Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(image!),
+            fit: BoxFit.contain,
+          ),
+        ),
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  flex: 3,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 10),
+                    child: Image.asset(monIconAmuranther),
+                  ),
+                ),
+                const SizedBox(width: 5),
+                Expanded(
+                  flex: 2,
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: const [
+                            Text(
+                              "Nv. 55",
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        ),
+                      ),
+                      const Expanded(
+                        child: ProgressBarComponent(),
+                      ),
+                    ],
+                  ),
+                ),
+                const Expanded(
+                  child: SizedBox(width: 10),
+                ),
+              ],
+            ),
+            Positioned.fill(
+              top: -5,
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                alignment: Alignment.topCenter,
+                child: Text(
+                  'Amuranther'.toUpperCase(),
+                  style: TextStyle(
+                    inherit: true,
+                    fontSize: 17,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white,
+                    shadows: shadows,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+    return Container();
   }
 }
