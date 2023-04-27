@@ -134,6 +134,7 @@ class _HomePageState extends ConsumerState<HomePage> {
     final response = await userService.updateUserName(nameController.text);
     if (!mounted) return;
     if (response.error) {
+      pop(context);
       setState(() {
         errorMessage = response.message;
       });
