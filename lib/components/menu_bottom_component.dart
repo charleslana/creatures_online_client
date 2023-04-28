@@ -118,86 +118,353 @@ class MenuBottomComponent extends ConsumerWidget {
                               children: [
                                 Expanded(
                                   child: Column(
+                                    mainAxisSize: MainAxisSize.min,
                                     children: [
                                       Expanded(
-                                        child: Container(
-                                          decoration: const BoxDecoration(
-                                            image: DecorationImage(
-                                              image:
-                                                  AssetImage(paneTooltipFire),
-                                              fit: BoxFit.scaleDown,
-                                              alignment: Alignment.topCenter,
+                                        flex: 1,
+                                        child: Align(
+                                          alignment: Alignment.bottomCenter,
+                                          child: Container(
+                                            width: double.infinity,
+                                            decoration: const BoxDecoration(
+                                              image: DecorationImage(
+                                                image: AssetImage(
+                                                    paneTooltipEarth),
+                                                fit: BoxFit.scaleDown,
+                                                alignment: Alignment.topCenter,
+                                              ),
+                                            ),
+                                            child: Stack(
+                                              clipBehavior: Clip.none,
+                                              children: [
+                                                Positioned.fill(
+                                                  top: 0,
+                                                  left: 3,
+                                                  child: RichText(
+                                                    text: TextSpan(
+                                                      text: 'Nv. ',
+                                                      style:
+                                                          DefaultTextStyle.of(
+                                                                  context)
+                                                              .style,
+                                                      children: const [
+                                                        TextSpan(
+                                                          text: '55',
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w900),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                    top: 20,
+                                                    left: 10,
+                                                  ),
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Text(
+                                                        'Kikflick'
+                                                            .toUpperCase(),
+                                                        style: TextStyle(
+                                                          inherit: true,
+                                                          fontSize: 17,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          color: Colors.white,
+                                                          shadows: shadows,
+                                                        ),
+                                                        textAlign:
+                                                            TextAlign.left,
+                                                      ),
+                                                      const Expanded(
+                                                        child:
+                                                            ProgressBarComponent(
+                                                          width: 100,
+                                                          height: 30,
+                                                          percentage: 1,
+                                                          isLarge: true,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           ),
                                         ),
                                       ),
                                       Expanded(
                                         flex: 2,
-                                        child: Image.asset(
-                                          monFrontKikflick,
-                                          fit: BoxFit.scaleDown,
-                                          alignment: Alignment.topCenter,
+                                        child: Stack(
+                                          children: [
+                                            Align(
+                                              alignment: Alignment.bottomCenter,
+                                              child: Image.asset(
+                                                monShadow,
+                                                fit: BoxFit.contain,
+                                              ),
+                                            ),
+                                            Positioned.fill(
+                                              bottom: 10,
+                                              child: Align(
+                                                alignment:
+                                                    Alignment.bottomCenter,
+                                                child: Image.asset(
+                                                  monFrontKikflick,
+                                                  fit: BoxFit.scaleDown,
+                                                  alignment:
+                                                      Alignment.topCenter,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
+                                      const Spacer(),
                                     ],
                                   ),
                                 ),
                                 Expanded(
                                   child: Column(
+                                    mainAxisSize: MainAxisSize.min,
                                     children: [
                                       Expanded(
-                                        child: Container(
-                                          decoration: const BoxDecoration(
-                                            image: DecorationImage(
-                                              image:
-                                                  AssetImage(paneTooltipFire),
-                                              fit: BoxFit.scaleDown,
-                                              alignment: Alignment.topCenter,
+                                        flex: 1,
+                                        child: Align(
+                                          alignment: Alignment.bottomCenter,
+                                          child: Container(
+                                            width: double.infinity,
+                                            decoration: const BoxDecoration(
+                                              image: DecorationImage(
+                                                image:
+                                                    AssetImage(paneTooltipFire),
+                                                fit: BoxFit.scaleDown,
+                                                alignment: Alignment.topCenter,
+                                              ),
+                                            ),
+                                            child: Stack(
+                                              clipBehavior: Clip.none,
+                                              children: [
+                                                Positioned.fill(
+                                                  top: 0,
+                                                  left: 3,
+                                                  child: RichText(
+                                                    text: TextSpan(
+                                                      text: 'Nv. ',
+                                                      style:
+                                                          DefaultTextStyle.of(
+                                                                  context)
+                                                              .style,
+                                                      children: const [
+                                                        TextSpan(
+                                                          text: '55',
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w900),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                    top: 20,
+                                                    left: 10,
+                                                  ),
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Text(
+                                                        'Menza'.toUpperCase(),
+                                                        style: TextStyle(
+                                                          inherit: true,
+                                                          fontSize: 17,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          color: Colors.white,
+                                                          shadows: shadows,
+                                                        ),
+                                                        textAlign:
+                                                            TextAlign.left,
+                                                      ),
+                                                      const Expanded(
+                                                        child:
+                                                            ProgressBarComponent(
+                                                          width: 100,
+                                                          height: 30,
+                                                          percentage: 1,
+                                                          isLarge: true,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           ),
                                         ),
                                       ),
                                       Expanded(
                                         flex: 2,
-                                        child: Image.asset(
-                                          monFrontMenza,
-                                          fit: BoxFit.scaleDown,
-                                          alignment: Alignment.topCenter,
+                                        child: Stack(
+                                          children: [
+                                            Align(
+                                              alignment: Alignment.bottomCenter,
+                                              child: Image.asset(
+                                                monShadow,
+                                                fit: BoxFit.contain,
+                                              ),
+                                            ),
+                                            Positioned.fill(
+                                              bottom: 10,
+                                              child: Align(
+                                                alignment:
+                                                    Alignment.bottomCenter,
+                                                child: Image.asset(
+                                                  monFrontMenza,
+                                                  fit: BoxFit.scaleDown,
+                                                  alignment:
+                                                      Alignment.topCenter,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
+                                      const Spacer(),
                                     ],
                                   ),
                                 ),
                                 Expanded(
                                   child: Column(
+                                    mainAxisSize: MainAxisSize.min,
                                     children: [
                                       Expanded(
-                                        child: Container(
-                                          decoration: const BoxDecoration(
-                                            image: DecorationImage(
-                                              image:
-                                                  AssetImage(paneTooltipFire),
-                                              fit: BoxFit.scaleDown,
-                                              alignment: Alignment.topCenter,
+                                        flex: 1,
+                                        child: Align(
+                                          alignment: Alignment.bottomCenter,
+                                          child: Container(
+                                            width: double.infinity,
+                                            decoration: const BoxDecoration(
+                                              image: DecorationImage(
+                                                image: AssetImage(
+                                                    paneTooltipWater),
+                                                fit: BoxFit.scaleDown,
+                                                alignment: Alignment.topCenter,
+                                              ),
+                                            ),
+                                            child: Stack(
+                                              clipBehavior: Clip.none,
+                                              children: [
+                                                Positioned.fill(
+                                                  top: 0,
+                                                  left: 3,
+                                                  child: RichText(
+                                                    text: TextSpan(
+                                                      text: 'Nv. ',
+                                                      style:
+                                                          DefaultTextStyle.of(
+                                                                  context)
+                                                              .style,
+                                                      children: const [
+                                                        TextSpan(
+                                                          text: '55',
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w900),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                    top: 20,
+                                                    left: 10,
+                                                  ),
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Text(
+                                                        'Snorky'.toUpperCase(),
+                                                        style: TextStyle(
+                                                          inherit: true,
+                                                          fontSize: 17,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          color: Colors.white,
+                                                          shadows: shadows,
+                                                        ),
+                                                        textAlign:
+                                                            TextAlign.left,
+                                                      ),
+                                                      const Expanded(
+                                                        child:
+                                                            ProgressBarComponent(
+                                                          width: 100,
+                                                          height: 30,
+                                                          percentage: 1,
+                                                          isLarge: true,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           ),
                                         ),
                                       ),
                                       Expanded(
                                         flex: 2,
-                                        child: Image.asset(
-                                          monFrontSnorky,
-                                          fit: BoxFit.scaleDown,
-                                          alignment: Alignment.topCenter,
+                                        child: Stack(
+                                          children: [
+                                            Align(
+                                              alignment: Alignment.bottomCenter,
+                                              child: Image.asset(
+                                                monShadow,
+                                                fit: BoxFit.contain,
+                                              ),
+                                            ),
+                                            Positioned.fill(
+                                              bottom: 10,
+                                              child: Align(
+                                                alignment:
+                                                    Alignment.bottomCenter,
+                                                child: Image.asset(
+                                                  monFrontSnorky,
+                                                  fit: BoxFit.scaleDown,
+                                                  alignment:
+                                                      Alignment.topCenter,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
+                                      const Spacer(),
                                     ],
                                   ),
                                 ),
                               ],
                             ),
                           ),
-                          const SizedBox(height: 50),
                           Expanded(
                             child: SizedBox.expand(
                               child: Card(
@@ -233,8 +500,8 @@ class MenuBottomComponent extends ConsumerWidget {
                                           ),
                                         ),
                                         color: const Color(0xffe7daa2),
-                                        child: _buildTeamUnequipped(
-                                            index == 0, hudPaneThumbDark),
+                                        child: _buildTeamUnequipped(index == 0,
+                                            context, hudPaneThumbDark),
                                       );
                                     }),
                                   ),
@@ -255,7 +522,8 @@ class MenuBottomComponent extends ConsumerWidget {
     );
   }
 
-  Widget _buildTeamUnequipped(bool hasValue, [String? image]) {
+  Widget _buildTeamUnequipped(bool hasValue, BuildContext context,
+      [String? image]) {
     if (hasValue) {
       return Container(
         decoration: BoxDecoration(
@@ -284,16 +552,29 @@ class MenuBottomComponent extends ConsumerWidget {
                       Expanded(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.end,
-                          children: const [
-                            Text(
-                              "Nv. 55",
-                              textAlign: TextAlign.center,
+                          children: [
+                            RichText(
+                              text: TextSpan(
+                                text: 'Nv. ',
+                                style: DefaultTextStyle.of(context).style,
+                                children: const [
+                                  TextSpan(
+                                    text: '55',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.w900),
+                                  ),
+                                ],
+                              ),
                             ),
                           ],
                         ),
                       ),
                       const Expanded(
-                        child: ProgressBarComponent(),
+                        child: ProgressBarComponent(
+                          width: 50,
+                          height: 20,
+                          percentage: 0.5,
+                        ),
                       ),
                     ],
                   ),
