@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../enums/character_type.dart';
 import '../enums/toast_enum.dart';
 import '../providers/sound_provider.dart';
 
@@ -214,4 +215,36 @@ void openDialog(BuildContext context) {
 
 void closeKeyboard() {
   FocusManager.instance.primaryFocus?.unfocus();
+}
+
+String getCharacterTooltip(CharacterType type) {
+  switch (type) {
+    case CharacterType.earth:
+      return paneTooltipEarth;
+    case CharacterType.dark:
+      return paneTooltipDark;
+    case CharacterType.diamond:
+      return paneTooltipDiamond;
+    case CharacterType.electric:
+      return paneTooltipElec;
+    case CharacterType.fire:
+      return paneTooltipFire;
+    case CharacterType.water:
+      return paneTooltipWater;
+    default:
+      return "";
+  }
+}
+
+String getCharacterFront(int id) {
+  switch (id) {
+    case 1:
+      return monFrontKikflick;
+    case 2:
+      return monFrontMenza;
+    case 3:
+      return monFrontSnorky;
+    default:
+      return "";
+  }
 }

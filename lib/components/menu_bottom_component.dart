@@ -2,6 +2,7 @@ import 'package:creatures_online_client/components/green_back_button_component.d
 import 'package:creatures_online_client/components/progress_bar_component.dart';
 import 'package:creatures_online_client/enums/character_type.dart';
 import 'package:creatures_online_client/models/character_model.dart';
+import 'package:creatures_online_client/models/user_character_model.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -19,36 +20,48 @@ class MenuBottomComponent extends ConsumerStatefulWidget {
 }
 
 class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
-  late CharacterModel team1;
-  late CharacterModel team2;
-  late CharacterModel team3;
+  late UserCharacterModel team1;
+  late UserCharacterModel team2;
+  late UserCharacterModel team3;
+  late UserCharacterModel target;
   bool moveTeam1 = true;
+  bool moveTeam2 = true;
+  bool moveTeam3 = true;
 
   @override
   void initState() {
-    team1 = CharacterModel.name(
-      name: "Kikflick",
-      image: monFrontKikflick,
+    team1 = UserCharacterModel(
       level: 55,
-      type: CharacterType.earth,
       hpMin: 100,
       hpMax: 100,
+      character: CharacterModel(
+        id: 1,
+        name: "Kikflick",
+        image: monFrontKikflick,
+        type: CharacterType.earth,
+      ),
     );
-    team2 = CharacterModel.name(
-      name: "Menza",
-      image: monFrontMenza,
+    team2 = UserCharacterModel(
       level: 55,
-      type: CharacterType.fire,
       hpMin: 100,
       hpMax: 100,
+      character: CharacterModel(
+        id: 2,
+        name: "Menza",
+        image: monFrontMenza,
+        type: CharacterType.fire,
+      ),
     );
-    team3 = CharacterModel.name(
-      name: "Snorky",
-      image: monFrontSnorky,
+    team3 = UserCharacterModel(
       level: 55,
-      type: CharacterType.water,
       hpMin: 100,
       hpMax: 100,
+      character: CharacterModel(
+        id: 3,
+        name: "Snorky",
+        image: monFrontSnorky,
+        type: CharacterType.water,
+      ),
     );
     super.initState();
   }
@@ -159,103 +172,293 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
                             Expanded(
                               child: Row(
                                 children: [
+                                  //team 1
                                   Expanded(
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Expanded(
-                                          flex: 1,
-                                          child: Visibility(
-                                            visible: moveTeam1,
-                                            child: Align(
-                                              alignment: Alignment.bottomCenter,
-                                              child: Container(
-                                                width: double.infinity,
-                                                decoration: const BoxDecoration(
-                                                  image: DecorationImage(
-                                                    image: AssetImage(
-                                                        paneTooltipEarth),
-                                                    fit: BoxFit.scaleDown,
-                                                    alignment:
-                                                        Alignment.topCenter,
+                                    child: DragTarget<UserCharacterModel>(
+                                      onAccept: (data) => {
+                                        setState(() {
+                                          target = team1;
+                                          team1 = data;
+                                        }),
+                                      },
+                                      builder: (context, _, __) => Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Expanded(
+                                            flex: 1,
+                                            child: Visibility(
+                                              visible: moveTeam1,
+                                              child: Align(
+                                                alignment:
+                                                    Alignment.bottomCenter,
+                                                child: Container(
+                                                  width: double.infinity,
+                                                  decoration: BoxDecoration(
+                                                    image: DecorationImage(
+                                                      image: AssetImage(
+                                                          getCharacterTooltip(
+                                                              team1.character
+                                                                  .type)),
+                                                      fit: BoxFit.scaleDown,
+                                                      alignment:
+                                                          Alignment.topCenter,
+                                                    ),
                                                   ),
-                                                ),
-                                                child: Stack(
-                                                  clipBehavior: Clip.none,
-                                                  children: [
-                                                    Positioned.fill(
-                                                      top: 0,
-                                                      left: 3,
-                                                      child: RichText(
-                                                        text: TextSpan(
-                                                          text: 'Nv. ',
-                                                          style: DefaultTextStyle
-                                                                  .of(context)
-                                                              .style,
-                                                          children: const [
-                                                            TextSpan(
-                                                              text: '55',
+                                                  child: Stack(
+                                                    clipBehavior: Clip.none,
+                                                    children: [
+                                                      Positioned.fill(
+                                                        top: 0,
+                                                        left: 3,
+                                                        child: RichText(
+                                                          text: TextSpan(
+                                                            text: 'Nv. ',
+                                                            style: DefaultTextStyle
+                                                                    .of(context)
+                                                                .style,
+                                                            children: [
+                                                              TextSpan(
+                                                                text: team1
+                                                                    .level
+                                                                    .toString(),
+                                                                style: const TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w900),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(
+                                                          top: 20,
+                                                          left: 10,
+                                                        ),
+                                                        child: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Text(
+                                                              team1.character
+                                                                  .name
+                                                                  .toUpperCase(),
                                                               style: TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w900),
+                                                                inherit: true,
+                                                                fontSize: 17,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                color: Colors
+                                                                    .white,
+                                                                shadows:
+                                                                    shadows,
+                                                              ),
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .left,
+                                                            ),
+                                                            Expanded(
+                                                              child:
+                                                                  ProgressBarComponent(
+                                                                width: 100,
+                                                                height: 30,
+                                                                percentage: team1
+                                                                        .hpMin /
+                                                                    team1.hpMax,
+                                                                isLarge: true,
+                                                              ),
                                                             ),
                                                           ],
                                                         ),
                                                       ),
-                                                    ),
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                        top: 20,
-                                                        left: 10,
-                                                      ),
-                                                      child: Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          Text(
-                                                            'Kikflick'
-                                                                .toUpperCase(),
-                                                            style: TextStyle(
-                                                              inherit: true,
-                                                              fontSize: 17,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                              color:
-                                                                  Colors.white,
-                                                              shadows: shadows,
-                                                            ),
-                                                            textAlign:
-                                                                TextAlign.left,
-                                                          ),
-                                                          const Expanded(
-                                                            child:
-                                                                ProgressBarComponent(
-                                                              width: 100,
-                                                              height: 30,
-                                                              percentage: 1,
-                                                              isLarge: true,
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ],
+                                                    ],
+                                                  ),
                                                 ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                        Expanded(
-                                          flex: 2,
-                                          child: Stack(
-                                            children: [
-                                              Opacity(
-                                                opacity: moveTeam1 ? 1 : 0,
-                                                child: Align(
+                                          Expanded(
+                                            flex: 2,
+                                            child: Stack(
+                                              children: [
+                                                Opacity(
+                                                  opacity: moveTeam1 ? 1 : 0,
+                                                  child: Align(
+                                                    alignment:
+                                                        Alignment.bottomCenter,
+                                                    child: Image.asset(
+                                                      monShadow,
+                                                      fit: BoxFit.contain,
+                                                    ),
+                                                  ),
+                                                ),
+                                                Positioned.fill(
+                                                  bottom: 10,
+                                                  child: Align(
+                                                    alignment:
+                                                        Alignment.bottomCenter,
+                                                    child: Draggable<
+                                                        UserCharacterModel>(
+                                                      data: team1,
+                                                      onDragStarted: () => {
+                                                        setState(() {
+                                                          target = team1;
+                                                          moveTeam1 = false;
+                                                        }),
+                                                      },
+                                                      onDragEnd: (details) => {
+                                                        setState(() {
+                                                          team1 = target;
+                                                          moveTeam1 = true;
+                                                        }),
+                                                      },
+                                                      feedback: Opacity(
+                                                        opacity: 0.8,
+                                                        child: Image.asset(
+                                                          width: 130,
+                                                          getCharacterFront(
+                                                              team1.character
+                                                                  .id),
+                                                          fit: BoxFit.scaleDown,
+                                                        ),
+                                                      ),
+                                                      childWhenDragging:
+                                                          Container(),
+                                                      child: Image.asset(
+                                                        getCharacterFront(
+                                                            team1.character.id),
+                                                        fit: BoxFit.scaleDown,
+                                                        alignment:
+                                                            Alignment.topCenter,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          const Spacer(),
+                                        ],
+                                      ),
+                                    ),
+                                  ), //team 2
+                                  Expanded(
+                                    child: DragTarget<UserCharacterModel>(
+                                      onAccept: (data) => {
+                                        setState(() {
+                                          target = team2;
+                                          team2 = data;
+                                        }),
+                                      },
+                                      builder: (context, _, __) => Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Expanded(
+                                            flex: 1,
+                                            child: Visibility(
+                                              visible: moveTeam2,
+                                              child: Align(
+                                                alignment:
+                                                    Alignment.bottomCenter,
+                                                child: Container(
+                                                  width: double.infinity,
+                                                  decoration: BoxDecoration(
+                                                    image: DecorationImage(
+                                                      image: AssetImage(
+                                                          getCharacterTooltip(
+                                                              team2.character
+                                                                  .type)),
+                                                      fit: BoxFit.scaleDown,
+                                                      alignment:
+                                                          Alignment.topCenter,
+                                                    ),
+                                                  ),
+                                                  child: Stack(
+                                                    clipBehavior: Clip.none,
+                                                    children: [
+                                                      Positioned.fill(
+                                                        top: 0,
+                                                        left: 3,
+                                                        child: RichText(
+                                                          text: TextSpan(
+                                                            text: 'Nv. ',
+                                                            style: DefaultTextStyle
+                                                                    .of(context)
+                                                                .style,
+                                                            children: [
+                                                              TextSpan(
+                                                                text: team2
+                                                                    .level
+                                                                    .toString(),
+                                                                style: const TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w900),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(
+                                                          top: 20,
+                                                          left: 10,
+                                                        ),
+                                                        child: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Text(
+                                                              team2.character
+                                                                  .name
+                                                                  .toUpperCase(),
+                                                              style: TextStyle(
+                                                                inherit: true,
+                                                                fontSize: 17,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                color: Colors
+                                                                    .white,
+                                                                shadows:
+                                                                    shadows,
+                                                              ),
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .left,
+                                                            ),
+                                                            Expanded(
+                                                              child:
+                                                                  ProgressBarComponent(
+                                                                width: 100,
+                                                                height: 30,
+                                                                percentage: team2
+                                                                        .hpMin /
+                                                                    team2.hpMax,
+                                                                isLarge: true,
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            flex: 2,
+                                            child: Stack(
+                                              children: [
+                                                Align(
                                                   alignment:
                                                       Alignment.bottomCenter,
                                                   child: Image.asset(
@@ -263,282 +466,224 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
                                                     fit: BoxFit.contain,
                                                   ),
                                                 ),
-                                              ),
-                                              Positioned.fill(
-                                                bottom: 10,
-                                                child: Align(
-                                                  alignment:
-                                                      Alignment.bottomCenter,
-                                                  child: Draggable(
-                                                    onDragStarted: () => {
-                                                      setState(() {
-                                                        moveTeam1 = false;
-                                                      }),
-                                                    },
-                                                    onDragEnd: (details) => {
-                                                      setState(() {
-                                                        moveTeam1 = true;
-                                                      }),
-                                                    },
-                                                    feedback: Opacity(
-                                                      opacity: 0.8,
+                                                Positioned.fill(
+                                                  bottom: 10,
+                                                  child: Align(
+                                                    alignment:
+                                                        Alignment.bottomCenter,
+                                                    child: Draggable<
+                                                        UserCharacterModel>(
+                                                      data: team2,
+                                                      onDragStarted: () => {
+                                                        setState(() {
+                                                          target = team2;
+                                                          moveTeam2 = false;
+                                                        }),
+                                                      },
+                                                      onDragEnd: (details) => {
+                                                        setState(() {
+                                                          team2 = target;
+                                                          moveTeam2 = true;
+                                                        }),
+                                                      },
+                                                      feedback: Opacity(
+                                                        opacity: 0.8,
+                                                        child: Image.asset(
+                                                          width: 130,
+                                                          getCharacterFront(
+                                                              team2.character
+                                                                  .id),
+                                                          fit: BoxFit.scaleDown,
+                                                        ),
+                                                      ),
+                                                      childWhenDragging:
+                                                          Container(),
                                                       child: Image.asset(
-                                                        width: 130,
-                                                        monFrontKikflick,
+                                                        getCharacterFront(
+                                                            team2.character.id),
                                                         fit: BoxFit.scaleDown,
+                                                        alignment:
+                                                            Alignment.topCenter,
                                                       ),
                                                     ),
-                                                    childWhenDragging:
-                                                        Container(),
-                                                    child: Image.asset(
-                                                      monFrontKikflick,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          const Spacer(),
+                                        ],
+                                      ),
+                                    ),
+                                  ), //team 3
+                                  Expanded(
+                                    child: DragTarget<UserCharacterModel>(
+                                      onAccept: (data) => {
+                                        setState(() {
+                                          target = team3;
+                                          team3 = data;
+                                        }),
+                                      },
+                                      builder: (context, _, __) => Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Expanded(
+                                            flex: 1,
+                                            child: Visibility(
+                                              visible: moveTeam3,
+                                              child: Align(
+                                                alignment:
+                                                    Alignment.bottomCenter,
+                                                child: Container(
+                                                  width: double.infinity,
+                                                  decoration: BoxDecoration(
+                                                    image: DecorationImage(
+                                                      image: AssetImage(
+                                                          getCharacterTooltip(
+                                                              team3.character
+                                                                  .type)),
                                                       fit: BoxFit.scaleDown,
                                                       alignment:
                                                           Alignment.topCenter,
                                                     ),
                                                   ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        const Spacer(),
-                                      ],
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Expanded(
-                                          flex: 1,
-                                          child: Align(
-                                            alignment: Alignment.bottomCenter,
-                                            child: Container(
-                                              width: double.infinity,
-                                              decoration: const BoxDecoration(
-                                                image: DecorationImage(
-                                                  image: AssetImage(
-                                                      paneTooltipFire),
-                                                  fit: BoxFit.scaleDown,
-                                                  alignment:
-                                                      Alignment.topCenter,
-                                                ),
-                                              ),
-                                              child: Stack(
-                                                clipBehavior: Clip.none,
-                                                children: [
-                                                  Positioned.fill(
-                                                    top: 0,
-                                                    left: 3,
-                                                    child: RichText(
-                                                      text: TextSpan(
-                                                        text: 'Nv. ',
-                                                        style:
-                                                            DefaultTextStyle.of(
-                                                                    context)
+                                                  child: Stack(
+                                                    clipBehavior: Clip.none,
+                                                    children: [
+                                                      Positioned.fill(
+                                                        top: 0,
+                                                        left: 3,
+                                                        child: RichText(
+                                                          text: TextSpan(
+                                                            text: 'Nv. ',
+                                                            style: DefaultTextStyle
+                                                                    .of(context)
                                                                 .style,
-                                                        children: const [
-                                                          TextSpan(
-                                                            text: '55',
-                                                            style: TextStyle(
+                                                            children: [
+                                                              TextSpan(
+                                                                text: team3
+                                                                    .level
+                                                                    .toString(),
+                                                                style: const TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w900),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(
+                                                          top: 20,
+                                                          left: 10,
+                                                        ),
+                                                        child: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Text(
+                                                              team3.character
+                                                                  .name
+                                                                  .toUpperCase(),
+                                                              style: TextStyle(
+                                                                inherit: true,
+                                                                fontSize: 17,
                                                                 fontWeight:
                                                                     FontWeight
-                                                                        .w900),
-                                                          ),
-                                                        ],
+                                                                        .w500,
+                                                                color: Colors
+                                                                    .white,
+                                                                shadows:
+                                                                    shadows,
+                                                              ),
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .left,
+                                                            ),
+                                                            Expanded(
+                                                              child:
+                                                                  ProgressBarComponent(
+                                                                width: 100,
+                                                                height: 30,
+                                                                percentage: team3
+                                                                        .hpMin /
+                                                                    team3.hpMax,
+                                                                isLarge: true,
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
                                                       ),
-                                                    ),
+                                                    ],
                                                   ),
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                      top: 20,
-                                                      left: 10,
-                                                    ),
-                                                    child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Text(
-                                                          'Menza'.toUpperCase(),
-                                                          style: TextStyle(
-                                                            inherit: true,
-                                                            fontSize: 17,
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            color: Colors.white,
-                                                            shadows: shadows,
-                                                          ),
-                                                          textAlign:
-                                                              TextAlign.left,
-                                                        ),
-                                                        const Expanded(
-                                                          child:
-                                                              ProgressBarComponent(
-                                                            width: 100,
-                                                            height: 30,
-                                                            percentage: 1,
-                                                            isLarge: true,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ],
+                                                ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                        Expanded(
-                                          flex: 2,
-                                          child: Stack(
-                                            children: [
-                                              Align(
-                                                alignment:
-                                                    Alignment.bottomCenter,
-                                                child: Image.asset(
-                                                  monShadow,
-                                                  fit: BoxFit.contain,
-                                                ),
-                                              ),
-                                              Positioned.fill(
-                                                bottom: 10,
-                                                child: Align(
+                                          Expanded(
+                                            flex: 2,
+                                            child: Stack(
+                                              children: [
+                                                Align(
                                                   alignment:
                                                       Alignment.bottomCenter,
                                                   child: Image.asset(
-                                                    monFrontMenza,
-                                                    fit: BoxFit.scaleDown,
-                                                    alignment:
-                                                        Alignment.topCenter,
+                                                    monShadow,
+                                                    fit: BoxFit.contain,
                                                   ),
                                                 ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        const Spacer(),
-                                      ],
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Expanded(
-                                          flex: 1,
-                                          child: Align(
-                                            alignment: Alignment.bottomCenter,
-                                            child: Container(
-                                              width: double.infinity,
-                                              decoration: const BoxDecoration(
-                                                image: DecorationImage(
-                                                  image: AssetImage(
-                                                      paneTooltipWater),
-                                                  fit: BoxFit.scaleDown,
-                                                  alignment:
-                                                      Alignment.topCenter,
-                                                ),
-                                              ),
-                                              child: Stack(
-                                                clipBehavior: Clip.none,
-                                                children: [
-                                                  Positioned.fill(
-                                                    top: 0,
-                                                    left: 3,
-                                                    child: RichText(
-                                                      text: TextSpan(
-                                                        text: 'Nv. ',
-                                                        style:
-                                                            DefaultTextStyle.of(
-                                                                    context)
-                                                                .style,
-                                                        children: const [
-                                                          TextSpan(
-                                                            text: '55',
-                                                            style: TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w900),
-                                                          ),
-                                                        ],
+                                                Positioned.fill(
+                                                  bottom: 10,
+                                                  child: Align(
+                                                    alignment:
+                                                        Alignment.bottomCenter,
+                                                    child: Draggable<
+                                                        UserCharacterModel>(
+                                                      data: team3,
+                                                      onDragStarted: () => {
+                                                        setState(() {
+                                                          target = team3;
+                                                          moveTeam3 = false;
+                                                        }),
+                                                      },
+                                                      onDragEnd: (details) => {
+                                                        setState(() {
+                                                          team3 = target;
+                                                          moveTeam3 = true;
+                                                        }),
+                                                      },
+                                                      feedback: Opacity(
+                                                        opacity: 0.8,
+                                                        child: Image.asset(
+                                                          width: 130,
+                                                          getCharacterFront(
+                                                              team3.character
+                                                                  .id),
+                                                          fit: BoxFit.scaleDown,
+                                                        ),
+                                                      ),
+                                                      childWhenDragging:
+                                                          Container(),
+                                                      child: Image.asset(
+                                                        getCharacterFront(
+                                                            team3.character.id),
+                                                        fit: BoxFit.scaleDown,
+                                                        alignment:
+                                                            Alignment.topCenter,
                                                       ),
                                                     ),
                                                   ),
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                      top: 20,
-                                                      left: 10,
-                                                    ),
-                                                    child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Text(
-                                                          'Snorky'
-                                                              .toUpperCase(),
-                                                          style: TextStyle(
-                                                            inherit: true,
-                                                            fontSize: 17,
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            color: Colors.white,
-                                                            shadows: shadows,
-                                                          ),
-                                                          textAlign:
-                                                              TextAlign.left,
-                                                        ),
-                                                        const Expanded(
-                                                          child:
-                                                              ProgressBarComponent(
-                                                            width: 100,
-                                                            height: 30,
-                                                            percentage: 1,
-                                                            isLarge: true,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
+                                                ),
+                                              ],
                                             ),
                                           ),
-                                        ),
-                                        Expanded(
-                                          flex: 2,
-                                          child: Stack(
-                                            children: [
-                                              Align(
-                                                alignment:
-                                                    Alignment.bottomCenter,
-                                                child: Image.asset(
-                                                  monShadow,
-                                                  fit: BoxFit.contain,
-                                                ),
-                                              ),
-                                              Positioned.fill(
-                                                bottom: 10,
-                                                child: Align(
-                                                  alignment:
-                                                      Alignment.bottomCenter,
-                                                  child: Image.asset(
-                                                    monFrontSnorky,
-                                                    fit: BoxFit.scaleDown,
-                                                    alignment:
-                                                        Alignment.topCenter,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        const Spacer(),
-                                      ],
+                                          const Spacer(),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ],
