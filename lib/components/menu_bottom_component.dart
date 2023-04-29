@@ -458,12 +458,15 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
                                             flex: 2,
                                             child: Stack(
                                               children: [
-                                                Align(
-                                                  alignment:
-                                                      Alignment.bottomCenter,
-                                                  child: Image.asset(
-                                                    monShadow,
-                                                    fit: BoxFit.contain,
+                                                Opacity(
+                                                  opacity: moveTeam2 ? 1 : 0,
+                                                  child: Align(
+                                                    alignment:
+                                                        Alignment.bottomCenter,
+                                                    child: Image.asset(
+                                                      monShadow,
+                                                      fit: BoxFit.contain,
+                                                    ),
                                                   ),
                                                 ),
                                                 Positioned.fill(
@@ -628,12 +631,15 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
                                             flex: 2,
                                             child: Stack(
                                               children: [
-                                                Align(
-                                                  alignment:
-                                                      Alignment.bottomCenter,
-                                                  child: Image.asset(
-                                                    monShadow,
-                                                    fit: BoxFit.contain,
+                                                Opacity(
+                                                  opacity: moveTeam3 ? 1 : 0,
+                                                  child: Align(
+                                                    alignment:
+                                                        Alignment.bottomCenter,
+                                                    child: Image.asset(
+                                                      monShadow,
+                                                      fit: BoxFit.contain,
+                                                    ),
                                                   ),
                                                 ),
                                                 Positioned.fill(
