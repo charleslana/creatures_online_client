@@ -236,6 +236,25 @@ String getCharacterTooltip(CharacterType type) {
   }
 }
 
+String getCharacterThumb(CharacterType type) {
+  switch (type) {
+    case CharacterType.earth:
+      return paneThumbEarth;
+    case CharacterType.dark:
+      return paneThumbDark;
+    case CharacterType.diamond:
+      return paneThumbDiamond;
+    case CharacterType.electric:
+      return paneThumbElec;
+    case CharacterType.fire:
+      return paneThumbFire;
+    case CharacterType.water:
+      return paneThumbWater;
+    default:
+      return "";
+  }
+}
+
 String getCharacterFront(int id) {
   switch (id) {
     case 1:
@@ -244,7 +263,34 @@ String getCharacterFront(int id) {
       return monFrontMenza;
     case 3:
       return monFrontSnorky;
+    case 4:
+      return monFrontAmuranther;
     default:
       return "";
+  }
+}
+
+String getCharacterIcon(int id) {
+  switch (id) {
+    case 1:
+      return monIconKikflick;
+    case 2:
+      return monIconMenza;
+    case 3:
+      return monIconSnorky;
+    case 4:
+      return monIconAmuranther;
+    default:
+      return "";
+  }
+}
+
+extension IterableExtensions<T> on Iterable<T> {
+  T? firstWhereOrNull(bool Function(T element) comparator) {
+    try {
+      return firstWhere(comparator);
+    } on StateError catch (_) {
+      return null;
+    }
   }
 }

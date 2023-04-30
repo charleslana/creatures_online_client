@@ -19,51 +19,99 @@ class MenuBottomComponent extends ConsumerStatefulWidget {
       _MenuBottomComponentState();
 }
 
+List<UserCharacterModel> userCharacterData = [
+  UserCharacterModel(
+    id: 1,
+    level: 55,
+    hpMin: 100,
+    hpMax: 100,
+    slot: 1,
+    character: CharacterModel(
+      id: 1,
+      name: "Kikflick",
+      image: monFrontKikflick,
+      type: CharacterType.earth,
+    ),
+  ),
+  UserCharacterModel(
+    id: 2,
+    level: 55,
+    hpMin: 100,
+    hpMax: 100,
+    slot: 2,
+    character: CharacterModel(
+      id: 2,
+      name: "Menza",
+      image: monFrontMenza,
+      type: CharacterType.fire,
+    ),
+  ),
+  UserCharacterModel(
+    id: 3,
+    level: 55,
+    hpMin: 100,
+    hpMax: 100,
+    slot: 0,
+    character: CharacterModel(
+      id: 3,
+      name: "Snorky",
+      image: monFrontSnorky,
+      type: CharacterType.water,
+    ),
+  ),
+  UserCharacterModel(
+    id: 4,
+    level: 1,
+    hpMin: 50,
+    hpMax: 100,
+    slot: 0,
+    character: CharacterModel(
+      id: 4,
+      name: "Amuranther",
+      image: monFrontAmuranther,
+      type: CharacterType.dark,
+    ),
+  ),
+  UserCharacterModel(
+    id: 5,
+    level: 5,
+    hpMin: 70,
+    hpMax: 100,
+    slot: 0,
+    character: CharacterModel(
+      id: 4,
+      name: "Amuranther",
+      image: monFrontAmuranther,
+      type: CharacterType.dark,
+    ),
+  ),
+];
+
 class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
-  late UserCharacterModel team1;
-  late UserCharacterModel team2;
-  late UserCharacterModel team3;
-  late UserCharacterModel target;
+  late List<UserCharacterModel> unequippedTeam;
+  int teamCounts = 6;
+  late UserCharacterModel? team1;
+  late UserCharacterModel? team2;
+  late UserCharacterModel? team3;
+  late UserCharacterModel? target;
   bool moveTeam1 = true;
   bool moveTeam2 = true;
   bool moveTeam3 = true;
+  bool drag = false;
+  bool drop = false;
 
   @override
   void initState() {
-    team1 = UserCharacterModel(
-      level: 55,
-      hpMin: 100,
-      hpMax: 100,
-      character: CharacterModel(
-        id: 1,
-        name: "Kikflick",
-        image: monFrontKikflick,
-        type: CharacterType.earth,
-      ),
-    );
-    team2 = UserCharacterModel(
-      level: 55,
-      hpMin: 100,
-      hpMax: 100,
-      character: CharacterModel(
-        id: 2,
-        name: "Menza",
-        image: monFrontMenza,
-        type: CharacterType.fire,
-      ),
-    );
-    team3 = UserCharacterModel(
-      level: 55,
-      hpMin: 100,
-      hpMax: 100,
-      character: CharacterModel(
-        id: 3,
-        name: "Snorky",
-        image: monFrontSnorky,
-        type: CharacterType.water,
-      ),
-    );
+    mountTeam();
     super.initState();
+  }
+
+  void mountTeam() {
+    team1 = userCharacterData.firstWhereOrNull((uc) => uc.slot == 1);
+    team2 = userCharacterData.firstWhereOrNull((uc) => uc.slot == 2);
+    team3 = userCharacterData.firstWhereOrNull((uc) => uc.slot == 3);
+    unequippedTeam = userCharacterData.where((uc) => uc.slot == 0).toList();
+    teamCounts = teamCounts - unequippedTeam.length;
   }
 
   @override
@@ -172,526 +220,9 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
                             Expanded(
                               child: Row(
                                 children: [
-                                  //team 1
-                                  Expanded(
-                                    child: DragTarget<UserCharacterModel>(
-                                      onAccept: (data) => {
-                                        setState(() {
-                                          target = team1;
-                                          team1 = data;
-                                        }),
-                                      },
-                                      builder: (context, _, __) => Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Expanded(
-                                            flex: 1,
-                                            child: Visibility(
-                                              visible: moveTeam1,
-                                              child: Align(
-                                                alignment:
-                                                    Alignment.bottomCenter,
-                                                child: Container(
-                                                  width: double.infinity,
-                                                  decoration: BoxDecoration(
-                                                    image: DecorationImage(
-                                                      image: AssetImage(
-                                                          getCharacterTooltip(
-                                                              team1.character
-                                                                  .type)),
-                                                      fit: BoxFit.scaleDown,
-                                                      alignment:
-                                                          Alignment.topCenter,
-                                                    ),
-                                                  ),
-                                                  child: Stack(
-                                                    clipBehavior: Clip.none,
-                                                    children: [
-                                                      Positioned.fill(
-                                                        top: 0,
-                                                        left: 3,
-                                                        child: RichText(
-                                                          text: TextSpan(
-                                                            text: 'Nv. ',
-                                                            style: DefaultTextStyle
-                                                                    .of(context)
-                                                                .style,
-                                                            children: [
-                                                              TextSpan(
-                                                                text: team1
-                                                                    .level
-                                                                    .toString(),
-                                                                style: const TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w900),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .only(
-                                                          top: 20,
-                                                          left: 10,
-                                                        ),
-                                                        child: Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            Text(
-                                                              team1.character
-                                                                  .name
-                                                                  .toUpperCase(),
-                                                              style: TextStyle(
-                                                                inherit: true,
-                                                                fontSize: 17,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500,
-                                                                color: Colors
-                                                                    .white,
-                                                                shadows:
-                                                                    shadows,
-                                                              ),
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .left,
-                                                            ),
-                                                            Expanded(
-                                                              child:
-                                                                  ProgressBarComponent(
-                                                                width: 100,
-                                                                height: 30,
-                                                                percentage: team1
-                                                                        .hpMin /
-                                                                    team1.hpMax,
-                                                                isLarge: true,
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          Expanded(
-                                            flex: 2,
-                                            child: Stack(
-                                              children: [
-                                                Opacity(
-                                                  opacity: moveTeam1 ? 1 : 0,
-                                                  child: Align(
-                                                    alignment:
-                                                        Alignment.bottomCenter,
-                                                    child: Image.asset(
-                                                      monShadow,
-                                                      fit: BoxFit.contain,
-                                                    ),
-                                                  ),
-                                                ),
-                                                Positioned.fill(
-                                                  bottom: 10,
-                                                  child: Align(
-                                                    alignment:
-                                                        Alignment.bottomCenter,
-                                                    child: Draggable<
-                                                        UserCharacterModel>(
-                                                      data: team1,
-                                                      onDragStarted: () => {
-                                                        setState(() {
-                                                          target = team1;
-                                                          moveTeam1 = false;
-                                                        }),
-                                                      },
-                                                      onDragEnd: (details) => {
-                                                        setState(() {
-                                                          team1 = target;
-                                                          moveTeam1 = true;
-                                                        }),
-                                                      },
-                                                      feedback: Opacity(
-                                                        opacity: 0.8,
-                                                        child: Image.asset(
-                                                          width: 130,
-                                                          getCharacterFront(
-                                                              team1.character
-                                                                  .id),
-                                                          fit: BoxFit.scaleDown,
-                                                        ),
-                                                      ),
-                                                      childWhenDragging:
-                                                          Container(),
-                                                      child: Image.asset(
-                                                        getCharacterFront(
-                                                            team1.character.id),
-                                                        fit: BoxFit.scaleDown,
-                                                        alignment:
-                                                            Alignment.topCenter,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          const Spacer(),
-                                        ],
-                                      ),
-                                    ),
-                                  ), //team 2
-                                  Expanded(
-                                    child: DragTarget<UserCharacterModel>(
-                                      onAccept: (data) => {
-                                        setState(() {
-                                          target = team2;
-                                          team2 = data;
-                                        }),
-                                      },
-                                      builder: (context, _, __) => Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Expanded(
-                                            flex: 1,
-                                            child: Visibility(
-                                              visible: moveTeam2,
-                                              child: Align(
-                                                alignment:
-                                                    Alignment.bottomCenter,
-                                                child: Container(
-                                                  width: double.infinity,
-                                                  decoration: BoxDecoration(
-                                                    image: DecorationImage(
-                                                      image: AssetImage(
-                                                          getCharacterTooltip(
-                                                              team2.character
-                                                                  .type)),
-                                                      fit: BoxFit.scaleDown,
-                                                      alignment:
-                                                          Alignment.topCenter,
-                                                    ),
-                                                  ),
-                                                  child: Stack(
-                                                    clipBehavior: Clip.none,
-                                                    children: [
-                                                      Positioned.fill(
-                                                        top: 0,
-                                                        left: 3,
-                                                        child: RichText(
-                                                          text: TextSpan(
-                                                            text: 'Nv. ',
-                                                            style: DefaultTextStyle
-                                                                    .of(context)
-                                                                .style,
-                                                            children: [
-                                                              TextSpan(
-                                                                text: team2
-                                                                    .level
-                                                                    .toString(),
-                                                                style: const TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w900),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .only(
-                                                          top: 20,
-                                                          left: 10,
-                                                        ),
-                                                        child: Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            Text(
-                                                              team2.character
-                                                                  .name
-                                                                  .toUpperCase(),
-                                                              style: TextStyle(
-                                                                inherit: true,
-                                                                fontSize: 17,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500,
-                                                                color: Colors
-                                                                    .white,
-                                                                shadows:
-                                                                    shadows,
-                                                              ),
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .left,
-                                                            ),
-                                                            Expanded(
-                                                              child:
-                                                                  ProgressBarComponent(
-                                                                width: 100,
-                                                                height: 30,
-                                                                percentage: team2
-                                                                        .hpMin /
-                                                                    team2.hpMax,
-                                                                isLarge: true,
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          Expanded(
-                                            flex: 2,
-                                            child: Stack(
-                                              children: [
-                                                Opacity(
-                                                  opacity: moveTeam2 ? 1 : 0,
-                                                  child: Align(
-                                                    alignment:
-                                                        Alignment.bottomCenter,
-                                                    child: Image.asset(
-                                                      monShadow,
-                                                      fit: BoxFit.contain,
-                                                    ),
-                                                  ),
-                                                ),
-                                                Positioned.fill(
-                                                  bottom: 10,
-                                                  child: Align(
-                                                    alignment:
-                                                        Alignment.bottomCenter,
-                                                    child: Draggable<
-                                                        UserCharacterModel>(
-                                                      data: team2,
-                                                      onDragStarted: () => {
-                                                        setState(() {
-                                                          target = team2;
-                                                          moveTeam2 = false;
-                                                        }),
-                                                      },
-                                                      onDragEnd: (details) => {
-                                                        setState(() {
-                                                          team2 = target;
-                                                          moveTeam2 = true;
-                                                        }),
-                                                      },
-                                                      feedback: Opacity(
-                                                        opacity: 0.8,
-                                                        child: Image.asset(
-                                                          width: 130,
-                                                          getCharacterFront(
-                                                              team2.character
-                                                                  .id),
-                                                          fit: BoxFit.scaleDown,
-                                                        ),
-                                                      ),
-                                                      childWhenDragging:
-                                                          Container(),
-                                                      child: Image.asset(
-                                                        getCharacterFront(
-                                                            team2.character.id),
-                                                        fit: BoxFit.scaleDown,
-                                                        alignment:
-                                                            Alignment.topCenter,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          const Spacer(),
-                                        ],
-                                      ),
-                                    ),
-                                  ), //team 3
-                                  Expanded(
-                                    child: DragTarget<UserCharacterModel>(
-                                      onAccept: (data) => {
-                                        setState(() {
-                                          target = team3;
-                                          team3 = data;
-                                        }),
-                                      },
-                                      builder: (context, _, __) => Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Expanded(
-                                            flex: 1,
-                                            child: Visibility(
-                                              visible: moveTeam3,
-                                              child: Align(
-                                                alignment:
-                                                    Alignment.bottomCenter,
-                                                child: Container(
-                                                  width: double.infinity,
-                                                  decoration: BoxDecoration(
-                                                    image: DecorationImage(
-                                                      image: AssetImage(
-                                                          getCharacterTooltip(
-                                                              team3.character
-                                                                  .type)),
-                                                      fit: BoxFit.scaleDown,
-                                                      alignment:
-                                                          Alignment.topCenter,
-                                                    ),
-                                                  ),
-                                                  child: Stack(
-                                                    clipBehavior: Clip.none,
-                                                    children: [
-                                                      Positioned.fill(
-                                                        top: 0,
-                                                        left: 3,
-                                                        child: RichText(
-                                                          text: TextSpan(
-                                                            text: 'Nv. ',
-                                                            style: DefaultTextStyle
-                                                                    .of(context)
-                                                                .style,
-                                                            children: [
-                                                              TextSpan(
-                                                                text: team3
-                                                                    .level
-                                                                    .toString(),
-                                                                style: const TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w900),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .only(
-                                                          top: 20,
-                                                          left: 10,
-                                                        ),
-                                                        child: Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            Text(
-                                                              team3.character
-                                                                  .name
-                                                                  .toUpperCase(),
-                                                              style: TextStyle(
-                                                                inherit: true,
-                                                                fontSize: 17,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500,
-                                                                color: Colors
-                                                                    .white,
-                                                                shadows:
-                                                                    shadows,
-                                                              ),
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .left,
-                                                            ),
-                                                            Expanded(
-                                                              child:
-                                                                  ProgressBarComponent(
-                                                                width: 100,
-                                                                height: 30,
-                                                                percentage: team3
-                                                                        .hpMin /
-                                                                    team3.hpMax,
-                                                                isLarge: true,
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          Expanded(
-                                            flex: 2,
-                                            child: Stack(
-                                              children: [
-                                                Opacity(
-                                                  opacity: moveTeam3 ? 1 : 0,
-                                                  child: Align(
-                                                    alignment:
-                                                        Alignment.bottomCenter,
-                                                    child: Image.asset(
-                                                      monShadow,
-                                                      fit: BoxFit.contain,
-                                                    ),
-                                                  ),
-                                                ),
-                                                Positioned.fill(
-                                                  bottom: 10,
-                                                  child: Align(
-                                                    alignment:
-                                                        Alignment.bottomCenter,
-                                                    child: Draggable<
-                                                        UserCharacterModel>(
-                                                      data: team3,
-                                                      onDragStarted: () => {
-                                                        setState(() {
-                                                          target = team3;
-                                                          moveTeam3 = false;
-                                                        }),
-                                                      },
-                                                      onDragEnd: (details) => {
-                                                        setState(() {
-                                                          team3 = target;
-                                                          moveTeam3 = true;
-                                                        }),
-                                                      },
-                                                      feedback: Opacity(
-                                                        opacity: 0.8,
-                                                        child: Image.asset(
-                                                          width: 130,
-                                                          getCharacterFront(
-                                                              team3.character
-                                                                  .id),
-                                                          fit: BoxFit.scaleDown,
-                                                        ),
-                                                      ),
-                                                      childWhenDragging:
-                                                          Container(),
-                                                      child: Image.asset(
-                                                        getCharacterFront(
-                                                            team3.character.id),
-                                                        fit: BoxFit.scaleDown,
-                                                        alignment:
-                                                            Alignment.topCenter,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          const Spacer(),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
+                                  _teamSlot1(setState),
+                                  _teamSlot2(setState),
+                                  _teamSlot3(setState),
                                 ],
                               ),
                             ),
@@ -714,14 +245,37 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
                                       mainAxisSpacing: 20,
                                       crossAxisSpacing: 20,
                                       crossAxisCount: 2,
-                                      children: List.generate(10, (index) {
-                                        return Card(
+                                      children: List.generate(
+                                          unequippedTeam.length + teamCounts,
+                                          (index) {
+                                        if (index < unequippedTeam.length) {
+                                          final userCharacter =
+                                              unequippedTeam[index];
+                                          return Card(
+                                            elevation: 0,
+                                            shape: const RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.only(
+                                                bottomLeft: Radius.circular(15),
+                                                topLeft: Radius.circular(15),
+                                                bottomRight:
+                                                    Radius.circular(10),
+                                                topRight: Radius.circular(10),
+                                              ),
+                                            ),
+                                            color: const Color(0xffe7daa2),
+                                            child: _buildTeamUnequipped(
+                                                userCharacter,
+                                                context,
+                                                setState),
+                                          );
+                                        }
+                                        return const Card(
                                           elevation: 0,
-                                          shape: const RoundedRectangleBorder(
-                                            // side: BorderSide(
-                                            //   color: Color(0xffdaca9c),
-                                            //   width: 4,
-                                            // ),
+                                          shape: RoundedRectangleBorder(
+                                            side: BorderSide(
+                                              color: Color(0xffdaca9c),
+                                              width: 4,
+                                            ),
                                             borderRadius: BorderRadius.only(
                                               bottomLeft: Radius.circular(15),
                                               topLeft: Radius.circular(15),
@@ -729,11 +283,7 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
                                               topRight: Radius.circular(10),
                                             ),
                                           ),
-                                          color: const Color(0xffe7daa2),
-                                          child: _buildTeamUnequipped(
-                                              index == 0,
-                                              context,
-                                              hudPaneThumbDark),
+                                          color: Color(0xffe7daa2),
                                         );
                                       }),
                                     ),
@@ -755,13 +305,619 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
     );
   }
 
-  Widget _buildTeamUnequipped(bool hasValue, BuildContext context,
-      [String? image]) {
-    if (hasValue) {
-      return Container(
+  Widget _teamSlot1(Function setState) {
+    if (team1 == null) {
+      return Expanded(
+        child: DragTarget<UserCharacterModel>(
+          onAccept: (data) => {
+            setState(() {
+              target = team1;
+              team1 = data;
+              data.slot = 1;
+              unequippedTeam.removeWhere((element) => element.id == data.id);
+              teamCounts = teamCounts + 1;
+            }),
+          },
+          onWillAccept: (data) => data!.slot == 0,
+          builder: (context, _, __) => Visibility(
+            visible: drop,
+            child: Column(
+              children: [
+                const Spacer(),
+                Expanded(
+                  child: SizedBox.expand(
+                    child: Container(
+                      color: Colors.green.withOpacity(0.3),
+                      child: const Center(
+                        child: Text(
+                          'Slot 1',
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                const Spacer(),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+    return Expanded(
+      child: DragTarget<UserCharacterModel>(
+        onAccept: (data) => {
+          setState(() {
+            target = team1!;
+            team1 = data;
+            target?.slot = data.slot;
+            data.slot = 1;
+            if (data.slot > 0 && target!.slot > 0) {
+              return;
+            }
+            target?.slot = 0;
+            unequippedTeam.add(target!);
+            unequippedTeam.removeWhere((element) => element.id == data.id);
+          }),
+        },
+        builder: (context, _, __) => Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Expanded(
+              flex: 1,
+              child: Visibility(
+                visible: moveTeam1,
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage(
+                            getCharacterTooltip(team1!.character.type)),
+                        fit: BoxFit.scaleDown,
+                        alignment: Alignment.topCenter,
+                      ),
+                    ),
+                    child: Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        Positioned.fill(
+                          top: 0,
+                          left: 3,
+                          child: RichText(
+                            text: TextSpan(
+                              text: 'Nv. ',
+                              style: DefaultTextStyle.of(context).style,
+                              children: [
+                                TextSpan(
+                                  text: team1!.level.toString(),
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.w900),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            top: 20,
+                            left: 10,
+                            right: 10,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Text(
+                                  team1!.character.name.toUpperCase(),
+                                  style: TextStyle(
+                                    inherit: true,
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.white,
+                                    shadows: shadows,
+                                  ),
+                                  textAlign: TextAlign.left,
+                                ),
+                              ),
+                              Expanded(
+                                child: ProgressBarComponent(
+                                  width: 100,
+                                  height: 30,
+                                  percentage: team1!.hpMin / team1!.hpMax,
+                                  isLarge: true,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+              flex: 2,
+              child: Stack(
+                children: [
+                  Opacity(
+                    opacity: moveTeam1 ? 1 : 0,
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Image.asset(
+                        monShadow,
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                  ),
+                  Positioned.fill(
+                    bottom: 10,
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Draggable<UserCharacterModel>(
+                        data: team1,
+                        onDragStarted: () => {
+                          setState(() {
+                            target = team1!;
+                            moveTeam1 = false;
+                            drag = true;
+                          }),
+                        },
+                        onDragEnd: (details) => {
+                          setState(() {
+                            team1 = target;
+                            moveTeam1 = true;
+                            drag = false;
+                          }),
+                        },
+                        feedback: Image.asset(
+                          width: 130,
+                          getCharacterFront(team1!.character.id),
+                          fit: BoxFit.scaleDown,
+                        ),
+                        childWhenDragging: Container(),
+                        child: Opacity(
+                          opacity: drag ? 0.5 : 1,
+                          child: Image.asset(
+                            getCharacterFront(team1!.character.id),
+                            fit: BoxFit.scaleDown,
+                            alignment: Alignment.topCenter,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const Spacer(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _teamSlot2(Function setState) {
+    if (team2 == null) {
+      return Expanded(
+        child: DragTarget<UserCharacterModel>(
+          onAccept: (data) => {
+            setState(() {
+              target = team2;
+              team2 = data;
+              data.slot = 2;
+              unequippedTeam.removeWhere((element) => element.id == data.id);
+              teamCounts = teamCounts + 1;
+            }),
+          },
+          onWillAccept: (data) => data!.slot == 0,
+          builder: (context, _, __) => Visibility(
+            visible: drop,
+            child: Column(
+              children: [
+                const Spacer(),
+                Expanded(
+                  child: SizedBox.expand(
+                    child: Container(
+                      color: Colors.green.withOpacity(0.3),
+                      child: const Center(
+                        child: Text(
+                          'Slot 2',
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                const Spacer(),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+    return Expanded(
+      child: DragTarget<UserCharacterModel>(
+        onAccept: (data) => {
+          setState(() {
+            target = team2;
+            team2 = data;
+            target?.slot = data.slot;
+            data.slot = 2;
+            if (data.slot > 0 && target!.slot > 0) {
+              return;
+            }
+            target?.slot = 0;
+            unequippedTeam.add(target!);
+            unequippedTeam.removeWhere((element) => element.id == data.id);
+          }),
+        },
+        builder: (context, _, __) => Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Expanded(
+              flex: 1,
+              child: Visibility(
+                visible: moveTeam2,
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage(
+                            getCharacterTooltip(team2!.character.type)),
+                        fit: BoxFit.scaleDown,
+                        alignment: Alignment.topCenter,
+                      ),
+                    ),
+                    child: Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        Positioned.fill(
+                          top: 0,
+                          left: 3,
+                          child: RichText(
+                            text: TextSpan(
+                              text: 'Nv. ',
+                              style: DefaultTextStyle.of(context).style,
+                              children: [
+                                TextSpan(
+                                  text: team2!.level.toString(),
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.w900),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            top: 20,
+                            left: 10,
+                            right: 10,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Text(
+                                  team2!.character.name.toUpperCase(),
+                                  style: TextStyle(
+                                    inherit: true,
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.white,
+                                    shadows: shadows,
+                                  ),
+                                  textAlign: TextAlign.left,
+                                ),
+                              ),
+                              Expanded(
+                                child: ProgressBarComponent(
+                                  width: 100,
+                                  height: 30,
+                                  percentage: team2!.hpMin / team2!.hpMax,
+                                  isLarge: true,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+              flex: 2,
+              child: Stack(
+                children: [
+                  Opacity(
+                    opacity: moveTeam2 ? 1 : 0,
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Image.asset(
+                        monShadow,
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                  ),
+                  Positioned.fill(
+                    bottom: 10,
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Draggable<UserCharacterModel>(
+                        data: team2,
+                        onDragStarted: () => {
+                          setState(() {
+                            target = team2;
+                            moveTeam2 = false;
+                            drag = true;
+                          }),
+                        },
+                        onDragEnd: (details) => {
+                          setState(() {
+                            team2 = target;
+                            moveTeam2 = true;
+                            drag = false;
+                          }),
+                        },
+                        feedback: Image.asset(
+                          width: 130,
+                          getCharacterFront(team2!.character.id),
+                          fit: BoxFit.scaleDown,
+                        ),
+                        childWhenDragging: Container(),
+                        child: Opacity(
+                          opacity: drag ? 0.5 : 1,
+                          child: Image.asset(
+                            getCharacterFront(team2!.character.id),
+                            fit: BoxFit.scaleDown,
+                            alignment: Alignment.topCenter,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const Spacer(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _teamSlot3(Function setState) {
+    if (team3 == null) {
+      return Expanded(
+        child: DragTarget<UserCharacterModel>(
+          onAccept: (data) => {
+            setState(() {
+              target = team3;
+              team3 = data;
+              data.slot = 3;
+              unequippedTeam.removeWhere((element) => element.id == data.id);
+              teamCounts = teamCounts + 1;
+            }),
+          },
+          onWillAccept: (data) => data!.slot == 0,
+          builder: (context, _, __) => Visibility(
+            visible: drop,
+            child: Column(
+              children: [
+                const Spacer(),
+                Expanded(
+                  child: SizedBox.expand(
+                    child: Container(
+                      color: Colors.green.withOpacity(0.3),
+                      child: const Center(
+                        child: Text(
+                          'Slot 3',
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                const Spacer(),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+    return Expanded(
+      child: DragTarget<UserCharacterModel>(
+        onAccept: (data) => {
+          setState(() {
+            target = team3;
+            team3 = data;
+            target?.slot = data.slot;
+            data.slot = 3;
+            if (data.slot > 0 && target!.slot > 0) {
+              return;
+            }
+            target?.slot = 0;
+            unequippedTeam.add(target!);
+            unequippedTeam.removeWhere((element) => element.id == data.id);
+          }),
+        },
+        builder: (context, _, __) => Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Expanded(
+              flex: 1,
+              child: Visibility(
+                visible: moveTeam3,
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage(
+                            getCharacterTooltip(team3!.character.type)),
+                        fit: BoxFit.scaleDown,
+                        alignment: Alignment.topCenter,
+                      ),
+                    ),
+                    child: Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        Positioned.fill(
+                          top: 0,
+                          left: 3,
+                          child: RichText(
+                            text: TextSpan(
+                              text: 'Nv. ',
+                              style: DefaultTextStyle.of(context).style,
+                              children: [
+                                TextSpan(
+                                  text: team3!.level.toString(),
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.w900),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            top: 20,
+                            left: 10,
+                            right: 10,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Text(
+                                  team3!.character.name.toUpperCase(),
+                                  style: TextStyle(
+                                    inherit: true,
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.white,
+                                    shadows: shadows,
+                                  ),
+                                  textAlign: TextAlign.left,
+                                ),
+                              ),
+                              Expanded(
+                                child: ProgressBarComponent(
+                                  width: 100,
+                                  height: 30,
+                                  percentage: team3!.hpMin / team3!.hpMax,
+                                  isLarge: true,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+              flex: 2,
+              child: Stack(
+                children: [
+                  Opacity(
+                    opacity: moveTeam3 ? 1 : 0,
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Image.asset(
+                        monShadow,
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                  ),
+                  Positioned.fill(
+                    bottom: 10,
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Draggable<UserCharacterModel>(
+                        data: team3,
+                        onDragStarted: () => {
+                          setState(() {
+                            target = team3;
+                            moveTeam3 = false;
+                            drag = true;
+                          }),
+                        },
+                        onDragEnd: (details) => {
+                          setState(() {
+                            team3 = target;
+                            moveTeam3 = true;
+                            drag = false;
+                          }),
+                        },
+                        feedback: Image.asset(
+                          width: 130,
+                          getCharacterFront(team3!.character.id),
+                          fit: BoxFit.scaleDown,
+                        ),
+                        childWhenDragging: Container(),
+                        child: Opacity(
+                          opacity: drag ? 0.5 : 1,
+                          child: Image.asset(
+                            getCharacterFront(team3!.character.id),
+                            fit: BoxFit.scaleDown,
+                            alignment: Alignment.topCenter,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const Spacer(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTeamUnequipped(UserCharacterModel userCharacter,
+      BuildContext context, Function setState) {
+    return Draggable<UserCharacterModel>(
+      data: userCharacter,
+      onDragStarted: () => {
+        setState(() {
+          // target = team1!;
+          drag = true;
+          drop = true;
+        }),
+      },
+      onDragEnd: (details) => {
+        setState(() {
+          // team1 = target;
+          drag = false;
+          drop = false;
+        }),
+      },
+      feedback: Image.asset(
+        height: 100,
+        getCharacterFront(userCharacter.character.id),
+        fit: BoxFit.scaleDown,
+      ),
+      childWhenDragging: Container(),
+      child: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage(image!),
+            image: AssetImage(getCharacterThumb(userCharacter.character.type)),
             fit: BoxFit.contain,
           ),
         ),
@@ -774,7 +930,8 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
                   flex: 3,
                   child: Padding(
                     padding: const EdgeInsets.only(left: 10),
-                    child: Image.asset(monIconAmuranther),
+                    child: Image.asset(
+                        getCharacterIcon(userCharacter.character.id)),
                   ),
                 ),
                 const SizedBox(width: 5),
@@ -790,11 +947,11 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
                               text: TextSpan(
                                 text: 'Nv. ',
                                 style: DefaultTextStyle.of(context).style,
-                                children: const [
+                                children: [
                                   TextSpan(
-                                    text: '55',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.w900),
+                                    text: userCharacter.level.toString(),
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.w900),
                                   ),
                                 ],
                               ),
@@ -802,11 +959,11 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
                           ],
                         ),
                       ),
-                      const Expanded(
+                      Expanded(
                         child: ProgressBarComponent(
                           width: 50,
                           height: 20,
-                          percentage: 0.5,
+                          percentage: userCharacter.hpMin / userCharacter.hpMax,
                         ),
                       ),
                     ],
@@ -819,26 +976,28 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
             ),
             Positioned.fill(
               top: -5,
-              child: FittedBox(
-                fit: BoxFit.scaleDown,
-                alignment: Alignment.topCenter,
-                child: Text(
-                  'Amuranther'.toUpperCase(),
-                  style: TextStyle(
-                    inherit: true,
-                    fontSize: 17,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.white,
-                    shadows: shadows,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  alignment: Alignment.topCenter,
+                  child: Text(
+                    userCharacter.character.name.toUpperCase(),
+                    style: TextStyle(
+                      inherit: true,
+                      fontSize: 17,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white,
+                      shadows: shadows,
+                    ),
+                    textAlign: TextAlign.center,
                   ),
-                  textAlign: TextAlign.center,
                 ),
               ),
             ),
           ],
         ),
-      );
-    }
-    return Container();
+      ),
+    );
   }
 }
