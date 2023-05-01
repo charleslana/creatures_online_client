@@ -400,6 +400,9 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
       child: DragTarget<UserCharacterModel>(
         onAccept: (data) => {
           setState(() {
+            if (data == team1) {
+              return;
+            }
             change = true;
             target = team1!;
             team1 = data;
@@ -597,6 +600,9 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
       child: DragTarget<UserCharacterModel>(
         onAccept: (data) => {
           setState(() {
+            if (data == team2) {
+              return;
+            }
             change = true;
             target = team2;
             team2 = data;
@@ -794,6 +800,9 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
       child: DragTarget<UserCharacterModel>(
         onAccept: (data) => {
           setState(() {
+            if (data == team3) {
+              return;
+            }
             change = true;
             target = team3;
             team3 = data;
