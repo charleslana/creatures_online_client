@@ -30,7 +30,6 @@ List<UserCharacterModel> userCharacterData = [
     character: CharacterModel(
       id: 1,
       name: "Kikflick",
-      image: monFrontKikflick,
       type: CharacterType.earth,
     ),
   ),
@@ -43,7 +42,6 @@ List<UserCharacterModel> userCharacterData = [
     character: CharacterModel(
       id: 2,
       name: "Menza",
-      image: monFrontMenza,
       type: CharacterType.fire,
     ),
   ),
@@ -56,7 +54,6 @@ List<UserCharacterModel> userCharacterData = [
     character: CharacterModel(
       id: 3,
       name: "Snorky",
-      image: monFrontSnorky,
       type: CharacterType.water,
     ),
   ),
@@ -69,7 +66,6 @@ List<UserCharacterModel> userCharacterData = [
     character: CharacterModel(
       id: 4,
       name: "Amuranther",
-      image: monFrontAmuranther,
       type: CharacterType.dark,
     ),
   ),
@@ -82,7 +78,6 @@ List<UserCharacterModel> userCharacterData = [
     character: CharacterModel(
       id: 4,
       name: "Amuranther",
-      image: monFrontAmuranther,
       type: CharacterType.dark,
     ),
   ),
