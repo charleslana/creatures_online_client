@@ -8,18 +8,20 @@ class GreenButtonComponent extends StatelessWidget {
     Key? key,
     required this.text,
     required this.callback,
+    this.isBig = true,
   }) : super(key: key);
 
   final String text;
   final VoidCallback callback;
+  final bool isBig;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: callback,
       child: Container(
-        width: 210,
-        height: 90,
+        width: isBig ? 210 : 124,
+        height: isBig ? 90 : 53,
         padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(11.0),
@@ -35,7 +37,7 @@ class GreenButtonComponent extends StatelessWidget {
               text.toUpperCase(),
               style: TextStyle(
                 inherit: true,
-                fontSize: 35,
+                fontSize: isBig ? 35 : 20,
                 fontWeight: FontWeight.w500,
                 color: Colors.white,
                 shadows: shadows,

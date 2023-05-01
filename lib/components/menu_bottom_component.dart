@@ -1,4 +1,5 @@
 import 'package:creatures_online_client/components/green_back_button_component.dart';
+import 'package:creatures_online_client/components/green_button_component.dart';
 import 'package:creatures_online_client/components/progress_bar_component.dart';
 import 'package:creatures_online_client/enums/character_type.dart';
 import 'package:creatures_online_client/models/character_model.dart';
@@ -99,6 +100,7 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
   bool moveTeam3 = true;
   bool drag = false;
   bool drop = false;
+  bool change = false;
 
   @override
   void initState() {
@@ -164,6 +166,38 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
     );
   }
 
+  void _confirm(Function setState) {
+    showDialog(
+      context: context,
+      builder: (BuildContext ctx) {
+        return AlertDialog(
+          titlePadding: EdgeInsets.zero,
+          contentPadding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
+          title: const Text(''),
+          content: const Text(
+              'Uma ou mais alterações foram feitas no seu time, deseja salvar?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  change = false;
+                });
+                pop(context);
+              },
+              child: const Text('Salvar alterações'),
+            ),
+            TextButton(
+              onPressed: () {
+                pop(context);
+              },
+              child: const Text('Cancelar alterações'),
+            )
+          ],
+        );
+      },
+    );
+  }
+
   void showTeam(BuildContext context, WidgetRef ref) {
     clickButton(ref);
     showGeneralDialog(
@@ -178,6 +212,10 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
           return WillPopScope(
             onWillPop: () async {
               clickButton(ref);
+              if (change) {
+                _confirm(setState);
+                return false;
+              }
               return true;
             },
             child: SafeArea(
@@ -198,13 +236,26 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          GreenBackButtonComponent(
-                            text: 'Voltar',
-                            callback: () => {
-                              clickButton(ref),
-                              pop(context),
-                            },
-                          ),
+                          if (change) ...[
+                            GreenButtonComponent(
+                              text: 'Salvar',
+                              callback: () => {
+                                clickButton(ref),
+                                setState(() {
+                                  change = false;
+                                }),
+                              },
+                              isBig: false,
+                            ),
+                          ] else ...[
+                            GreenBackButtonComponent(
+                              text: 'Voltar',
+                              callback: () => {
+                                clickButton(ref),
+                                pop(context),
+                              },
+                            ),
+                          ],
                           SizedBox(
                             width: 40,
                             height: 40,
@@ -311,6 +362,7 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
         child: DragTarget<UserCharacterModel>(
           onAccept: (data) => {
             setState(() {
+              change = true;
               target = team1;
               team1 = data;
               data.slot = 1;
@@ -348,6 +400,7 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
       child: DragTarget<UserCharacterModel>(
         onAccept: (data) => {
           setState(() {
+            change = true;
             target = team1!;
             team1 = data;
             target?.slot = data.slot;
@@ -506,6 +559,7 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
         child: DragTarget<UserCharacterModel>(
           onAccept: (data) => {
             setState(() {
+              change = true;
               target = team2;
               team2 = data;
               data.slot = 2;
@@ -543,6 +597,7 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
       child: DragTarget<UserCharacterModel>(
         onAccept: (data) => {
           setState(() {
+            change = true;
             target = team2;
             team2 = data;
             target?.slot = data.slot;
@@ -701,6 +756,7 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
         child: DragTarget<UserCharacterModel>(
           onAccept: (data) => {
             setState(() {
+              change = true;
               target = team3;
               team3 = data;
               data.slot = 3;
@@ -738,6 +794,7 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
       child: DragTarget<UserCharacterModel>(
         onAccept: (data) => {
           setState(() {
+            change = true;
             target = team3;
             team3 = data;
             target?.slot = data.slot;
@@ -896,14 +953,12 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
       data: userCharacter,
       onDragStarted: () => {
         setState(() {
-          // target = team1!;
           drag = true;
           drop = true;
         }),
       },
       onDragEnd: (details) => {
         setState(() {
-          // team1 = target;
           drag = false;
           drop = false;
         }),
