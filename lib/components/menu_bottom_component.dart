@@ -36,17 +36,14 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
 
   @override
   void initState() {
+    mountTeam();
     super.initState();
   }
 
-  @override
-  void didChangeDependencies() {
-    mountTeam();
-    super.didChangeDependencies();
-  }
-
-  void mountTeam() {
-    userCharacterData = ref.watch(userProvider).value.characters!;
+  Future<void> mountTeam() async {
+    await Future.delayed(const Duration(seconds: 0), () {
+      userCharacterData = ref.watch(userProvider).value.characters!;
+    });
     team1 = userCharacterData.firstWhereOrNull((uc) => uc.slot == 1);
     team2 = userCharacterData.firstWhereOrNull((uc) => uc.slot == 2);
     team3 = userCharacterData.firstWhereOrNull((uc) => uc.slot == 3);
