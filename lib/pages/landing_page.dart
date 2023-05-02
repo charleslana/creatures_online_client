@@ -2,7 +2,7 @@ import 'package:creatures_online_client/components/green_button_component.dart';
 import 'package:creatures_online_client/data/image_data.dart';
 import 'package:creatures_online_client/enums/toast_enum.dart';
 import 'package:creatures_online_client/models/response_model.dart';
-import 'package:creatures_online_client/models/user_mode.dart';
+import 'package:creatures_online_client/models/user_model.dart';
 import 'package:creatures_online_client/providers/loading_provider.dart';
 import 'package:creatures_online_client/providers/user_provider.dart';
 import 'package:creatures_online_client/routes/app_routes.dart';

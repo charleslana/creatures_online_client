@@ -1,5 +1,5 @@
 import 'package:creatures_online_client/models/response_model.dart';
-import 'package:creatures_online_client/models/user_mode.dart';
+import 'package:creatures_online_client/models/user_model.dart';
 import 'package:creatures_online_client/services/shared_local_storage_service.dart';
 import 'package:creatures_online_client/utils/utils.dart';
 import 'package:dio/dio.dart';

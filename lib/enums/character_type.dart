@@ -4,5 +4,9 @@ enum CharacterType {
   earth,
   electric,
   fire,
-  water,
+  water;
+
+  String toJson() => name;
+
+  static CharacterType fromJson(String json) => values.byName(json);
 }

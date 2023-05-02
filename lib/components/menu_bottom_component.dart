@@ -1,9 +1,8 @@
 import 'package:creatures_online_client/components/green_back_button_component.dart';
 import 'package:creatures_online_client/components/green_button_component.dart';
 import 'package:creatures_online_client/components/progress_bar_component.dart';
-import 'package:creatures_online_client/enums/character_type.dart';
-import 'package:creatures_online_client/models/character_model.dart';
 import 'package:creatures_online_client/models/user_character_model.dart';
+import 'package:creatures_online_client/providers/user_provider.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -20,70 +19,8 @@ class MenuBottomComponent extends ConsumerStatefulWidget {
       _MenuBottomComponentState();
 }
 
-List<UserCharacterModel> userCharacterData = [
-  UserCharacterModel(
-    id: 1,
-    level: 55,
-    hpMin: 100,
-    hpMax: 100,
-    slot: 1,
-    character: CharacterModel(
-      id: 1,
-      name: "Kikflick",
-      type: CharacterType.earth,
-    ),
-  ),
-  UserCharacterModel(
-    id: 2,
-    level: 55,
-    hpMin: 100,
-    hpMax: 100,
-    slot: 2,
-    character: CharacterModel(
-      id: 2,
-      name: "Menza",
-      type: CharacterType.fire,
-    ),
-  ),
-  UserCharacterModel(
-    id: 3,
-    level: 55,
-    hpMin: 100,
-    hpMax: 100,
-    slot: 0,
-    character: CharacterModel(
-      id: 3,
-      name: "Snorky",
-      type: CharacterType.water,
-    ),
-  ),
-  UserCharacterModel(
-    id: 4,
-    level: 1,
-    hpMin: 50,
-    hpMax: 100,
-    slot: 0,
-    character: CharacterModel(
-      id: 4,
-      name: "Amuranther",
-      type: CharacterType.dark,
-    ),
-  ),
-  UserCharacterModel(
-    id: 5,
-    level: 5,
-    hpMin: 70,
-    hpMax: 100,
-    slot: 0,
-    character: CharacterModel(
-      id: 4,
-      name: "Amuranther",
-      type: CharacterType.dark,
-    ),
-  ),
-];
-
 class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
+  List<UserCharacterModel> userCharacterData = [];
   late List<UserCharacterModel> unequippedTeam;
   int teamCounts = 6;
   late UserCharacterModel? team1;
@@ -99,11 +36,17 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
 
   @override
   void initState() {
-    mountTeam();
     super.initState();
   }
 
+  @override
+  void didChangeDependencies() {
+    mountTeam();
+    super.didChangeDependencies();
+  }
+
   void mountTeam() {
+    userCharacterData = ref.watch(userProvider).value.characters!;
     team1 = userCharacterData.firstWhereOrNull((uc) => uc.slot == 1);
     team2 = userCharacterData.firstWhereOrNull((uc) => uc.slot == 2);
     team3 = userCharacterData.firstWhereOrNull((uc) => uc.slot == 3);

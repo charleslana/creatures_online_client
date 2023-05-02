@@ -16,4 +16,30 @@ class UserCharacterModel {
   int hpMax;
   int slot;
   final CharacterModel character;
+
+  Map<String, dynamic> toJson() {
+    return {
+      "id": id,
+      "level": level,
+      "hpMin": hpMin,
+      "hpMax": hpMax,
+      "slot": slot,
+      "character": character,
+    };
+  }
+
+  factory UserCharacterModel.fromJson(Map<String, dynamic> json) {
+    return UserCharacterModel(
+      id: json["id"],
+      level: json["level"],
+      hpMin: json["hpMin"],
+      hpMax: json["hpMax"],
+      slot: json["slot"],
+      character: CharacterModel.fromJson(json["character"]),
+    );
+  }
+
+  static List<UserCharacterModel> listFromJson(dynamic list) =>
+      List<UserCharacterModel>.from(
+          list.map((dynamic x) => UserCharacterModel.fromJson(x)));
 }

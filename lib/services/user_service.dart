@@ -3,7 +3,7 @@ import 'package:creatures_online_client/services/shared_local_storage_service.da
 import 'package:dio/dio.dart';
 
 import '../models/response_model.dart';
-import '../models/user_mode.dart';
+import '../models/user_model.dart';
 import '../utils/utils.dart';
 
 class UserService {

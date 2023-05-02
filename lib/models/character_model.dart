@@ -10,4 +10,20 @@ class CharacterModel {
   final int id;
   final String name;
   final CharacterType type;
+
+  Map<String, dynamic> toJson() {
+    return {
+      "id": id,
+      "name": name,
+      "type": type,
+    };
+  }
+
+  factory CharacterModel.fromJson(Map<String, dynamic> json) {
+    return CharacterModel(
+      id: json["id"],
+      name: json["name"],
+      type: CharacterType.fromJson(json["type"]),
+    );
+  }
 }
