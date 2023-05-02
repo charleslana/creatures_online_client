@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:creatures_online_client/models/character_model.dart';
 
 class UserCharacterModel {
@@ -42,4 +44,7 @@ class UserCharacterModel {
   static List<UserCharacterModel> listFromJson(dynamic list) =>
       List<UserCharacterModel>.from(
           list.map((dynamic x) => UserCharacterModel.fromJson(x)));
+
+  static String modelToJson(List<UserCharacterModel> data) =>
+      json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 }

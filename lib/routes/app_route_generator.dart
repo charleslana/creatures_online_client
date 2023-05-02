@@ -1,5 +1,6 @@
 import 'package:creatures_online_client/pages/home_page.dart';
 import 'package:creatures_online_client/pages/landing_page.dart';
+import 'package:creatures_online_client/pages/world_page.dart';
 import 'package:creatures_online_client/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 
@@ -16,6 +17,11 @@ class AppRouteGenerator {
       case homeRoute:
         return MaterialPageRoute(
           builder: (_) => const HomePage(),
+          settings: settings,
+        );
+      case worldRoute:
+        return MaterialPageRoute(
+          builder: (_) => const WorldPage(),
           settings: settings,
         );
       default:

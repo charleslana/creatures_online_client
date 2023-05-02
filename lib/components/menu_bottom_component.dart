@@ -3,11 +3,14 @@ import 'package:creatures_online_client/components/green_button_component.dart';
 import 'package:creatures_online_client/components/progress_bar_component.dart';
 import 'package:creatures_online_client/models/user_character_model.dart';
 import 'package:creatures_online_client/providers/user_provider.dart';
+import 'package:creatures_online_client/routes/app_routes.dart';
+import 'package:creatures_online_client/services/user_character_service.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../data/image_data.dart';
+import '../enums/toast_enum.dart';
 import '../flame/btn_sound_game.dart';
 import '../utils/utils.dart';
 
@@ -33,6 +36,7 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
   bool drag = false;
   bool drop = false;
   bool change = false;
+  final userCharacterService = UserCharacterService();
 
   @override
   void initState() {
@@ -64,7 +68,8 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
         ),
         children: [
           _menu('Loja', btnShop, () => {}),
-          _menu('Mundo', btnWorld, () => {}),
+          _menu('Mundo', btnWorld,
+              () => pushReplacementNamed(context, worldRoute)),
           _menu('Missão', btnMission, () => {}),
           _menu('Itens', btnItems, () => {}),
           _menu('Equipe', btnTeam, () => showTeam(context, ref)),
@@ -114,10 +119,8 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
           actions: [
             TextButton(
               onPressed: () {
-                setState(() {
-                  change = false;
-                });
                 pop(context);
+                saveTeam(setState);
               },
               child: const Text('Salvar alterações'),
             ),
@@ -131,6 +134,27 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
         );
       },
     );
+  }
+
+  Future<void> saveTeam(Function setState) async {
+    loading(context, true);
+    List<UserCharacterModel> list = [];
+    list.addAll([team1!, team2!, team3!]);
+    final response = await userCharacterService.updateSlot(list);
+    if (!mounted) return;
+    if (response.error) {
+      pop(context);
+      showToast(context, response.message, ToastEnum.error);
+      return;
+    }
+    pop(context);
+    showToast(context, response.message, ToastEnum.success);
+    setState(() {
+      change = false;
+    });
+    final user = ref.watch(userProvider).value;
+    list.addAll(unequippedTeam);
+    ref.read(userProvider.notifier).updateUser(user.copyWith(characters: list));
   }
 
   void showTeam(BuildContext context, WidgetRef ref) {
@@ -176,9 +200,7 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
                               text: 'Salvar',
                               callback: () => {
                                 clickButton(ref),
-                                setState(() {
-                                  change = false;
-                                }),
+                                saveTeam(setState),
                               },
                               isBig: false,
                             ),

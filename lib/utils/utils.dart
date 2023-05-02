@@ -1,3 +1,4 @@
+import 'package:creatures_online_client/components/gradient_progress_component.dart';
 import 'package:creatures_online_client/data/audio_data.dart';
 import 'package:creatures_online_client/data/image_data.dart';
 import 'package:creatures_online_client/flame/loading_game.dart';
@@ -13,7 +14,7 @@ import '../enums/character_type.dart';
 import '../enums/toast_enum.dart';
 import '../providers/sound_provider.dart';
 
-void loading(BuildContext context) {
+void loading(BuildContext context, [bool isCircular = false]) {
   showDialog<dynamic>(
     barrierDismissible: false,
     context: context,
@@ -25,33 +26,38 @@ void loading(BuildContext context) {
           child: Dialog(
             elevation: 0,
             backgroundColor: Colors.transparent,
-            child: Stack(
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Center(
-                      child: SizedBox(
-                        width: 115,
-                        height: 115,
-                        child: GameWidget<LoadingGame>(game: LoadingGame()),
+            child: isCircular
+                ? const Center(
+                    child: GradientProgressComponent(),
+                  )
+                : Stack(
+                    children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Center(
+                            child: SizedBox(
+                              width: 115,
+                              height: 115,
+                              child:
+                                  GameWidget<LoadingGame>(game: LoadingGame()),
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                  ],
-                ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Text(
-                    text.toUpperCase(),
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                    ),
-                    textAlign: TextAlign.center,
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Text(
+                          text.toUpperCase(),
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ],
-            ),
           ),
         );
       });
