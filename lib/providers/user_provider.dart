@@ -7,5 +7,15 @@ final userProvider = ChangeNotifierProvider(
 );
 
 class UserProvider extends ValueNotifier<UserModel> {
-  UserProvider() : super(UserModel.fromJson('').copyWith(name: 'Jogador'));
+  UserProvider()
+      : super(UserModel(
+          id: '',
+          email: '',
+          name: 'Jogador',
+          gold: '',
+          shard: '',
+          createdAt: '',
+          updatedAt: '',
+          roles: [],
+        ));
 }

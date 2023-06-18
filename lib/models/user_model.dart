@@ -18,18 +18,22 @@ class UserModel {
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
-      id: map['id'] as int,
+      id: map['id'] as String,
       email: map['email'] as String,
       name: map['name'] != null ? map['name'] as String : null,
       banned: map['banned'] != null ? map['banned'] as String : null,
-      gold: map['gold'] as int,
-      shard: map['shard'] as int,
-      createdAt: map['createdAt'] as String,
-      updatedAt: map['updatedAt'] as String,
-      roles: List<String>.from(map['roles'] as List<String>),
+      gold: map['gold'] as String,
+      shard: map['shard'] as String,
+      createdAt: map['created_at'] as String,
+      updatedAt: map['updated_at'] as String,
+      roles: List<UserRole>.from(
+        (map['roles'] as List<dynamic>).map<UserRole>(
+          (x) => UserRole.fromMap(x as Map<String, dynamic>),
+        ),
+      ),
       characters: map['characters'] != null
           ? List<UserCharacterModel>.from(
-              (map['characters'] as List<int>).map<UserCharacterModel?>(
+              (map['characters'] as List<dynamic>).map<UserCharacterModel?>(
                 (x) => UserCharacterModel.fromJson(x as Map<String, dynamic>),
               ),
             )
@@ -40,27 +44,27 @@ class UserModel {
   factory UserModel.fromJson(String source) =>
       UserModel.fromMap(json.decode(source) as Map<String, dynamic>);
 
-  int id;
+  String id;
   String email;
   String? name;
   String? banned;
-  int gold;
-  int shard;
+  String gold;
+  String shard;
   String createdAt;
   String updatedAt;
-  List<String> roles;
+  List<UserRole> roles;
   List<UserCharacterModel>? characters;
 
   UserModel copyWith({
-    int? id,
+    String? id,
     String? email,
     String? name,
     String? banned,
-    int? gold,
-    int? shard,
+    String? gold,
+    String? shard,
     String? createdAt,
     String? updatedAt,
-    List<String>? roles,
+    List<UserRole>? roles,
     List<UserCharacterModel>? characters,
   }) {
     return UserModel(
@@ -85,9 +89,9 @@ class UserModel {
       'banned': banned,
       'gold': gold,
       'shard': shard,
-      'createdAt': createdAt,
-      'updatedAt': updatedAt,
-      'roles': roles,
+      'created_at': createdAt,
+      'updated_at': updatedAt,
+      'roles': roles.map((x) => x.toMap()).toList(),
       'characters': characters?.map((x) => x.toJson()).toList(),
     };
   }
@@ -106,27 +110,27 @@ class UserRole {
 
   factory UserRole.fromMap(Map<String, dynamic> map) {
     return UserRole(
-      id: map['id'] as int,
+      id: map['id'] as String,
       name: map['name'] as String,
-      userId: map['userId'] as int,
-      createdAt: map['createdAt'] as String,
-      updatedAt: map['updatedAt'] as String,
+      userId: map['userId'] as String,
+      createdAt: map['created_at'] as String,
+      updatedAt: map['updated_at'] as String,
     );
   }
 
   factory UserRole.fromJson(String source) =>
       UserRole.fromMap(json.decode(source) as Map<String, dynamic>);
 
-  int id;
+  String id;
   String name;
-  int userId;
+  String userId;
   String createdAt;
   String updatedAt;
 
   UserRole copyWith({
-    int? id,
+    String? id,
     String? name,
-    int? userId,
+    String? userId,
     String? createdAt,
     String? updatedAt,
   }) {
@@ -144,8 +148,8 @@ class UserRole {
       'id': id,
       'name': name,
       'userId': userId,
-      'createdAt': createdAt,
-      'updatedAt': updatedAt,
+      'created_at': createdAt,
+      'updated_at': updatedAt,
     };
   }
 

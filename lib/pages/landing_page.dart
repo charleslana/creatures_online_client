@@ -264,6 +264,10 @@ class _LandingPageState extends ConsumerState<LandingPage> {
     }
     if (response.error) {
       pop(context);
+      if (response.validation != null) {
+        showToast(context, response.validation!.body.message, ToastEnum.error);
+        return;
+      }
       showToast(context, response.message, ToastEnum.error);
     } else {
       await getUserDetails();
@@ -280,8 +284,8 @@ class _LandingPageState extends ConsumerState<LandingPage> {
       pushReplacementNamed(context, homeRoute);
     } catch (e) {
       pop(context);
-      showToast(context, ResponseModel.fromJson(e.toString()).message,
-          ToastEnum.error);
+      final error = e as Map<String, dynamic>;
+      showToast(context, ResponseModel.fromMap(error).message, ToastEnum.error);
     }
   }
 

@@ -29,7 +29,7 @@ class UserService {
         '${getAPI()}/user/details',
         options: await _authService.getToken(),
       );
-      return UserModel.fromJson(response.data);
+      return UserModel.fromMap(response.data);
     } on DioError catch (e) {
       return Future.error(e.response?.data);
     }
@@ -44,13 +44,13 @@ class UserService {
         },
         options: await _authService.getToken(),
       );
-      return ResponseModel.fromJson(response.data);
+      return ResponseModel.fromMap(response.data);
     } on DioError catch (e) {
       if (e.response == null) {
         return ResponseModel(
             error: true, message: 'Conexão com o servidor falhou');
       }
-      return ResponseModel.fromJson(e.response?.data);
+      return ResponseModel.fromMap(e.response?.data);
     }
   }
 

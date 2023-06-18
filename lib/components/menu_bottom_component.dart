@@ -40,7 +40,7 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
 
   @override
   void initState() {
-    mountTeam();
+    // mountTeam();
     super.initState();
   }
 

@@ -136,6 +136,12 @@ class _HomePageState extends ConsumerState<HomePage> {
     }
     if (response.error) {
       pop(context);
+      if (response.validation != null) {
+        setState(() {
+          errorMessage = response.validation!.body.message;
+        });
+        return;
+      }
       setState(() {
         errorMessage = response.message;
       });

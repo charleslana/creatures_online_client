@@ -39,14 +39,14 @@ class PublicService {
       final response = await _dio.post<dynamic>('${getAPI()}/public/auth',
           data: auth.toJson());
       final cookie = _getCookieFromHeader(response);
-      await _saveAuth(auth, response.data['token'], cookie);
-      return ResponseModel.fromJson(response.data);
+      await _saveAuth(auth, response.data['accessToken'], cookie);
+      return ResponseModel.fromMap(response.data);
     } on DioError catch (e) {
       if (e.response == null) {
         return ResponseModel(
             error: true, message: 'Conexão com o servidor falhou');
       }
-      return ResponseModel.fromJson(e.response?.data);
+      return ResponseModel.fromMap(e.response?.data);
     }
   }
 
