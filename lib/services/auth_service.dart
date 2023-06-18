@@ -18,12 +18,12 @@ class AuthService {
   Future<String> _getCookie() async {
     final cookie = await _sharedLocalStorageService
         .get<String>(_sharedLocalStorageService.cookie);
-    return cookie ?? "";
+    return cookie ?? '';
   }
 
   Future<String> _getToken() async {
     final token = await _sharedLocalStorageService
         .get<String>(_sharedLocalStorageService.token);
-    return token ?? "";
+    return token ?? '';
   }
 }

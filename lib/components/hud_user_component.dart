@@ -23,8 +23,8 @@ class HudUserComponent extends ConsumerWidget {
   }
 
   int _getRandomNumber() {
-    Random random = Random();
-    int randomNumber = random.nextInt(9000) + 1000;
+    final Random random = Random();
+    final int randomNumber = random.nextInt(9000) + 1000;
     return randomNumber;
   }
 
@@ -54,7 +54,7 @@ class HudUserComponent extends ConsumerWidget {
               padding: const EdgeInsets.only(left: 10),
               child: Text(
                 ref.watch(userProvider).value.name ??
-                    "Jogador${_getRandomNumber()}",
+                    'Jogador${_getRandomNumber()}',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 20,
@@ -69,7 +69,6 @@ class HudUserComponent extends ConsumerWidget {
                   height: 61,
                   child: SimpleShadow(
                     opacity: 0.6,
-                    color: Colors.black,
                     offset: const Offset(5, 5),
                     sigma: 7,
                     child: Container(

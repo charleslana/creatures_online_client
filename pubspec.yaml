@@ -1,10 +1,10 @@
 name: creatures_online_client
 description: A new Flutter project.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=2.19.6 <3.0.0'
+  sdk: ">=2.19.6 <3.0.0"
 
 dependencies:
   flutter:
@@ -12,8 +12,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_riverpod: ^2.3.2
   simple_shadow: ^0.3.1
-  flame: ^1.7.2
-  flame_audio: ^1.4.1
+  flame: ^1.8.0
+  flame_audio: ^2.0.3
   shared_preferences: ^2.1.0
   package_info_plus: ^3.0.3
   simple_animations: ^5.0.0+3

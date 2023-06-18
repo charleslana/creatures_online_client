@@ -1,8 +1,9 @@
 import 'package:creatures_online_client/components/green_button_component.dart';
 import 'package:creatures_online_client/data/image_data.dart';
 import 'package:creatures_online_client/enums/toast_enum.dart';
+import 'package:creatures_online_client/models/auth_model.dart';
+import 'package:creatures_online_client/models/register_model.dart';
 import 'package:creatures_online_client/models/response_model.dart';
-import 'package:creatures_online_client/models/user_model.dart';
 import 'package:creatures_online_client/providers/loading_provider.dart';
 import 'package:creatures_online_client/providers/user_provider.dart';
 import 'package:creatures_online_client/routes/app_routes.dart';
@@ -25,7 +26,7 @@ class _LandingPageState extends ConsumerState<LandingPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
-  String version = "";
+  String version = '';
   final publicService = PublicService();
   final userService = UserService();
 
@@ -46,29 +47,34 @@ class _LandingPageState extends ConsumerState<LandingPage> {
   Future<void> showLoader() async {
     await Future.delayed(const Duration(seconds: 1), () {
       loading(context);
-      ref.read(loadingProvider.notifier).changeText("Conectando no servidor");
+      ref.read(loadingProvider.notifier).value = 'Conectando no servidor';
     });
-    final response = await publicService.getVersion();
-    if (!mounted) return;
-    if (response.error) {
-      pop(context);
-      showToast(context, response.message, ToastEnum.error);
+    String? response;
+    try {
+      response = await publicService.getVersion();
+    } catch (e) {
+      response = e.toString();
+    }
+    if (!mounted) {
       return;
     }
-    if (response.message != version) {
+    if (!response.contains('.')) {
       pop(context);
-      showToast(
-          context,
-          "A versão atual é ${response.message}, atualize o aplicativo",
+      showToast(context, response, ToastEnum.error);
+      return;
+    }
+    if (response != version) {
+      pop(context);
+      showToast(context, 'A versão atual é $response, atualize o aplicativo',
           ToastEnum.error);
       return;
     }
-    ref.read(loadingProvider.notifier).changeText("Tentando realizar login");
+    ref.read(loadingProvider.notifier).value = 'Tentando realizar login';
     try {
       final auth = await userService.getAuthLogin();
       emailController.text = auth.email;
       passwordController.text = auth.password;
-      login();
+      await login();
     } catch (e) {
       pop(context);
       setState(() {
@@ -78,7 +84,7 @@ class _LandingPageState extends ConsumerState<LandingPage> {
   }
 
   void showStarterUser() {
-    showModalBottomSheet(
+    showModalBottomSheet<dynamic>(
       context: context,
       builder: (context) {
         return Padding(
@@ -108,7 +114,7 @@ class _LandingPageState extends ConsumerState<LandingPage> {
 
   void showRegisterUser() {
     pop(context);
-    showModalBottomSheet(
+    showModalBottomSheet<dynamic>(
       isScrollControlled: true,
       context: context,
       builder: (context) {
@@ -166,32 +172,41 @@ class _LandingPageState extends ConsumerState<LandingPage> {
 
   Future<void> createAccount() async {
     pop(context);
-    if (emailController.text == "" ||
-        passwordController.text == "" ||
-        confirmPasswordController.text == "") {
-      showToast(context, "Email ou senha em branco", ToastEnum.error);
+    if (emailController.text == '' ||
+        passwordController.text == '' ||
+        confirmPasswordController.text == '') {
+      showToast(context, 'Email ou senha em branco', ToastEnum.error);
       return;
     }
     if (passwordController.text != confirmPasswordController.text) {
-      showToast(context, "Senhas digitadas diferentes", ToastEnum.error);
+      showToast(context, 'Senhas digitadas diferentes', ToastEnum.error);
       return;
     }
-    ref.read(loadingProvider.notifier).changeText("");
+    ref.read(loadingProvider.notifier).value = '';
     loading(context);
-    final response = await publicService.register(UserModel(
-        email: emailController.text, password: passwordController.text));
-    if (!mounted) return;
+    final response = await publicService.register(RegisterModel(
+      email: emailController.text,
+      password: passwordController.text,
+      passwordConfirmation: confirmPasswordController.text,
+    ));
+    if (!mounted) {
+      return;
+    }
     if (response.error) {
       pop(context);
+      if (response.validation != null) {
+        showToast(context, response.validation!.body.message, ToastEnum.error);
+        return;
+      }
       showToast(context, response.message, ToastEnum.error);
     } else {
-      login();
+      await login();
     }
   }
 
   void showLoginUser() {
     pop(context);
-    showModalBottomSheet(
+    showModalBottomSheet<dynamic>(
       isScrollControlled: true,
       context: context,
       builder: (context) {
@@ -237,32 +252,36 @@ class _LandingPageState extends ConsumerState<LandingPage> {
 
   Future<void> login() async {
     pop(context);
-    if (emailController.text == "" || passwordController.text == "") {
-      showToast(context, "Email ou senha em branco", ToastEnum.error);
+    if (emailController.text == '' || passwordController.text == '') {
+      showToast(context, 'Email ou senha em branco', ToastEnum.error);
       return;
     }
     loading(context);
-    final response = await publicService.auth(UserModel(
+    final response = await publicService.auth(AuthModel(
         email: emailController.text, password: passwordController.text));
-    if (!mounted) return;
+    if (!mounted) {
+      return;
+    }
     if (response.error) {
       pop(context);
       showToast(context, response.message, ToastEnum.error);
     } else {
-      getUserDetails();
+      await getUserDetails();
     }
   }
 
   Future<void> getUserDetails() async {
     try {
       final user = await userService.getDetails();
-      ref.read(userProvider.notifier).updateUser(user);
-      if (!mounted) return;
+      ref.read(userProvider.notifier).value = user;
+      if (!mounted) {
+        return;
+      }
       pushReplacementNamed(context, homeRoute);
     } catch (e) {
       pop(context);
-      final err = e as Map<String, dynamic>;
-      showToast(context, ResponseModel.fromJson(err).message, ToastEnum.error);
+      showToast(context, ResponseModel.fromJson(e.toString()).message,
+          ToastEnum.error);
     }
   }
 

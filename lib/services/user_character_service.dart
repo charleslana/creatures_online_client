@@ -11,8 +11,8 @@ class UserCharacterService {
 
   Future<ResponseModel> updateSlot(List<UserCharacterModel> ucs) async {
     try {
-      final response = await _dio.put(
-        "${getAPI()}/user/character",
+      final response = await _dio.put<dynamic>(
+        '${getAPI()}/user/character',
         data: UserCharacterModel.modelToJson(ucs),
         options: await _authService.getToken(),
       );
@@ -20,7 +20,7 @@ class UserCharacterService {
     } on DioError catch (e) {
       if (e.response == null) {
         return ResponseModel(
-            error: true, message: "Conexão com o servidor falhou");
+            error: true, message: 'Conexão com o servidor falhou');
       }
       return ResponseModel.fromJson(e.response?.data);
     }

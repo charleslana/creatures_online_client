@@ -35,7 +35,7 @@ class _GradientProgressComponentState extends State<GradientProgressComponent>
   @override
   Widget build(BuildContext context) {
     return RotationTransition(
-      turns: Tween(begin: 0.0, end: 1.0).animate(_controller),
+      turns: Tween(begin: 0.toDouble(), end: 1.toDouble()).animate(_controller),
       child: CustomPaint(
         size: const Size.fromRadius(30),
         painter: GradientCircularProgressPainter(
@@ -65,16 +65,14 @@ class GradientCircularProgressPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     size = Size.fromRadius(radius);
-    double offset = strokeWidth / 2;
-    Rect rect = Offset(offset, offset) &
+    final double offset = strokeWidth / 2;
+    final Rect rect = Offset(offset, offset) &
         Size(size.width - strokeWidth, size.height - strokeWidth);
-    var paint = Paint()
+    final paint = Paint()
       ..style = PaintingStyle.stroke
-      ..strokeWidth = strokeWidth;
-    paint.shader =
-        SweepGradient(colors: gradientColors, startAngle: 0.0, endAngle: 2 * pi)
-            .createShader(rect);
-    canvas.drawArc(rect, 0.0, 2 * pi, false, paint);
+      ..strokeWidth = strokeWidth
+      ..shader = SweepGradient(colors: gradientColors).createShader(rect);
+    canvas.drawArc(rect, 0, 2 * pi, false, paint);
   }
 
   @override

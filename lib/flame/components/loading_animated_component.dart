@@ -12,7 +12,8 @@ class LoadingAnimatedComponent extends PositionComponent {
       loadingAnimated,
     );
     final spriteSize = Vector2(230, 230);
-    SpriteAnimationData spriteAnimationData = SpriteAnimationData.sequenced(
+    final SpriteAnimationData spriteAnimationData =
+        SpriteAnimationData.sequenced(
       amount: 7,
       stepTime: 0.1,
       textureSize: spriteSize,

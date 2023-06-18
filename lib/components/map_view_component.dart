@@ -35,7 +35,6 @@ class MapViewComponent extends ConsumerWidget {
           children: getMap1(size),
         ),
         Align(
-          alignment: Alignment.center,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

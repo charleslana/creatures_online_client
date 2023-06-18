@@ -25,7 +25,7 @@ class HomePage extends ConsumerStatefulWidget {
 class _HomePageState extends ConsumerState<HomePage> {
   final nameController = TextEditingController();
   final userService = UserService();
-  String errorMessage = "";
+  String errorMessage = '';
 
   @override
   void initState() {
@@ -42,7 +42,7 @@ class _HomePageState extends ConsumerState<HomePage> {
   Future<void> playAudio() async {
     final sound = await ref.watch(soundProvider).getSound();
     if (sound) {
-      FlameAudio.bgm.play(bgMapAudio, volume: 0.5);
+      await FlameAudio.bgm.play(bgMapAudio, volume: 0.5);
     }
   }
 
@@ -53,9 +53,8 @@ class _HomePageState extends ConsumerState<HomePage> {
       if (user.name != null) {
         return;
       }
-      ref
-          .read(dialogProvider.notifier)
-          .changeText("Olá vejo que você é novo, como devo te chamar?");
+      ref.read(dialogProvider.notifier).value =
+          'Olá vejo que você é novo, como devo te chamar?';
       ref.read(dialogProvider.notifier).callback = () => {
             pop(context),
             showUpdateUser(),
@@ -102,7 +101,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                       Center(
                         child: ElevatedButton(
                           onPressed: () async {
-                            updateUser(setState);
+                            await updateUser(setState);
                           },
                           child: const Text('Continuar'),
                         ),
@@ -118,21 +117,23 @@ class _HomePageState extends ConsumerState<HomePage> {
     );
   }
 
-  Future<void> updateUser(Function(void Function()) setState) async {
+  Future<void> updateUser(StateSetter setState) async {
     closeKeyboard();
     setState(() {
-      errorMessage = "";
+      errorMessage = '';
     });
-    if (nameController.text == "") {
+    if (nameController.text == '') {
       setState(() {
-        errorMessage = "Nome em branco";
+        errorMessage = 'Nome em branco';
       });
       return;
     }
-    ref.read(loadingProvider.notifier).changeText("");
+    ref.read(loadingProvider.notifier).value = '';
     loading(context);
     final response = await userService.updateUserName(nameController.text);
-    if (!mounted) return;
+    if (!mounted) {
+      return;
+    }
     if (response.error) {
       pop(context);
       setState(() {
@@ -142,18 +143,16 @@ class _HomePageState extends ConsumerState<HomePage> {
       pop(context);
       pop(context);
       final user = ref.watch(userProvider).value;
-      ref
-          .read(userProvider.notifier)
-          .updateUser(user.copyWith(name: nameController.text));
+      ref.read(userProvider.notifier).value =
+          user.copyWith(name: nameController.text);
       finishUpdateUser();
     }
   }
 
   void finishUpdateUser() {
     final name = ref.watch(userProvider).value.name.toString();
-    ref
-        .read(dialogProvider.notifier)
-        .changeText("Certo $name, a sua aventura começa agora!");
+    ref.read(dialogProvider.notifier).value =
+        'Certo $name, a sua aventura começa agora!';
     ref.read(dialogProvider.notifier).callback = () => pop(context);
     ref.read(dialogProvider.notifier).image = dialogJovaniHand;
     openDialog(context);
@@ -161,19 +160,19 @@ class _HomePageState extends ConsumerState<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return const SafeArea(
       child: Scaffold(
         backgroundColor: Colors.transparent,
         resizeToAvoidBottomInset: false,
         body: Stack(
           children: [
-            const MapViewComponent(),
+            MapViewComponent(),
             Align(
               alignment: Alignment.topCenter,
               child: Padding(
-                padding: const EdgeInsets.all(10),
+                padding: EdgeInsets.all(10),
                 child: Column(
-                  children: const [
+                  children: [
                     HudUserComponent(),
                     SizedBox(height: 20),
                     HudInfoComponent(),
@@ -181,7 +180,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                 ),
               ),
             ),
-            const MenuBottomComponent(),
+            MenuBottomComponent(),
           ],
         ),
       ),

@@ -1,5 +1,6 @@
+import 'package:creatures_online_client/models/auth_model.dart';
+import 'package:creatures_online_client/models/register_model.dart';
 import 'package:creatures_online_client/models/response_model.dart';
-import 'package:creatures_online_client/models/user_model.dart';
 import 'package:creatures_online_client/services/shared_local_storage_service.dart';
 import 'package:creatures_online_client/utils/utils.dart';
 import 'package:dio/dio.dart';
@@ -7,44 +8,43 @@ import 'package:dio/dio.dart';
 class PublicService {
   final _dio = Dio();
 
-  Future<ResponseModel> getVersion() async {
+  Future<String> getVersion() async {
     try {
-      final response = await _dio.get("${getAPI()}/public/version");
-      return ResponseModel.fromJson(response.data);
+      final response = await _dio.get<dynamic>('${getAPI()}/public/version');
+      return response.data.toString();
     } on DioError catch (e) {
       if (e.response == null) {
-        return ResponseModel(
-            error: true, message: "Conexão com o servidor falhou");
+        return Future.error('Conexão com o servidor falhou');
       }
-      return ResponseModel.fromJson(e.response?.data);
+      return Future.error(e.response?.data);
     }
   }
 
-  Future<ResponseModel> register(UserModel user) async {
+  Future<ResponseModel> register(RegisterModel register) async {
     try {
-      final response =
-          await _dio.post("${getAPI()}/public/user", data: user.toJson());
-      return ResponseModel.fromJson(response.data);
+      final response = await _dio.post<dynamic>('${getAPI()}/public/user',
+          data: register.toJson());
+      return ResponseModel.fromMap(response.data);
     } on DioError catch (e) {
       if (e.response == null) {
         return ResponseModel(
-            error: true, message: "Conexão com o servidor falhou");
+            error: true, message: 'Conexão com o servidor falhou');
       }
-      return ResponseModel.fromJson(e.response?.data);
+      return ResponseModel.fromMap(e.response!.data);
     }
   }
 
-  Future<ResponseModel> auth(UserModel user) async {
+  Future<ResponseModel> auth(AuthModel auth) async {
     try {
-      final response =
-          await _dio.post("${getAPI()}/public/auth", data: user.toJson());
+      final response = await _dio.post<dynamic>('${getAPI()}/public/auth',
+          data: auth.toJson());
       final cookie = _getCookieFromHeader(response);
-      _saveAuth(user, response.data["token"], cookie);
+      await _saveAuth(auth, response.data['token'], cookie);
       return ResponseModel.fromJson(response.data);
     } on DioError catch (e) {
       if (e.response == null) {
         return ResponseModel(
-            error: true, message: "Conexão com o servidor falhou");
+            error: true, message: 'Conexão com o servidor falhou');
       }
       return ResponseModel.fromJson(e.response?.data);
     }
@@ -60,12 +60,14 @@ class PublicService {
     return '';
   }
 
-  void _saveAuth(UserModel user, String token, String cookie) {
+  Future<void> _saveAuth(AuthModel auth, String token, String cookie) async {
     final sharedLocalStorageService = SharedLocalStorageService();
-    sharedLocalStorageService.put(sharedLocalStorageService.email, user.email);
-    sharedLocalStorageService.put(
-        sharedLocalStorageService.password, user.password);
-    sharedLocalStorageService.put(sharedLocalStorageService.token, token);
-    sharedLocalStorageService.put(sharedLocalStorageService.cookie, cookie);
+    await sharedLocalStorageService.put(
+        sharedLocalStorageService.email, auth.email);
+    await sharedLocalStorageService.put(
+        sharedLocalStorageService.password, auth.password);
+    await sharedLocalStorageService.put(sharedLocalStorageService.token, token);
+    await sharedLocalStorageService.put(
+        sharedLocalStorageService.cookie, cookie);
   }
 }

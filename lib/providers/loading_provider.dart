@@ -6,9 +6,5 @@ final loadingProvider = ChangeNotifierProvider(
 );
 
 class LoadingProvider extends ValueNotifier<String> {
-  LoadingProvider() : super("");
-
-  void changeText(String text) {
-    value = text;
-  }
+  LoadingProvider() : super('');
 }

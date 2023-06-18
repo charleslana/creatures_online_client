@@ -7,13 +7,9 @@ final dialogProvider = ChangeNotifierProvider(
 );
 
 class DialogProvider extends ValueNotifier<String> {
-  DialogProvider() : super("");
+  DialogProvider() : super('');
 
   late VoidCallback callback;
 
   String image = dialogJovani;
-
-  void changeText(String text) {
-    value = text;
-  }
 }

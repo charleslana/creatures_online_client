@@ -45,7 +45,7 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
   }
 
   Future<void> mountTeam() async {
-    await Future.delayed(const Duration(seconds: 0), () {
+    await Future.delayed(const Duration(), () {
       userCharacterData = ref.watch(userProvider).value.characters!;
     });
     team1 = userCharacterData.firstWhereOrNull((uc) => uc.slot == 1);
@@ -107,7 +107,7 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
   }
 
   void _confirm(Function setState) {
-    showDialog(
+    showDialog<dynamic>(
       context: context,
       builder: (BuildContext ctx) {
         return AlertDialog(
@@ -137,11 +137,12 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
   }
 
   Future<void> saveTeam(Function setState) async {
-    loading(context, true);
-    List<UserCharacterModel> list = [];
-    list.addAll([team1!, team2!, team3!]);
+    loading(context, isCircular: true);
+    final List<UserCharacterModel> list = [team1!, team2!, team3!];
     final response = await userCharacterService.updateSlot(list);
-    if (!mounted) return;
+    if (!mounted) {
+      return;
+    }
     if (response.error) {
       pop(context);
       showToast(context, response.message, ToastEnum.error);
@@ -154,7 +155,7 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
     });
     final user = ref.watch(userProvider).value;
     list.addAll(unequippedTeam);
-    ref.read(userProvider.notifier).updateUser(user.copyWith(characters: list));
+    ref.read(userProvider.notifier).value = user.copyWith(characters: list);
   }
 
   void showTeam(BuildContext context, WidgetRef ref) {
@@ -165,12 +166,12 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
       barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
       barrierColor: Colors.black45,
       transitionDuration: const Duration(milliseconds: 200),
-      pageBuilder: (BuildContext buildContext, Animation animation,
-          Animation secondaryAnimation) {
+      pageBuilder: (BuildContext buildContext, Animation<dynamic> animation,
+          Animation<dynamic> secondaryAnimation) {
         return StatefulBuilder(builder: (_, setState) {
           return WillPopScope(
             onWillPop: () async {
-              clickButton(ref);
+              await clickButton(ref);
               if (change) {
                 _confirm(setState);
                 return false;
@@ -240,7 +241,6 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
                                   elevation: 0,
                                   shape: RoundedRectangleBorder(
                                     side: const BorderSide(
-                                      color: Colors.black,
                                       width: 2,
                                     ),
                                     borderRadius: BorderRadius.circular(20),
@@ -249,7 +249,7 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
                                   child: Padding(
                                     padding: const EdgeInsets.all(20),
                                     child: GridView.count(
-                                      childAspectRatio: (1 / .6),
+                                      childAspectRatio: 1 / .6,
                                       mainAxisSpacing: 20,
                                       crossAxisSpacing: 20,
                                       crossAxisCount: 2,
@@ -369,15 +369,15 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
               return;
             }
             target?.slot = 0;
-            unequippedTeam.add(target!);
-            unequippedTeam.removeWhere((element) => element.id == data.id);
+            unequippedTeam
+              ..add(target!)
+              ..removeWhere((element) => element.id == data.id);
           }),
         },
         builder: (context, _, __) => Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Expanded(
-              flex: 1,
               child: Visibility(
                 visible: moveTeam1,
                 child: Align(
@@ -396,7 +396,6 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
                       clipBehavior: Clip.none,
                       children: [
                         Positioned.fill(
-                          top: 0,
                           left: 3,
                           child: RichText(
                             text: TextSpan(
@@ -426,7 +425,6 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
                                 child: Text(
                                   team1!.character.name.toUpperCase(),
                                   style: TextStyle(
-                                    inherit: true,
                                     fontSize: 17,
                                     fontWeight: FontWeight.w500,
                                     color: Colors.white,
@@ -569,15 +567,15 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
               return;
             }
             target?.slot = 0;
-            unequippedTeam.add(target!);
-            unequippedTeam.removeWhere((element) => element.id == data.id);
+            unequippedTeam
+              ..add(target!)
+              ..removeWhere((element) => element.id == data.id);
           }),
         },
         builder: (context, _, __) => Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Expanded(
-              flex: 1,
               child: Visibility(
                 visible: moveTeam2,
                 child: Align(
@@ -596,7 +594,6 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
                       clipBehavior: Clip.none,
                       children: [
                         Positioned.fill(
-                          top: 0,
                           left: 3,
                           child: RichText(
                             text: TextSpan(
@@ -626,7 +623,6 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
                                 child: Text(
                                   team2!.character.name.toUpperCase(),
                                   style: TextStyle(
-                                    inherit: true,
                                     fontSize: 17,
                                     fontWeight: FontWeight.w500,
                                     color: Colors.white,
@@ -769,15 +765,15 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
               return;
             }
             target?.slot = 0;
-            unequippedTeam.add(target!);
-            unequippedTeam.removeWhere((element) => element.id == data.id);
+            unequippedTeam
+              ..add(target!)
+              ..removeWhere((element) => element.id == data.id);
           }),
         },
         builder: (context, _, __) => Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Expanded(
-              flex: 1,
               child: Visibility(
                 visible: moveTeam3,
                 child: Align(
@@ -796,7 +792,6 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
                       clipBehavior: Clip.none,
                       children: [
                         Positioned.fill(
-                          top: 0,
                           left: 3,
                           child: RichText(
                             text: TextSpan(
@@ -826,7 +821,6 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
                                 child: Text(
                                   team3!.character.name.toUpperCase(),
                                   style: TextStyle(
-                                    inherit: true,
                                     fontSize: 17,
                                     fontWeight: FontWeight.w500,
                                     color: Colors.white,
@@ -1005,7 +999,6 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
                   child: Text(
                     userCharacter.character.name.toUpperCase(),
                     style: TextStyle(
-                      inherit: true,
                       fontSize: 17,
                       fontWeight: FontWeight.w500,
                       color: Colors.white,

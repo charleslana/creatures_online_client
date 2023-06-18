@@ -17,7 +17,7 @@ void main() async {
     bgMapAudio,
   ]);
   FlameAudio.bgm.initialize();
-  await dotenv.load(fileName: ".env");
+  await dotenv.load();
   runApp(const ProviderScope(child: MyApp()));
 }
 

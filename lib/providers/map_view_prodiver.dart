@@ -8,7 +8,7 @@ final mapViewProvider = ChangeNotifierProvider(
 class MapViewProvider extends ValueNotifier<int> {
   MapViewProvider() : super(0);
 
-  final controller = PageController(initialPage: 0);
+  final controller = PageController();
 
   void nextPage() {
     controller.nextPage(

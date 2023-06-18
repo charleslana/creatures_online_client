@@ -12,6 +12,17 @@ class UserCharacterModel {
     required this.character,
   });
 
+  factory UserCharacterModel.fromJson(Map<String, dynamic> json) {
+    return UserCharacterModel(
+      id: json['id'],
+      level: json['level'],
+      hpMin: json['hpMin'],
+      hpMax: json['hpMax'],
+      slot: json['slot'],
+      character: CharacterModel.fromJson(json['character']),
+    );
+  }
+
   int id;
   int level;
   int hpMin;
@@ -21,29 +32,17 @@ class UserCharacterModel {
 
   Map<String, dynamic> toJson() {
     return {
-      "id": id,
-      "level": level,
-      "hpMin": hpMin,
-      "hpMax": hpMax,
-      "slot": slot,
-      "character": character,
+      'id': id,
+      'level': level,
+      'hpMin': hpMin,
+      'hpMax': hpMax,
+      'slot': slot,
+      'character': character,
     };
   }
 
-  factory UserCharacterModel.fromJson(Map<String, dynamic> json) {
-    return UserCharacterModel(
-      id: json["id"],
-      level: json["level"],
-      hpMin: json["hpMin"],
-      hpMax: json["hpMax"],
-      slot: json["slot"],
-      character: CharacterModel.fromJson(json["character"]),
-    );
-  }
-
   static List<UserCharacterModel> listFromJson(dynamic list) =>
-      List<UserCharacterModel>.from(
-          list.map((dynamic x) => UserCharacterModel.fromJson(x)));
+      List<UserCharacterModel>.from(list.map(UserCharacterModel.fromJson));
 
   static String modelToJson(List<UserCharacterModel> data) =>
       json.encode(List<dynamic>.from(data.map((x) => x.toJson())));

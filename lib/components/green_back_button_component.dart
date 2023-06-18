@@ -22,7 +22,7 @@ class GreenBackButtonComponent extends StatelessWidget {
         height: 53,
         padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(11.0),
+          borderRadius: BorderRadius.circular(11),
           image: const DecorationImage(
             image: AssetImage(btnGreenBack),
             fit: BoxFit.cover,
@@ -34,7 +34,6 @@ class GreenBackButtonComponent extends StatelessWidget {
             child: Text(
               text.toUpperCase(),
               style: TextStyle(
-                inherit: true,
                 fontSize: 20,
                 fontWeight: FontWeight.w500,
                 color: Colors.white,

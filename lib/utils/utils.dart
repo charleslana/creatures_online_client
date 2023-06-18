@@ -14,7 +14,7 @@ import '../enums/character_type.dart';
 import '../enums/toast_enum.dart';
 import '../providers/sound_provider.dart';
 
-void loading(BuildContext context, [bool isCircular = false]) {
+void loading(BuildContext context, {bool isCircular = false}) {
   showDialog<dynamic>(
     barrierDismissible: false,
     context: context,
@@ -80,26 +80,26 @@ void pushReplacementNamed(BuildContext context, String route) {
 final List<Shadow> shadows = [
   const Shadow(
     // bottomLeft
-    offset: Offset(-2, -2), color: Colors.black,
+    offset: Offset(-2, -2),
   ),
   const Shadow(
     // bottomRight
-    offset: Offset(2, -2), color: Colors.black,
+    offset: Offset(2, -2),
   ),
   const Shadow(
     // topRight
-    offset: Offset(2, 2), color: Colors.black,
+    offset: Offset(2, 2),
   ),
   const Shadow(
     // topLeft
-    offset: Offset(-2, 2), color: Colors.black,
+    offset: Offset(-2, 2),
   ),
 ];
 
 Future<void> clickButton(WidgetRef ref) async {
   final sound = await ref.watch(soundProvider).getSound();
   if (sound) {
-    FlameAudio.play(buttonClickAudio);
+    await FlameAudio.play(buttonClickAudio);
   }
 }
 
@@ -129,7 +129,6 @@ void showToast(BuildContext context, String message, ToastEnum toast) {
     elevation: 0,
     backgroundColor: Colors.transparent,
     dismissDirection: DismissDirection.none,
-    duration: const Duration(seconds: 4),
     behavior: SnackBarBehavior.floating,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(24),
@@ -144,7 +143,7 @@ void showToast(BuildContext context, String message, ToastEnum toast) {
 }
 
 String getAPI() {
-  return dotenv.env['API'].toString();
+  return dotenv.env['API_LOCAL'].toString();
 }
 
 void openDialog(BuildContext context) {
@@ -162,7 +161,6 @@ void openDialog(BuildContext context) {
             child: GestureDetector(
               onTap: ref.watch(dialogProvider).callback,
               child: Column(
-                mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -238,7 +236,7 @@ String getCharacterTooltip(CharacterType type) {
     case CharacterType.water:
       return paneTooltipWater;
     default:
-      return "";
+      return '';
   }
 }
 
@@ -257,7 +255,7 @@ String getCharacterThumb(CharacterType type) {
     case CharacterType.water:
       return paneThumbWater;
     default:
-      return "";
+      return '';
   }
 }
 
@@ -272,7 +270,7 @@ String getCharacterFront(int id) {
     case 4:
       return monFrontAmuranther;
     default:
-      return "";
+      return '';
   }
 }
 
@@ -287,7 +285,7 @@ String getCharacterIcon(int id) {
     case 4:
       return monIconAmuranther;
     default:
-      return "";
+      return '';
   }
 }
 
@@ -295,7 +293,7 @@ extension IterableExtensions<T> on Iterable<T> {
   T? firstWhereOrNull(bool Function(T element) comparator) {
     try {
       return firstWhere(comparator);
-    } on StateError catch (_) {
+    } catch (_) {
       return null;
     }
   }

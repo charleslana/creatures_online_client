@@ -4,7 +4,7 @@ import 'package:creatures_online_client/providers/sound_provider.dart';
 import 'package:creatures_online_client/utils/utils.dart';
 import 'package:flame/cache.dart';
 import 'package:flame/components.dart';
-import 'package:flame/experimental.dart';
+import 'package:flame/events.dart';
 
 class BtnSoundComponent extends PositionComponent
     with HasGameRef<BtnSoundGame>, TapCallbacks {
@@ -34,11 +34,11 @@ class BtnSoundComponent extends PositionComponent
   Future<void> _toggleAudio() async {
     if (_spriteComponent.sprite == _soundOn) {
       _spriteComponent.sprite = _soundOff;
-      gameRef.ref.read(soundProvider.notifier).changeSound(false);
+      await gameRef.ref.read(soundProvider.notifier).changeSound();
       return;
     }
     _spriteComponent.sprite = _soundOn;
-    gameRef.ref.read(soundProvider.notifier).changeSound(true);
+    await gameRef.ref.read(soundProvider.notifier).changeSound(hasSound: true);
     await clickButton(gameRef.ref);
   }
 }

@@ -14,10 +14,11 @@ class SoundProvider extends ValueNotifier<bool> {
 
   final sharedLocalStorageService = SharedLocalStorageService();
 
-  Future<void> changeSound(bool sound) async {
-    value = sound;
-    sharedLocalStorageService.put(sharedLocalStorageService.soundKey, sound);
-    if (sound) {
+  Future<void> changeSound({bool hasSound = false}) async {
+    value = hasSound;
+    await sharedLocalStorageService.put(
+        sharedLocalStorageService.soundKey, hasSound);
+    if (hasSound) {
       await FlameAudio.bgm.play(bgMapAudio, volume: .50);
       return;
     }
