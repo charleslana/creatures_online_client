@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import 'package:creatures_online_client/models/user_character_model.dart';
-
 class UserModel {
   UserModel({
     required this.id,
@@ -13,7 +11,6 @@ class UserModel {
     required this.createdAt,
     required this.updatedAt,
     required this.roles,
-    required this.characters,
   });
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
@@ -31,11 +28,6 @@ class UserModel {
           (x) => UserRole.fromMap(x as Map<String, dynamic>),
         ),
       ),
-      characters: List<UserCharacterModel>.from(
-        (map['characters'] as List<dynamic>).map<UserCharacterModel?>(
-          (x) => UserCharacterModel.fromMap(x as Map<String, dynamic>),
-        ),
-      ),
     );
   }
 
@@ -51,7 +43,6 @@ class UserModel {
   String createdAt;
   String updatedAt;
   List<UserRole> roles;
-  List<UserCharacterModel> characters;
 
   UserModel copyWith({
     String? id,
@@ -63,7 +54,6 @@ class UserModel {
     String? createdAt,
     String? updatedAt,
     List<UserRole>? roles,
-    List<UserCharacterModel>? characters,
   }) {
     return UserModel(
       id: id ?? this.id,
@@ -75,7 +65,6 @@ class UserModel {
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
       roles: roles ?? this.roles,
-      characters: characters ?? this.characters,
     );
   }
 
@@ -90,7 +79,6 @@ class UserModel {
       'created_at': createdAt,
       'updated_at': updatedAt,
       'roles': roles.map((x) => x.toMap()).toList(),
-      'characters': characters.map((x) => x.toJson()).toList(),
     };
   }
 

@@ -2,7 +2,8 @@ import 'package:creatures_online_client/components/green_back_button_component.d
 import 'package:creatures_online_client/components/green_button_component.dart';
 import 'package:creatures_online_client/components/progress_bar_component.dart';
 import 'package:creatures_online_client/models/user_character_model.dart';
-import 'package:creatures_online_client/providers/user_provider.dart';
+import 'package:creatures_online_client/models/user_character_slot_model.dart';
+import 'package:creatures_online_client/providers/user_character_provider.dart';
 import 'package:creatures_online_client/routes/app_routes.dart';
 import 'package:creatures_online_client/services/user_character_service.dart';
 import 'package:flame/game.dart';
@@ -46,7 +47,7 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
 
   Future<void> mountTeam() async {
     await Future.delayed(const Duration(), () {
-      userCharacterData = ref.watch(userProvider).value.characters;
+      userCharacterData = ref.watch(userCharacterProvider).value;
     });
     team1 = userCharacterData.firstWhereOrNull((uc) => uc.slot == 1);
     team2 = userCharacterData.firstWhereOrNull((uc) => uc.slot == 2);
@@ -139,7 +140,24 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
   Future<void> saveTeam(Function setState) async {
     loading(context, isCircular: true);
     final List<UserCharacterModel> list = [team1!, team2!, team3!];
-    final response = await userCharacterService.updateSlot(list);
+    final teamSlot1 = UserCharacterSlotModel(
+      characterId: team1!.characterId,
+      slot: team1!.slot!,
+    );
+    final teamSlot2 = UserCharacterSlotModel(
+      characterId: team2!.characterId,
+      slot: team2!.slot!,
+    );
+    final teamSlot3 = UserCharacterSlotModel(
+      characterId: team3!.characterId,
+      slot: team3!.slot!,
+    );
+    final List<UserCharacterSlotModel> slotList = [
+      teamSlot1,
+      teamSlot2,
+      teamSlot3
+    ];
+    final response = await userCharacterService.updateSlot(slotList);
     if (!mounted) {
       return;
     }
@@ -153,9 +171,8 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
     setState(() {
       change = false;
     });
-    final user = ref.watch(userProvider).value;
     list.addAll(unequippedTeam);
-    ref.read(userProvider.notifier).value = user.copyWith(characters: list);
+    ref.read(userCharacterProvider.notifier).value = list;
   }
 
   void showTeam(BuildContext context, WidgetRef ref) {
