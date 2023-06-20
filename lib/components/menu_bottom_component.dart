@@ -40,13 +40,13 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
 
   @override
   void initState() {
-    // mountTeam();
+    mountTeam();
     super.initState();
   }
 
   Future<void> mountTeam() async {
     await Future.delayed(const Duration(), () {
-      userCharacterData = ref.watch(userProvider).value.characters!;
+      userCharacterData = ref.watch(userProvider).value.characters;
     });
     team1 = userCharacterData.firstWhereOrNull((uc) => uc.slot == 1);
     team2 = userCharacterData.firstWhereOrNull((uc) => uc.slot == 2);
@@ -365,7 +365,7 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
             team1 = data;
             target?.slot = data.slot;
             data.slot = 1;
-            if (data.slot > 0 && target!.slot > 0) {
+            if (data.slot! > 0 && target!.slot! > 0) {
               return;
             }
             target?.slot = 0;
@@ -386,8 +386,8 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
                     width: double.infinity,
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                        image: AssetImage(
-                            getCharacterTooltip(team1!.character.type)),
+                        image: AssetImage(getCharacterTooltip(
+                            team1!.character.characterClass)),
                         fit: BoxFit.scaleDown,
                         alignment: Alignment.topCenter,
                       ),
@@ -437,7 +437,7 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
                                 child: ProgressBarComponent(
                                   width: 100,
                                   height: 30,
-                                  percentage: team1!.hpMin / team1!.hpMax,
+                                  percentage: team1!.minHp / team1!.maxHp,
                                   isLarge: true,
                                 ),
                               ),
@@ -563,7 +563,7 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
             team2 = data;
             target?.slot = data.slot;
             data.slot = 2;
-            if (data.slot > 0 && target!.slot > 0) {
+            if (data.slot! > 0 && target!.slot! > 0) {
               return;
             }
             target?.slot = 0;
@@ -584,8 +584,8 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
                     width: double.infinity,
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                        image: AssetImage(
-                            getCharacterTooltip(team2!.character.type)),
+                        image: AssetImage(getCharacterTooltip(
+                            team2!.character.characterClass)),
                         fit: BoxFit.scaleDown,
                         alignment: Alignment.topCenter,
                       ),
@@ -635,7 +635,7 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
                                 child: ProgressBarComponent(
                                   width: 100,
                                   height: 30,
-                                  percentage: team2!.hpMin / team2!.hpMax,
+                                  percentage: team2!.minHp / team2!.maxHp,
                                   isLarge: true,
                                 ),
                               ),
@@ -761,7 +761,7 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
             team3 = data;
             target?.slot = data.slot;
             data.slot = 3;
-            if (data.slot > 0 && target!.slot > 0) {
+            if (data.slot! > 0 && target!.slot! > 0) {
               return;
             }
             target?.slot = 0;
@@ -782,8 +782,8 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
                     width: double.infinity,
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                        image: AssetImage(
-                            getCharacterTooltip(team3!.character.type)),
+                        image: AssetImage(getCharacterTooltip(
+                            team3!.character.characterClass)),
                         fit: BoxFit.scaleDown,
                         alignment: Alignment.topCenter,
                       ),
@@ -833,7 +833,7 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
                                 child: ProgressBarComponent(
                                   width: 100,
                                   height: 30,
-                                  percentage: team3!.hpMin / team3!.hpMax,
+                                  percentage: team3!.minHp / team3!.maxHp,
                                   isLarge: true,
                                 ),
                               ),
@@ -932,7 +932,8 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
       child: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage(getCharacterThumb(userCharacter.character.type)),
+            image: AssetImage(
+                getCharacterThumb(userCharacter.character.characterClass)),
             fit: BoxFit.contain,
           ),
         ),
@@ -978,7 +979,7 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
                         child: ProgressBarComponent(
                           width: 50,
                           height: 20,
-                          percentage: userCharacter.hpMin / userCharacter.hpMax,
+                          percentage: userCharacter.minHp / userCharacter.maxHp,
                         ),
                       ),
                     ],

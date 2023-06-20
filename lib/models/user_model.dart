@@ -13,7 +13,7 @@ class UserModel {
     required this.createdAt,
     required this.updatedAt,
     required this.roles,
-    this.characters,
+    required this.characters,
   });
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
@@ -31,13 +31,11 @@ class UserModel {
           (x) => UserRole.fromMap(x as Map<String, dynamic>),
         ),
       ),
-      characters: map['characters'] != null
-          ? List<UserCharacterModel>.from(
-              (map['characters'] as List<dynamic>).map<UserCharacterModel?>(
-                (x) => UserCharacterModel.fromJson(x as Map<String, dynamic>),
-              ),
-            )
-          : null,
+      characters: List<UserCharacterModel>.from(
+        (map['characters'] as List<dynamic>).map<UserCharacterModel?>(
+          (x) => UserCharacterModel.fromMap(x as Map<String, dynamic>),
+        ),
+      ),
     );
   }
 
@@ -53,7 +51,7 @@ class UserModel {
   String createdAt;
   String updatedAt;
   List<UserRole> roles;
-  List<UserCharacterModel>? characters;
+  List<UserCharacterModel> characters;
 
   UserModel copyWith({
     String? id,
@@ -92,7 +90,7 @@ class UserModel {
       'created_at': createdAt,
       'updated_at': updatedAt,
       'roles': roles.map((x) => x.toMap()).toList(),
-      'characters': characters?.map((x) => x.toJson()).toList(),
+      'characters': characters.map((x) => x.toJson()).toList(),
     };
   }
 

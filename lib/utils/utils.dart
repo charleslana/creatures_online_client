@@ -1,6 +1,7 @@
 import 'package:creatures_online_client/components/gradient_progress_component.dart';
 import 'package:creatures_online_client/data/audio_data.dart';
 import 'package:creatures_online_client/data/image_data.dart';
+import 'package:creatures_online_client/enums/character_class_enum.dart';
 import 'package:creatures_online_client/flame/loading_game.dart';
 import 'package:creatures_online_client/providers/dialog_provider.dart';
 import 'package:creatures_online_client/providers/loading_provider.dart';
@@ -10,7 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../enums/character_type.dart';
 import '../enums/toast_enum.dart';
 import '../providers/sound_provider.dart';
 
@@ -221,68 +221,68 @@ void closeKeyboard() {
   FocusManager.instance.primaryFocus?.unfocus();
 }
 
-String getCharacterTooltip(CharacterType type) {
-  switch (type) {
-    case CharacterType.earth:
+String getCharacterTooltip(CharacterClassEnum characterClass) {
+  switch (characterClass) {
+    case CharacterClassEnum.earth:
       return paneTooltipEarth;
-    case CharacterType.dark:
+    case CharacterClassEnum.dark:
       return paneTooltipDark;
-    case CharacterType.diamond:
+    case CharacterClassEnum.diamond:
       return paneTooltipDiamond;
-    case CharacterType.electric:
-      return paneTooltipElec;
-    case CharacterType.fire:
+    case CharacterClassEnum.electric:
+      return paneTooltipElectric;
+    case CharacterClassEnum.fire:
       return paneTooltipFire;
-    case CharacterType.water:
+    case CharacterClassEnum.water:
       return paneTooltipWater;
     default:
       return '';
   }
 }
 
-String getCharacterThumb(CharacterType type) {
-  switch (type) {
-    case CharacterType.earth:
+String getCharacterThumb(CharacterClassEnum characterClass) {
+  switch (characterClass) {
+    case CharacterClassEnum.earth:
       return paneThumbEarth;
-    case CharacterType.dark:
+    case CharacterClassEnum.dark:
       return paneThumbDark;
-    case CharacterType.diamond:
+    case CharacterClassEnum.diamond:
       return paneThumbDiamond;
-    case CharacterType.electric:
+    case CharacterClassEnum.electric:
       return paneThumbElec;
-    case CharacterType.fire:
+    case CharacterClassEnum.fire:
       return paneThumbFire;
-    case CharacterType.water:
+    case CharacterClassEnum.water:
       return paneThumbWater;
     default:
       return '';
   }
 }
 
-String getCharacterFront(int id) {
+String getCharacterFront(String id) {
   switch (id) {
-    case 1:
+    case '1':
       return monFrontKikflick;
-    case 2:
+    case '2':
       return monFrontMenza;
-    case 3:
+    case '3':
       return monFrontSnorky;
-    case 4:
+    case '4':
       return monFrontAmuranther;
     default:
       return '';
   }
 }
 
-String getCharacterIcon(int id) {
+String getCharacterIcon(String id) {
   switch (id) {
-    case 1:
+    case '1':
       return monIconKikflick;
-    case 2:
+    case '2':
       return monIconMenza;
-    case 3:
+    case '3':
       return monIconSnorky;
-    case 4:
+    case '4':
       return monIconAmuranther;
     default:
       return '';
