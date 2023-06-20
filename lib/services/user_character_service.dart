@@ -25,7 +25,7 @@ class UserCharacterService {
   Future<ResponseModel> updateSlot(List<UserCharacterSlotModel> list) async {
     try {
       final response = await _dio.put<dynamic>(
-        '${getAPI()}/user/character',
+        '${getAPI()}/user/character/slot',
         data: UserCharacterSlotModel.modelToJson(list),
         options: await _authService.getToken(),
       );
