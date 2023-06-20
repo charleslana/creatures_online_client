@@ -102,11 +102,11 @@ class _LandingPageState extends ConsumerState<LandingPage> {
             children: [
               OutlinedButton(
                 onPressed: showRegisterUser,
-                child: const Text('Não tenho conta'),
+                child: const Text('Registrar uma conta'),
               ),
               ElevatedButton(
                 onPressed: showLoginUser,
-                child: const Text('Desejo fazer login'),
+                child: const Text('Login'),
               ),
             ],
           ),

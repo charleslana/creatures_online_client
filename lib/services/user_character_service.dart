@@ -29,13 +29,13 @@ class UserCharacterService {
         data: UserCharacterSlotModel.modelToJson(list),
         options: await _authService.getToken(),
       );
-      return ResponseModel.fromJson(response.data);
+      return ResponseModel.fromMap(response.data);
     } on DioError catch (e) {
       if (e.response == null) {
         return ResponseModel(
             error: true, message: 'Conexão com o servidor falhou');
       }
-      return ResponseModel.fromJson(e.response?.data);
+      return ResponseModel.fromMap(e.response?.data);
     }
   }
 }

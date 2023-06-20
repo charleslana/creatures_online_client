@@ -40,5 +40,5 @@ class UserCharacterSlotModel {
   String toJson() => json.encode(toMap());
 
   static String modelToJson(List<UserCharacterSlotModel> data) =>
-      json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+      List<dynamic>.from(data.map((x) => x.toJson())).toString();
 }

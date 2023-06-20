@@ -52,7 +52,7 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
     team1 = userCharacterData.firstWhereOrNull((uc) => uc.slot == 1);
     team2 = userCharacterData.firstWhereOrNull((uc) => uc.slot == 2);
     team3 = userCharacterData.firstWhereOrNull((uc) => uc.slot == 3);
-    unequippedTeam = userCharacterData.where((uc) => uc.slot == 0).toList();
+    unequippedTeam = userCharacterData.where((uc) => uc.slot == null).toList();
     teamCounts = teamCounts - unequippedTeam.length;
   }
 
@@ -141,15 +141,15 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
     loading(context, isCircular: true);
     final List<UserCharacterModel> list = [team1!, team2!, team3!];
     final teamSlot1 = UserCharacterSlotModel(
-      characterId: team1!.characterId,
+      characterId: team1!.id,
       slot: team1!.slot!,
     );
     final teamSlot2 = UserCharacterSlotModel(
-      characterId: team2!.characterId,
+      characterId: team2!.id,
       slot: team2!.slot!,
     );
     final teamSlot3 = UserCharacterSlotModel(
-      characterId: team3!.characterId,
+      characterId: team3!.id,
       slot: team3!.slot!,
     );
     final List<UserCharacterSlotModel> slotList = [
@@ -163,6 +163,10 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
     }
     if (response.error) {
       pop(context);
+      if (response.validation != null) {
+        showToast(context, response.validation!.body.message, ToastEnum.error);
+        return;
+      }
       showToast(context, response.message, ToastEnum.error);
       return;
     }
@@ -344,7 +348,7 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
               teamCounts = teamCounts + 1;
             }),
           },
-          onWillAccept: (data) => data!.slot == 0,
+          onWillAccept: (data) => data!.slot == null,
           builder: (context, _, __) => Visibility(
             visible: drop,
             child: Column(
@@ -382,10 +386,10 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
             team1 = data;
             target?.slot = data.slot;
             data.slot = 1;
-            if (data.slot! > 0 && target!.slot! > 0) {
+            if (data.slot! > 0 && target!.slot != null && target!.slot! > 0) {
               return;
             }
-            target?.slot = 0;
+            target?.slot = null;
             unequippedTeam
               ..add(target!)
               ..removeWhere((element) => element.id == data.id);
@@ -542,7 +546,7 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
               teamCounts = teamCounts + 1;
             }),
           },
-          onWillAccept: (data) => data!.slot == 0,
+          onWillAccept: (data) => data!.slot == null,
           builder: (context, _, __) => Visibility(
             visible: drop,
             child: Column(
@@ -580,10 +584,10 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
             team2 = data;
             target?.slot = data.slot;
             data.slot = 2;
-            if (data.slot! > 0 && target!.slot! > 0) {
+            if (data.slot! > 0 && target!.slot != null && target!.slot! > 0) {
               return;
             }
-            target?.slot = 0;
+            target?.slot = null;
             unequippedTeam
               ..add(target!)
               ..removeWhere((element) => element.id == data.id);
@@ -740,7 +744,7 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
               teamCounts = teamCounts + 1;
             }),
           },
-          onWillAccept: (data) => data!.slot == 0,
+          onWillAccept: (data) => data!.slot == null,
           builder: (context, _, __) => Visibility(
             visible: drop,
             child: Column(
@@ -778,10 +782,10 @@ class _MenuBottomComponentState extends ConsumerState<MenuBottomComponent> {
             team3 = data;
             target?.slot = data.slot;
             data.slot = 3;
-            if (data.slot! > 0 && target!.slot! > 0) {
+            if (data.slot! > 0 && target!.slot != null && target!.slot! > 0) {
               return;
             }
-            target?.slot = 0;
+            target?.slot = null;
             unequippedTeam
               ..add(target!)
               ..removeWhere((element) => element.id == data.id);
