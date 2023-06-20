@@ -1,3 +1,4 @@
+import 'package:creatures_online_client/models/user_character_model.dart';
 import 'package:creatures_online_client/models/user_character_slot_model.dart';
 import 'package:creatures_online_client/services/auth_service.dart';
 import 'package:dio/dio.dart';
@@ -9,11 +10,23 @@ class UserCharacterService {
   final _dio = Dio();
   final _authService = AuthService();
 
-  Future<ResponseModel> updateSlot(List<UserCharacterSlotModel> ucs) async {
+  Future<List<UserCharacterModel>> get() async {
+    try {
+      final response = await _dio.get<dynamic>(
+        '${getAPI()}/user/character',
+        options: await _authService.getToken(),
+      );
+      return UserCharacterModel.listFromJson(response.data);
+    } on DioError catch (e) {
+      return Future.error(e.response?.data);
+    }
+  }
+
+  Future<ResponseModel> updateSlot(List<UserCharacterSlotModel> list) async {
     try {
       final response = await _dio.put<dynamic>(
         '${getAPI()}/user/character',
-        data: UserCharacterSlotModel.modelToJson(ucs),
+        data: UserCharacterSlotModel.modelToJson(list),
         options: await _authService.getToken(),
       );
       return ResponseModel.fromJson(response.data);

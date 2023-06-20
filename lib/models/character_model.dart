@@ -25,7 +25,7 @@ class CharacterModel {
     return CharacterModel(
       id: map['id'] as String,
       name: map['name'] as String,
-      characterClass: CharacterClassEnum.fromJson(map['rarity']),
+      characterClass: CharacterClassEnum.fromJson(map['characterClass']),
       hp: map['hp'] as int,
       furyHit: map['furyHit'] as int,
       furyDefense: map['furyDefense'] as int,

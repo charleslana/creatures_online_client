@@ -5,9 +5,11 @@ import 'package:creatures_online_client/models/auth_model.dart';
 import 'package:creatures_online_client/models/register_model.dart';
 import 'package:creatures_online_client/models/response_model.dart';
 import 'package:creatures_online_client/providers/loading_provider.dart';
+import 'package:creatures_online_client/providers/user_character_provider.dart';
 import 'package:creatures_online_client/providers/user_provider.dart';
 import 'package:creatures_online_client/routes/app_routes.dart';
 import 'package:creatures_online_client/services/public_service.dart';
+import 'package:creatures_online_client/services/user_character_service.dart';
 import 'package:creatures_online_client/services/user_service.dart';
 import 'package:creatures_online_client/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -29,6 +31,7 @@ class _LandingPageState extends ConsumerState<LandingPage> {
   String version = '';
   final publicService = PublicService();
   final userService = UserService();
+  final userCharacterService = UserCharacterService();
 
   @override
   void initState() {
@@ -278,6 +281,18 @@ class _LandingPageState extends ConsumerState<LandingPage> {
     try {
       final user = await userService.getDetails();
       ref.read(userProvider.notifier).value = user;
+    } catch (e) {
+      pop(context);
+      final error = e as Map<String, dynamic>;
+      showToast(context, ResponseModel.fromMap(error).message, ToastEnum.error);
+    }
+    await getUserCharacter();
+  }
+
+  Future<void> getUserCharacter() async {
+    try {
+      final userCharacters = await userCharacterService.get();
+      ref.read(userCharacterProvider.notifier).value = userCharacters;
       if (!mounted) {
         return;
       }

@@ -100,4 +100,10 @@ class UserCharacterModel {
   }
 
   String toJson() => json.encode(toMap());
+
+  static List<UserCharacterModel> listFromJson(dynamic source) {
+    final list = List<dynamic>.from(source);
+    return List<UserCharacterModel>.from(
+        list.map((x) => UserCharacterModel.fromMap(x)));
+  }
 }
