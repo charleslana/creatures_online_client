@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final mapViewProvider = ChangeNotifierProvider(
-  (ref) => MapViewProvider(),
+final teamViewProvider = ChangeNotifierProvider(
+  (ref) => TeamViewProvider(),
 );
 
-class MapViewProvider extends ValueNotifier<int> {
-  MapViewProvider() : super(0);
+class TeamViewProvider extends ValueNotifier<int> {
+  TeamViewProvider() : super(0);
 
   final controller = PageController();
 
   void nextPage() {
     controller.nextPage(
-      duration: const Duration(seconds: 1),
+      duration: const Duration(milliseconds: 500),
       curve: Curves.easeInOut,
     );
     value = value + 1;
@@ -20,7 +20,7 @@ class MapViewProvider extends ValueNotifier<int> {
 
   void previousPage() {
     controller.previousPage(
-      duration: const Duration(seconds: 1),
+      duration: const Duration(milliseconds: 500),
       curve: Curves.easeInOut,
     );
     value = value - 1;

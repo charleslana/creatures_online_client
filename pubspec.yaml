@@ -19,6 +19,10 @@ dependencies:
   simple_animations: ^5.0.0+3
   dio: ^5.1.1
   flutter_dotenv: ^5.0.2
+  window_size:
+    git:
+      url: https://github.com/google/flutter-desktop-embedding.git
+      path: plugins/window_size
 
 dev_dependencies:
   flutter_test:

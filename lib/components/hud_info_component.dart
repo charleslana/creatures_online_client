@@ -1,5 +1,4 @@
-import 'package:creatures_online_client/flame/btn_sound_game.dart';
-import 'package:flame/game.dart';
+import 'package:creatures_online_client/components/btn_sound_component.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -94,14 +93,8 @@ class HudInfoComponent extends ConsumerWidget {
             ),
           ),
         ),
-        Expanded(
-          child: Center(
-            child: SizedBox(
-              width: 40,
-              height: 40,
-              child: GameWidget<BtnSoundGame>(game: BtnSoundGame(ref)),
-            ),
-          ),
+        const Expanded(
+          child: Center(child: BtnSoundComponent()),
         ),
       ],
     );
