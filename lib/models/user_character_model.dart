@@ -29,8 +29,8 @@ class UserCharacterModel {
       slot: map['slot'] != null ? map['slot'] as int : null,
       userId: map['userId'] as String,
       characterId: map['characterId'] as String,
-      createdAt: map['createdAt'] as String,
-      updatedAt: map['updatedAt'] as String,
+      createdAt: map['created_at'] as String,
+      updatedAt: map['updated_at'] as String,
       character:
           CharacterModel.fromMap(map['character'] as Map<String, dynamic>),
     );
@@ -93,8 +93,8 @@ class UserCharacterModel {
       'slot': slot,
       'userId': userId,
       'characterId': characterId,
-      'createdAt': createdAt,
-      'updatedAt': updatedAt,
+      'created_at': createdAt,
+      'updated_at': updatedAt,
       'character': character.toMap(),
     };
   }
